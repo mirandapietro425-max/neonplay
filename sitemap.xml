@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <sitemap>
-    <loc>https://neonplay.com.br/sitemap-pages.xml</loc>
+    <loc>https://neonplay-nu.vercel.app/sitemap-pages.xml</loc>
     <lastmod>2026-05-01</lastmod>
   </sitemap>
   <sitemap>
-    <loc>https://neonplay.com.br/sitemap-games.xml</loc>
+    <loc>https://neonplay-nu.vercel.app/sitemap-games.xml</loc>
     <lastmod>2026-05-01</lastmod>
   </sitemap>
 </sitemapindex>
