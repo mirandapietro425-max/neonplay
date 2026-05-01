@@ -32,7 +32,7 @@ const NP_CONFIG = {
     }
   },
   ga4: {
-    id: 'G-XXXXXXXXXX' // ← substitua pelo seu ID real
+    id: 'G-R1H1F6D67P' // ← substitua pelo seu ID real
   },
   site: {
     url:  'https://neonplay.com.br',
