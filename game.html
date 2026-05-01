@@ -13,10 +13,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;600;700;800;900&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
-  <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script> -->
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
 <header class="header" role="banner">
   <div class="container">
     <div class="header-inner">
@@ -26,9 +26,9 @@
       </a>
       <div class="search-wrap" role="search">
         <label for="searchInput" class="sr-only">Buscar jogos</label>
-        <input type="search" id="searchInput" class="search-input" placeholder="Buscar jogos..." autocomplete="off" aria-label="Buscar jogos">
+        <input type="search" id="searchInput" class="search-input" placeholder="Buscar jogos..." autocomplete="off" aria-label="Buscar jogos" aria-controls="searchDrop">
         <button class="search-btn" aria-label="Pesquisar">🔍</button>
-        <div id="searchDrop" class="search-drop" role="listbox"></div>
+        <div id="searchDrop" class="search-drop" role="listbox" hidden></div>
       </div>
       <nav class="nav" aria-label="Menu principal">
         <a href="index.html" class="nav-link">Início</a>
@@ -37,11 +37,12 @@
         <a href="category.html?cat=puzzle" class="nav-link">Puzzle</a>
         <a href="category.html" class="nav-link">Categorias</a>
       </nav>
-      <button id="favBtn" class="fav-btn" aria-label="Meus favoritos">❤️ <span>Favoritos</span> (<span id="favCount">0</span>)</button>
-      <button id="hbg" class="hbg" aria-label="Abrir menu"><span></span><span></span><span></span></button>
+      <button id="favBtn" class="fav-btn" aria-label="Meus favoritos" aria-expanded="false">❤️ <span>Favoritos</span> (<span id="favCount">0</span>)</button>
+      <button id="hbg" class="hbg" aria-label="Abrir menu" aria-expanded="false"><span></span><span></span><span></span></button>
     </div>
   </div>
 </header>
+
 <nav id="mobileNav" class="mobile-nav" aria-label="Menu mobile" hidden>
   <a href="index.html" class="mnav-link">🏠 Início</a>
   <a href="category.html?cat=acao" class="mnav-link">⚔️ Ação</a>
@@ -53,11 +54,14 @@
   <a href="category.html?cat=tiro" class="mnav-link">🎯 Tiro</a>
   <a href="category.html?cat=estrategia" class="mnav-link">♟️ Estratégia</a>
 </nav>
-<div class="ad-wrap" aria-label="Publicidade">
-  <div id="topAd" class="ad-block ad-leaderboard"><span class="ad-label">PUBLICIDADE</span></div>
+
+<div class="ad-wrap">
+  <div class="ad-block ad-leaderboard"><span class="ad-label">PUBLICIDADE</span></div>
 </div>
+
 <main id="main-content">
   <div class="container" style="padding-top:1rem;padding-bottom:2rem">
+
     <nav class="breadcrumb" aria-label="Navegação estrutural">
       <a href="index.html">🏠 Início</a>
       <span class="bc-sep" aria-hidden="true">›</span>
@@ -65,9 +69,11 @@
       <span class="bc-sep" aria-hidden="true">›</span>
       <span id="bcGame" aria-current="page">Carregando...</span>
     </nav>
+
     <div class="gp-layout">
       <div>
-        <!-- SPLASH -->
+
+        <!-- SPLASH SCREEN -->
         <div id="gameSplash" class="game-splash">
           <div id="splashPoster" class="splash-poster">🎮</div>
           <div class="splash-info">
@@ -82,74 +88,107 @@
             <p id="gpDesc" class="gp-desc">Carregando informações do jogo...</p>
             <div class="gp-actions">
               <button id="playNowBtn" class="btn-play" aria-label="Jogar agora">▶ Jogar Agora</button>
-              <button id="favSplashBtn" class="btn-fav" data-id="" aria-label="Adicionar aos favoritos">♡ Favoritar</button>
+              <button id="favSplashBtn" class="btn-fav" data-id="" aria-label="Favoritar">♡ Favoritar</button>
             </div>
           </div>
         </div>
+
         <!-- AD PRÉ-JOGO -->
-        <div class="ad-wrap" id="preGameAdWrap" style="display:none" aria-label="Publicidade">
-          <div id="preGameAd" class="ad-block ad-leaderboard"><span class="ad-label">PUBLICIDADE</span></div>
+        <div class="ad-wrap" id="preGameAdWrap" style="display:none">
+          <div class="ad-block ad-leaderboard"><span class="ad-label">PUBLICIDADE</span></div>
         </div>
+
         <!-- GAME FRAME -->
-        <div id="gameFrameWrap" class="game-frame-wrap">
+        <div id="gameFrameWrap" class="game-frame-wrap" style="display:none">
           <div class="gframe-bar">
             <span id="iframeTitle" class="gframe-title">🎮</span>
             <div class="gframe-btns">
-              <button id="restartBtn" class="gframe-btn" title="Reiniciar jogo" aria-label="Reiniciar">🔄</button>
-              <button id="favIframeBtn" class="gframe-btn btn-fav" data-id="" title="Favoritar" aria-label="Favoritar">♡</button>
+              <button id="restartBtn" class="gframe-btn" title="Reiniciar" aria-label="Reiniciar">🔄</button>
+              <button id="favIframeBtn" class="gframe-btn" title="Favoritar" aria-label="Favoritar">♡</button>
               <button id="fullscreenBtn" class="gframe-btn" title="Tela cheia" aria-label="Tela cheia">⛶</button>
             </div>
           </div>
-          <div id="iframeOuter" class="iframe-outer">
+          <div class="iframe-outer">
             <div id="iframeLoader" class="iframe-loader">
-              <div class="spin" aria-hidden="true"></div>
+              <div class="spin"></div>
               <p>Carregando jogo...</p>
             </div>
-            <iframe
-              id="gameFrame"
-              class="game-iframe"
-              src="about:blank"
-              title="Jogo NeonPlay"
-              allowfullscreen
-              allow="fullscreen; autoplay"
+            <iframe id="gameFrame" class="game-iframe" src="about:blank"
+              title="Jogo NeonPlay" allowfullscreen allow="fullscreen; autoplay"
               sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
-              loading="lazy"
-              aria-label="Área do jogo">
-            </iframe>
+              loading="lazy"></iframe>
           </div>
         </div>
+
         <!-- AD PÓS-JOGO -->
-        <div class="ad-wrap ad-mid" aria-label="Publicidade">
-          <div id="gamepageAd" class="ad-block ad-leaderboard"><span class="ad-label">PUBLICIDADE</span></div>
+        <div class="ad-wrap">
+          <div class="ad-block ad-leaderboard"><span class="ad-label">PUBLICIDADE</span></div>
         </div>
+
         <!-- INFO CARD -->
         <div class="ginfo-card">
           <h2 id="ginfoCTitle">Sobre o Jogo</h2>
           <p id="ginfoDesc">Carregando...</p>
-          <div id="gameTags" class="gtags" aria-label="Tags do jogo"></div>
+          <div id="gameTags" class="gtags"></div>
         </div>
+
         <div id="seoBlock" class="seo-block"></div>
-        <!-- RELACIONADOS -->
-        <section style="margin-top:2rem" aria-labelledby="related-heading">
+
+        <!-- 🎮 PRÓXIMO JOGO — retenção crítica -->
+        <section class="reveal" aria-labelledby="next-heading" style="margin-top:2rem">
           <div class="section-hd">
-            <h2 class="section-title" id="related-heading"><span class="sec-icon" aria-hidden="true">🎮</span>Jogos Relacionados</h2>
+            <h2 class="section-title" id="next-heading"><span class="sec-icon">▶</span>Jogue Este a Seguir</h2>
+          </div>
+          <div id="nextGamePanel"></div>
+        </section>
+
+        <!-- 🎮 JOGOS RELACIONADOS -->
+        <section class="reveal" aria-labelledby="related-heading" style="margin-top:1.5rem">
+          <div class="section-hd">
+            <h2 class="section-title" id="related-heading"><span class="sec-icon">🎮</span>Jogos Relacionados</h2>
+            <a href="category.html" class="see-all">Ver Mais →</a>
           </div>
           <div id="relatedGrid" class="games-grid" role="list"></div>
         </section>
+
+        <!-- 🧲 QUEM JOGOU ESTE TAMBÉM ABRIU -->
+        <section class="also-section reveal" aria-labelledby="also-heading">
+          <div class="section-hd">
+            <div>
+              <h2 class="section-title" id="also-heading"><span class="sec-icon">🧲</span>Quem Jogou Este Também Abriu</h2>
+              <p class="also-label">Você vai querer jogar esses também</p>
+            </div>
+          </div>
+          <div id="alsoGrid" class="games-grid" role="list"></div>
+        </section>
+
+        <!-- 🎯 RECOMENDADOS carousel -->
+        <section class="reveal" aria-labelledby="rec-heading" style="margin-top:2rem">
+          <div class="section-hd">
+            <div>
+              <h2 class="section-title" id="rec-heading"><span class="sec-icon">🎯</span>Você Também Pode Gostar</h2>
+              <p class="section-label">Selecionados especialmente para você</p>
+            </div>
+            <a href="category.html" class="see-all">Explorar →</a>
+          </div>
+          <div id="recommendedGrid" class="carousel-scroll" role="list"></div>
+        </section>
+
       </div>
-      <aside class="sidebar" aria-label="Sidebar">
-        <div aria-label="Publicidade">
-          <div id="sidebarAd" class="ad-block ad-rectangle"><span class="ad-label">PUBLICIDADE</span></div>
+
+      <aside class="sidebar">
+        <div>
+          <div class="ad-block ad-rectangle"><span class="ad-label">PUBLICIDADE</span></div>
         </div>
-        <div class="widget" aria-labelledby="hot-heading">
-          <div class="widget-title" id="hot-heading">🔥 Mais Jogados</div>
+        <div class="widget">
+          <div class="widget-title">🔥 Mais Jogados</div>
           <div id="sidebarHot"></div>
         </div>
-        <div aria-label="Publicidade">
-          <div id="sidebarAd2" class="ad-block ad-rectangle"><span class="ad-label">PUBLICIDADE</span></div>
+        <div>
+          <div class="ad-block ad-rectangle"><span class="ad-label">PUBLICIDADE</span></div>
         </div>
-        <div class="widget" aria-labelledby="sidecat-heading">
-          <div class="widget-title" id="sidecat-heading">📂 Categorias</div>
+        <div class="widget">
+          <div class="widget-title">📂 Categorias</div>
           <div class="scats">
             <a href="category.html?cat=acao" class="scat">⚔️ Ação</a>
             <a href="category.html?cat=corrida" class="scat">🏎️ Corrida</a>
@@ -163,8 +202,10 @@
         </div>
       </aside>
     </div>
+
   </div>
 </main>
+
 <footer class="footer" role="contentinfo">
   <div class="container">
     <div class="footer-grid">
@@ -194,12 +235,14 @@
     <div class="footer-bot"><p>© 2025 NeonPlay — Jogos Online Grátis | Todos os direitos reservados | 🇧🇷 Brasil</p></div>
   </div>
 </footer>
-<div id="favPanel" class="fav-panel" role="dialog" aria-label="Meus jogos favoritos" aria-modal="true">
-  <div class="fav-ph"><h3>❤️ Meus Favoritos</h3><button id="favClose" class="fav-close" aria-label="Fechar">✕</button></div>
+
+<div id="favPanel" class="fav-panel" role="dialog" aria-modal="true">
+  <div class="fav-ph"><h3>❤️ Meus Favoritos</h3><button id="favClose" class="fav-close">✕</button></div>
   <div id="favBody" class="fav-body"></div>
 </div>
-<div id="overlay" class="overlay" aria-hidden="true"></div>
+<div id="overlay" class="overlay"></div>
 <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
 <script src="games-data.js"></script>
 <script src="engine.js"></script>
 </body>

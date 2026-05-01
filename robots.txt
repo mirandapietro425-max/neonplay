@@ -1,0 +1,13 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /?debug=
+
+Sitemap: https://neonplay.com.br/sitemap.xml
+Sitemap: https://neonplay.com.br/sitemap-games.xml
+
+# Crawl-delay para bots menos relevantes
+User-agent: AhrefsBot
+Crawl-delay: 10
+User-agent: SemrushBot
+Crawl-delay: 10
