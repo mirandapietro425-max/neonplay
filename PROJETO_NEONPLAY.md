@@ -5,7 +5,53 @@
 **Site:** Portal de jogos HTML5 gratuitos voltado para o Brasil
 **URL atual:** https://neonplay-nu.vercel.app/
 **Objetivo:** 100+ visitas orgânicas em 30 dias, crescer até 100K/mês em 12 meses
-**Status:** Lançado — Dia 1 completo
+**Status:** v9 — Player robusto, SID pendente
+
+
+---
+
+## 🔴 DIAGNÓSTICO CRÍTICO — Por Que os Jogos Não Carregam
+
+### Causa Raiz: GamePix exige Publisher SID
+
+O GamePix **bloqueia iframes em domínios não cadastrados** com erro 403.
+A URL `/play/slug/?sdk=1` sem SID = **sempre falha**.
+
+### Solução — 3 passos
+
+| Passo | Ação | Onde |
+|---|---|---|
+| 1 | Criar conta de publisher | https://partners.gamepix.com |
+| 2 | Cadastrar seu domínio | Dashboard → My Sites |
+| 3 | Copiar o SID | Dashboard → SDK → SID |
+
+### Após obter o SID
+
+Abra `games-data.js` linha 1 e altere:
+```javascript
+const GP_SID = '';  // ← trocar pelo seu SID
+// Exemplo:
+const GP_SID = 'abc123xyz789';
+```
+
+Fazer redeploy no Vercel. Os jogos vão carregar.
+
+### Ferramenta de Teste
+
+Após o deploy, acesse:
+`https://neonplay-nu.vercel.app/test-iframes.html`
+
+Cole o SID e clique "Iniciar Teste" — verifica todos os 129 jogos automaticamente.
+
+### Alternativas se GamePix demorar aprovação
+
+| Provider | Aprovação | Qualidade | Como |
+|---|---|---|---|
+| **GameMonetize** | ~24-48h | Alta | gamemonetize.com → Cadastro |
+| **GameDistribution** | ~72h | Muito alta | gamedistribution.com |
+| **itch.io** (jogos gratuitos) | Imediato | Variável | Jogos com embed liberado |
+
+---
 
 ---
 
@@ -227,3 +273,101 @@ Quando tiver R$ 40 disponíveis:
 - GameMonetize: gamemonetize.com
 - GamePix: gamepix.com
 
+
+---
+
+## 🛡️ Resilience Module — v10.2
+
+Atualizado em: 2026-05-02
+
+### Arquitetura Completa
+
+```
+launchGameResilient(game, chain=[])
+  ├── Anti-loop: Set global _sessionAttempted + MAX_FALLBACK_DEPTH=4
+  ├── Cache check: isBad? → skip imediato
+  ├── buildGameUrl() → URL com SID runtime
+  ├── _showLoader(depth) — feedback visual escalonado
+  ├── iframe handlers ANTES do src (sem race condition)
+  ├── Timeout escalonado: 8s (1ª tent.) / 6s (seguintes)
+  ├── _settle(status):
+  │     'good'  → loader some, marca cache, analytics
+  │     'maybe' → loader some + aviso SID se necessário
+  │     'bad'   → marca cache + _tryFallback()
+  └── _tryFallback()
+        ├── game.fallbacks[] → provider alternativo
+        ├── SmartFallback.getNext() → jogo pontuado por scoreGame()
+        └── _showResilientError() → sempre mostra 4 sugestões
+```
+
+### probeUrl — 3 estados
+
+| Status | Condição | TTL no cache |
+|--------|----------|-------------|
+| `good`  | postMessage recebido OU onload < 4s | 7 dias |
+| `maybe` | onload disparou mas sem confirmação | 1 dia |
+| `bad`   | timeout 8s ou onerror | 6 horas |
+
+### scoreGame(game) — critérios
+
+| Critério | Pontos |
+|----------|--------|
+| Cache `good` | +50 |
+| Cache `maybe` | +20 |
+| Cache `bad` | =0 (eliminado) |
+| Popularidade (plays) | 0-20 |
+| Rating (0-5★) | 0-15 |
+| Tem thumbnail | +5 |
+| Badge `hot` | +7 |
+| Badge `top` | +5 |
+| Tem fallbacks[] | +3 |
+
+### Warmup Automático
+
+```js
+// Inicia 90s após carregar a home/category (não roda em game.html)
+GameWarmup.start(12, 90000)  // 12 jogos, 90s de delay
+
+// Forçar warmup imediato (console):
+GameWarmup.start(20, 0)
+GameWarmup.stop()
+```
+
+### Comandos no Console
+
+```js
+// Diagnóstico
+NP_Diagnostics.validateAll()
+NP_Diagnostics.testGame('moto-x3m-spooky-land')  // inclui score e cache
+NP_Diagnostics.probeAll(20)      // testa apenas jogos SEM cache
+NP_Diagnostics.cacheStats()
+NP_Diagnostics.clearCache()
+
+// Cache direto
+GameVerificationCache.stats()
+GameVerificationCache.mark('game-id', 'good')  // forçar como bom
+GameVerificationCache.clear()
+GameVerificationCache.listGood()               // array de IDs bons
+
+// Score e fallback
+scoreGame(GAMES_DB[0])
+SmartFallback.getNext(GAMES_DB[0], [])
+SmartFallback.topScored(5, 'acao')
+
+// Warmup manual
+GameWarmup.start(10, 0)  // imediato
+```
+
+### Multi-provider — Como Configurar Fallbacks
+
+```js
+// Em games-data.js, adicione fallbacks ao jogo:
+{ ...gp('moto-x3m-spooky-land'),
+  fallbacks: [
+    { provider: 'gamemonetize', gmId: 'ID_REAL_AQUI' },
+    { provider: 'gamedistribution', gdId: 'ID_REAL_AQUI' }
+  ]
+}
+```
+
+---
