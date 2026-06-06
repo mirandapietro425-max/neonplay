@@ -1,0 +1,673 @@
+/* ═══════════════════════════════════════════════════════════════
+   NeonPlay R7 — Companion Mode CSS
+   Prefixo: .zc-  (todos os seletores isolados)
+   z-index: hierarquia centralizada via variáveis (R12 fix)
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Z-index hierarchy (R12: centralizado para evitar conflitos) */
+:root {
+  /* R14 / R20.1b: companion-specific tokens only — global tokens defined in style.css.
+     Stack: companion-overlay(9800) < companion-modal(9850) < hud-toast(9870) < system-modal(9900) < zap-toast(9950) < cinematic(10050) < coin-fly(10100) */
+  --z-companion-overlay:  9800;   /* widget overlay — below bundle modals */
+  --z-companion-modal:    9850;   /* companion store / trophy room */
+  --z-zap-toast:          9950;   /* ZapBadges toast — above system modals */
+}
+
+/* ── Overlay (invisível a cliques — não bloqueia o iframe) ─── */
+.zc-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;   /* transparente a cliques — iframe continua funcional */
+  z-index: var(--z-companion-overlay);
+  overflow: hidden;
+}
+
+/* ── Widget (o próprio companion — clicável) ─────────────────── */
+.zc-widget {
+  position: absolute;
+  pointer-events: all;    /* só o widget captura eventos */
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: none;     /* necessário para drag touch funcionar */
+  bottom: calc(80px + env(safe-area-inset-bottom, 0px));  /* P1-06 R20.8: iOS safe area */
+  right: 20px;
+  width: 72px;
+  height: 72px;
+  filter: drop-shadow(0 4px 12px rgba(124, 58, 237, 0.45));
+  transition: filter 0.2s ease;
+}
+
+.zc-widget:hover {
+  filter: drop-shadow(0 6px 20px rgba(124, 58, 237, 0.7));
+}
+
+.zc-widget--dragging {
+  cursor: grabbing;
+  transition: none;
+}
+
+/* ── Canvas (o Zap desenhado) ────────────────────────────────── */
+.zc-canvas {
+  display: block;
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+}
+
+/* ── Balão de fala ───────────────────────────────────────────── */
+.zc-bubble {
+  position: absolute;
+  pointer-events: none;
+  bottom: calc(80px + env(safe-area-inset-bottom, 0px));  /* R20.8: iOS safe area */
+  right: 0;
+  background: rgba(15, 10, 30, 0.92);
+  color: #fff;
+  font-family: 'DM Sans', 'Syne', system-ui, sans-serif;
+  font-size: 12px;
+  line-height: 1.4;
+  padding: 8px 12px;
+  border-radius: 12px 12px 4px 12px;
+  max-width: 200px;
+  white-space: normal;  /* R12: removido nowrap conflitante — permite quebra de linha */
+  border: 1px solid rgba(124, 58, 237, 0.4);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  opacity: 0;
+  transform: translateY(6px) scale(0.92);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  z-index: 1;
+}
+
+.zc-bubble--visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* Triangulozinho da fala */
+.zc-bubble::after {
+  content: '';
+  position: absolute;
+  bottom: -7px;
+  right: 16px;
+  border: 7px solid transparent;
+  border-top-color: rgba(15, 10, 30, 0.92);
+  border-bottom: none;
+}
+
+/* HOTFIX R20.6 — Bubble flip: quando widget está na metade superior da tela,
+   a bubble renderiza abaixo para não sair do viewport.
+   Classe .zc-bubble--below aplicada via JS em _showBubble().               */
+.zc-bubble--below {
+  bottom: auto;
+  top: 80px;
+  border-radius: 12px 12px 12px 4px;
+}
+
+/* Triângulo apontando para cima (widget acima da bubble) */
+.zc-bubble--below::after {
+  bottom: auto;
+  top: -7px;
+  border-top-color: transparent;
+  border-bottom-color: rgba(15, 10, 30, 0.92);
+  border-top: none;
+  border-bottom: 7px solid rgba(15, 10, 30, 0.92);
+}
+
+/* ── Badge de moedas ─────────────────────────────────────────── */
+.zc-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  background: linear-gradient(135deg, #F59E0B, #EF4444);
+  color: #fff;
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1;
+  padding: 3px 5px;
+  border-radius: 8px;
+  border: 1.5px solid rgba(255, 255, 255, 0.3);
+  min-width: 18px;
+  text-align: center;
+  pointer-events: none;
+  opacity: 0;
+  transform: scale(0.5);
+  transition: opacity 0.2s, transform 0.2s;
+  z-index: 2;
+}
+
+.zc-badge--visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* ── Drop (moeda coletável) ──────────────────────────────────── */
+.zc-drop {
+  position: fixed;         /* fixed para poder aparecer em qualquer lugar da tela */
+  pointer-events: all;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  z-index: var(--z-companion-overlay);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 20px;
+  background: rgba(15, 10, 30, 0.75);
+  border: 2px solid rgba(245, 158, 11, 0.6);
+  box-shadow: 0 0 12px rgba(245, 158, 11, 0.4);
+  animation: zc-drop-in 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  transform-origin: center;
+  -webkit-tap-highlight-color: transparent;
+}
+
+@keyframes zc-drop-in {
+  from { opacity: 0; transform: scale(0) translateY(10px); }
+  to   { opacity: 1; transform: scale(1) translateY(0);    }
+}
+
+.zc-drop--expiring {
+  animation: zc-drop-pulse 0.5s ease infinite alternate;
+}
+
+@keyframes zc-drop-pulse {
+  from { box-shadow: 0 0 8px rgba(245, 158, 11, 0.4);  }
+  to   { box-shadow: 0 0 20px rgba(245, 158, 11, 0.9); }
+}
+
+.zc-drop--collected {
+  animation: zc-drop-collect 0.35s ease forwards;
+  pointer-events: none;
+}
+
+@keyframes zc-drop-collect {
+  from { opacity: 1; transform: scale(1);    }
+  to   { opacity: 0; transform: scale(2.2) translateY(-20px); }
+}
+
+/* ── Timer ring do drop ──────────────────────────────────────── */
+.zc-drop-ring {
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 2.5px solid rgba(245, 158, 11, 0.85);
+  border-top-color: transparent;
+  animation: zc-ring-spin 5s linear forwards;
+  pointer-events: none;
+}
+
+@keyframes zc-ring-spin {
+  from { transform: rotate(0deg);   stroke-dashoffset: 100; }
+  to   { transform: rotate(360deg); }
+}
+
+/* ── Feedback de coleta (+5 coins) ──────────────────────────── */
+.zc-collect-fx {
+  position: fixed;
+  pointer-events: none;
+  z-index: var(--z-companion-modal);
+  font-family: 'Syne', 'DM Sans', system-ui, sans-serif;
+  font-size: 15px;
+  font-weight: 800;
+  color: #F59E0B;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+  animation: zc-fx-rise 0.9s ease forwards;
+  white-space: nowrap;
+}
+
+@keyframes zc-fx-rise {
+  from { opacity: 1; transform: translateY(0)  scale(1);    }
+  60%  { opacity: 1; transform: translateY(-28px) scale(1.15); }
+  to   { opacity: 0; transform: translateY(-50px) scale(0.9); }
+}
+
+/* ── Fade-in do overlay ──────────────────────────────────────── */
+@keyframes zc-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.zc-overlay--entering {
+  animation: zc-fade-in 0.4s ease forwards;
+}
+
+/* ── Botão de mute (injetado pelo ZapAudioEngine) ────────────── */
+.zc-mute-btn {
+  position: absolute;
+  top: -6px;
+  left: -6px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255, 255, 255, 0.2);
+  background: rgba(15, 10, 30, 0.85);
+  color: #fff;
+  font-size: 11px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  pointer-events: all;
+  z-index: 3;
+  opacity: 0;
+  transform: scale(0.8);
+  transition: opacity 0.2s, transform 0.2s, background 0.15s;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Mostra o botão ao hover no widget */
+.zc-widget:hover .zc-mute-btn,
+.zc-widget:focus-within .zc-mute-btn {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.zc-mute-btn:hover {
+  background: rgba(124, 58, 237, 0.7);
+}
+
+.zc-mute-btn:active {
+  transform: scale(0.9);
+}
+
+/* ── Mobile adjustments ──────────────────────────────────────── */
+@media (max-width: 600px) {
+  .zc-widget {
+    width: 58px;
+    height: 58px;
+    bottom: 70px;
+    right: 12px;
+  }
+
+  .zc-canvas {
+    width: 58px;
+    height: 58px;
+  }
+
+  .zc-bubble {
+    font-size: 11px;
+    max-width: 160px;
+    right: -4px;
+  }
+
+  .zc-drop {
+    width: 36px;
+    height: 36px;
+    font-size: 18px;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   NeonPlay R7 — ZapBadges CSS
+   Toast de conquista + Trophy Room modal + Cards
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Botão de Trophy Room no widget ─────────────────────────── */
+.zb-trophy-btn {
+  position: absolute;
+  bottom: -6px;
+  left: -6px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(245, 158, 11, 0.4);
+  background: rgba(15, 10, 30, 0.85);
+  color: #F59E0B;
+  font-size: 11px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  pointer-events: all;
+  z-index: 3;
+  opacity: 0;
+  transform: scale(0.8);
+  transition: opacity 0.2s, transform 0.2s, background 0.15s;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.zc-widget:hover .zb-trophy-btn,
+.zc-widget:focus-within .zb-trophy-btn {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.zb-trophy-btn:hover {
+  background: rgba(245, 158, 11, 0.25);
+  border-color: rgba(245, 158, 11, 0.8);
+}
+
+/* ── Toast de conquista ──────────────────────────────────────── */
+.zb-toast {
+  position: fixed;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-110%);
+  z-index: var(--z-zap-toast);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: linear-gradient(135deg, rgba(8, 4, 25, 0.97), rgba(20, 10, 50, 0.97));
+  border: 1px solid rgba(96, 165, 250, 0.5);
+  box-shadow:
+    0 0 0 1px rgba(96, 165, 250, 0.1),
+    0 8px 32px rgba(0, 0, 0, 0.6),
+    0 0 40px rgba(96, 165, 250, 0.15);
+  border-radius: 14px;
+  padding: 12px 18px 12px 14px;
+  min-width: 240px;
+  max-width: 340px;
+  pointer-events: none;
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease;
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+.zb-toast--visible {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+}
+
+.zb-toast__icon {
+  font-size: 28px;
+  line-height: 1;
+  flex-shrink: 0;
+  filter: drop-shadow(0 0 6px rgba(245, 158, 11, 0.6));
+}
+
+.zb-toast__body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.zb-toast__label {
+  font-family: 'Syne', 'DM Sans', system-ui, sans-serif;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: #60A5FA;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+.zb-toast__title {
+  font-family: 'Syne', 'DM Sans', system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: #F59E0B;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.zb-toast__reward {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.65);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── Trophy Room modal ───────────────────────────────────────── */
+.zb-gallery {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-companion-modal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(4, 2, 15, 0.82);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  padding: 16px;
+  animation: zb-gallery-in 0.25s ease forwards;
+}
+
+.zb-gallery[hidden] {
+  display: none;
+}
+
+@keyframes zb-gallery-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.zb-gallery__inner {
+  background: linear-gradient(160deg, rgba(12, 6, 35, 0.98), rgba(20, 10, 50, 0.98));
+  border: 1px solid rgba(124, 58, 237, 0.35);
+  border-radius: 20px;
+  box-shadow:
+    0 0 0 1px rgba(124, 58, 237, 0.1),
+    0 24px 60px rgba(0, 0, 0, 0.7),
+    0 0 80px rgba(96, 165, 250, 0.06);
+  width: 100%;
+  max-width: 520px;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: zb-inner-in 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes zb-inner-in {
+  from { transform: scale(0.92) translateY(12px); opacity: 0; }
+  to   { transform: scale(1)    translateY(0);    opacity: 1; }
+}
+
+.zb-gallery__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  flex-shrink: 0;
+}
+
+.zb-gallery__title {
+  font-family: 'Syne', 'DM Sans', system-ui, sans-serif;
+  font-size: 16px;
+  font-weight: 800;
+  color: #F59E0B;
+  letter-spacing: 0.02em;
+}
+
+.zb-gallery__close {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: transparent;
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s, color 0.15s;
+  padding: 0;
+  line-height: 1;
+}
+
+.zb-gallery__close:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+.zb-gallery__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 10px;
+  padding: 16px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+/* ── Cards de conquista ──────────────────────────────────────── */
+.zb-card {
+  border-radius: 12px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.zb-card--unlocked {
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.18), rgba(245, 158, 11, 0.08));
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  box-shadow: 0 0 16px rgba(245, 158, 11, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.zb-card--unlocked:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 24px rgba(245, 158, 11, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.zb-card--locked {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  opacity: 0.55;
+}
+
+.zb-card__emoji {
+  font-size: 28px;
+  line-height: 1;
+}
+
+.zb-card--unlocked .zb-card__emoji {
+  filter: drop-shadow(0 0 8px rgba(245, 158, 11, 0.5));
+}
+
+.zb-card__title {
+  font-family: 'Syne', 'DM Sans', system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.2;
+}
+
+.zb-card__desc {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.55);
+  line-height: 1.4;
+}
+
+.zb-card__meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-top: 2px;
+}
+
+.zb-card__reward {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  color: #F59E0B;
+}
+
+.zb-card__date {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.zb-card__hint {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.3);
+  font-style: italic;
+}
+
+/* ── Mobile ──────────────────────────────────────────────────── */
+@media (max-width: 600px) {
+  .zb-gallery__grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    padding: 12px;
+  }
+
+  .zb-card {
+    padding: 10px;
+  }
+
+  .zb-card__emoji {
+    font-size: 22px;
+  }
+
+  .zb-toast {
+    max-width: calc(100vw - 32px);
+    top: 12px;
+  }
+}
+
+/* R12: prefers-reduced-motion — respeita preferência de acessibilidade */
+@media (prefers-reduced-motion: reduce) {
+  .zc-bubble,
+  .zc-widget,
+  .zb-toast,
+  .zb-card {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   R20.1 — Peripheral Presence Polish
+   Micro-glow breathing for companion widget when idle/silent.
+   CSS-only, no JS changes. Layered on top of ZapPresence.js
+   existing zp-idle/zp-dream classes.
+   ══════════════════════════════════════════════════════════════ */
+
+/* Quiet peripheral glow — visible at rest, not intrusive */
+@keyframes zc-peripheral-glow {
+  0%,100% { box-shadow: 0 0 0px rgba(0,212,255,0), 0 2px 12px rgba(0,0,0,.4); }
+  50%      { box-shadow: 0 0 18px rgba(0,212,255,.18), 0 2px 16px rgba(147,51,234,.12); }
+}
+
+/* Applied only to the outer widget wrapper — subtle, not the avatar itself */
+.zc-widget {
+  animation: zc-peripheral-glow 4s ease-in-out infinite;
+}
+
+/* When bubble is visible, suppress glow so attention goes to the message */
+.zc-widget:has(.zc-bubble--visible) {
+  animation: none;
+}
+
+/* Fallback for browsers without :has — JS can toggle .zc-speaking on widget */
+.zc-widget.zc-speaking {
+  animation: none;
+}
+
+/* Reduced motion: disable peripheral glow */
+@media (prefers-reduced-motion: reduce) {
+  .zc-widget {
+    animation: none !important;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   MB-01 / MB-02 R20.6 — Widget mobile: reduzir tamanho em telas
+   muito estreitas para evitar colisão com HUD buttons.
+   Sem impacto em animações — apenas width/height do container.
+   ══════════════════════════════════════════════════════════════ */
+@media (max-width: 400px) {
+  .zc-widget {
+    width: 52px;
+    height: 52px;
+  }
+  .zc-canvas {
+    width: 52px;
+    height: 52px;
+  }
+}

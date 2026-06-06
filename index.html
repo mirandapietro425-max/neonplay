@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>NeonPlay — 127+ Jogos Online Grátis | Sem Baixar, Sem Cadastro</title>
+  <meta name="description" content="Jogue 127+ jogos HTML5 grátis no NeonPlay! Ação, corrida, puzzle, arcade e mais. Sem download, sem cadastro. O maior portal de jogos do Brasil!">
+  <meta name="keywords" content="jogos online grátis, jogos html5, jogar online, jogos de ação grátis, jogos friv, portal de jogos brasil, jogos sem download">
+  <meta name="author" content="NeonPlay">
+  <meta name="google-site-verification" content="arAz27AfgFWqSiNcL-avyWWvUXv6FvShI2kpHjHwkqg" />
+  <meta name="msvalidate.01" content="EBA3392D90640CF0B74BFE12BF03E956" />
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+  <link rel="canonical" href="https://neonplay-nu.vercel.app/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="NeonPlay">
+  <meta property="og:title" content="NeonPlay — Jogos Online Grátis | 100+ Jogos HTML5">
+  <meta property="og:description" content="100+ jogos HTML5 grátis no NeonPlay! Ação, corrida, puzzle, arcade e mais. Sem download.">
+  <meta property="og:url" content="https://neonplay-nu.vercel.app/">
+  <meta property="og:locale" content="pt_BR">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="NeonPlay — Jogos Online Grátis">
+  <!-- Google Analytics 4 — R20.1: guarded from localhost to avoid Unexpected token '<' SyntaxError -->
+  <script>
+  (function(){
+    var _isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1' || location.hostname === '';
+    if (!_isLocal) {
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=G-R1H1F6D67P';
+      document.head.appendChild(s);
+    }
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    window.gtag = gtag;
+    gtag('js', new Date());
+    gtag('config', 'G-R1H1F6D67P');
+    window._NP_IS_LOCAL = _isLocal;
+  })();
+  </script>
+  <!-- AdSense — substituir ca-pub-XXXXXXXX pelo ID real -->
+  <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script> -->
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "NeonPlay", "url": "https://neonplay-nu.vercel.app", "description": "Portal de jogos HTML5 grátis online", "inLanguage": "pt-BR", "potentialAction": {"@type": "SearchAction", "target": "https://neonplay-nu.vercel.app/category.html?q={search_term_string}", "query-input": "required name=search_term_string"}}</script>
+  <!-- R20.1: Consolidated single Google Fonts request — eliminates double Syne fetch and deferred Orbitron FOUT -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Syne:wght@400;600;700;800;900&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="preload" href="style.css?v=796f7ae9" as="style">
+  <link rel="preload" href="bundle.min.js" as="script">
+  <link rel="preload" href="neonplay-init.js?v=r16" as="script">
+  <link rel="stylesheet" href="style.css?v=796f7ae9">
+  <link rel="stylesheet" href="np-perception-layer.css?v=r103">
+  <!-- ═══ NEON ALIEN INTRO + HUD ═══ -->
+  <style>
+    /* INTRO */
+    #npZapIntro{position:fixed;inset:0;z-index:var(--z-boot-intro, 99999);background:#000;display:flex;align-items:center;justify-content:center;overflow:hidden;transition:opacity .9s ease,transform .9s ease}
+    #npZapIntro.out{opacity:0;transform:scale(1.08);pointer-events:none}
+    /* CSS-W02 R20.7: disable scale on intro.out for users with reduced motion */
+    @media(prefers-reduced-motion:reduce){#npZapIntro,#npZapIntro.out{transition:opacity .3s ease;transform:none!important}}
+    #introCanvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+    .npi-overlay{position:absolute;inset:0;z-index:2;pointer-events:none;background:radial-gradient(ellipse at center,transparent 35%,rgba(0,0,0,.9) 100%),repeating-linear-gradient(0deg,rgba(0,0,0,.1) 0px,rgba(0,0,0,.1) 1px,transparent 1px,transparent 3px)}
+    .npi-corner{position:absolute;z-index:4;width:44px;height:44px;opacity:.55}
+    .npi-tl{top:20px;left:20px;border-top:2px solid #00d4ff;border-left:2px solid #00d4ff}
+    .npi-tr{top:20px;right:20px;border-top:2px solid #9333ea;border-right:2px solid #9333ea}
+    .npi-bl{bottom:20px;left:20px;border-bottom:2px solid #9333ea;border-left:2px solid #9333ea}
+    .npi-br{bottom:20px;right:20px;border-bottom:2px solid #00d4ff;border-right:2px solid #00d4ff}
+    #npiUI{position:absolute;inset:0;z-index:10;display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 1.4s ease}
+    #npiUI.show{opacity:1;pointer-events:auto}
+    .npi-logo{font-family:'Orbitron','DM Sans',sans-serif;font-size:clamp(44px,9vw,108px);font-weight:900;letter-spacing:-2px;color:#fff;text-align:center;line-height:1}
+    .npi-ln{color:#00d4ff;text-shadow:0 0 40px #00d4ff,0 0 80px rgba(0,212,255,.4)}
+    .npi-lp{background:linear-gradient(90deg,#e8196b,#9333ea);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .npi-tag{font-family:'Syne','DM Sans',sans-serif;font-size:clamp(10px,1.8vw,14px);letter-spacing:6px;text-transform:uppercase;color:rgba(255,255,255,.45);margin-top:10px}
+    .npi-btn{margin-top:44px;padding:16px 56px;font-size:14px;font-weight:900;font-family:'Orbitron','DM Sans',sans-serif;letter-spacing:3px;text-transform:uppercase;background:linear-gradient(135deg,#00d4ff,#9333ea);border:none;color:#fff;cursor:pointer;clip-path:polygon(14px 0%,100% 0%,calc(100% - 14px) 100%,0% 100%);box-shadow:0 0 44px rgba(0,212,255,.4);animation:npiBtnPulse 2s ease-in-out infinite;transition:transform .2s,filter .2s}
+    @keyframes npiBtnPulse{0%,100%{box-shadow:0 0 30px rgba(0,212,255,.3)}50%{box-shadow:0 0 80px rgba(0,212,255,.7)}}
+    .npi-btn:hover{transform:scale(1.06);filter:brightness(1.25)}
+    /* R20.1: HUD uses CSS var for z-index — no magic numbers */
+    #npAlienHud{position:fixed;bottom:22px;right:22px;z-index:var(--z-hud, 800);display:none;flex-direction:column;align-items:center;gap:6px;pointer-events:none}
+    #npAlienHud.active{display:flex}
+    .nph-bubble{background:rgba(8,8,28,.97);border:1px solid rgba(0,212,255,.32);border-radius:14px 14px 4px 14px;padding:10px 14px;font-size:12px;color:#f0f0ff;max-width:200px;text-align:center;line-height:1.55;box-shadow:0 8px 30px rgba(0,0,0,.65);display:none;animation:nphBubIn .3s cubic-bezier(.34,1.56,.64,1);font-family:'DM Sans',sans-serif}
+    @keyframes nphBubIn{from{opacity:0;transform:scale(.75) translateY(10px)}to{opacity:1;transform:scale(1) translateY(0)}}
+    .nph-alien{cursor:pointer;filter:drop-shadow(0 0 14px rgba(0,212,255,.5));transition:transform .2s;pointer-events:auto}
+    .nph-alien:hover{transform:scale(1.1)}
+    .nph-xpbar{width:76px;height:5px;background:rgba(255,255,255,.08);border-radius:5px;overflow:hidden}
+    .nph-xpfill{height:100%;background:linear-gradient(90deg,#00d4ff,#9333ea);border-radius:5px;transition:width .5s cubic-bezier(.34,1.56,.64,1)}
+    .nph-lvl{font-size:9px;color:#00d4ff;font-family:'Orbitron','DM Sans',sans-serif;letter-spacing:1.5px;text-align:center;background:rgba(0,0,0,.4);padding:2px 6px;border-radius:8px;border:1px solid rgba(0,212,255,.2)}
+    /* R13: notification dot */
+    .nph-alien.has-notification::after{content:'';position:absolute;top:4px;right:4px;width:9px;height:9px;border-radius:50%;background:#00d4ff;box-shadow:0 0 10px #00d4ff,0 0 4px #00d4ff;animation:nph-dot-pulse 2s infinite}
+    @keyframes nph-dot-pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.6;transform:scale(.85)}}
+    .nph-alien{position:relative}
+    /* R13: prefers-reduced-motion */
+    @media(prefers-reduced-motion:reduce){.nph-bubble,.nph-alien,.nph-alien.has-notification::after{animation:none!important;transition:none!important}}
+    /* R20.1 XP Toast — z-index uses --z-hud-toast (9870) to stay above companion modal (9850 in zap-companion.css) */
+    #npXpToast{position:fixed;top:76px;right:22px;z-index:var(--z-hud-toast, 9870);background:rgba(8,8,28,.97);border:1px solid rgba(0,212,255,.3);border-radius:10px;padding:9px 16px;display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:#00d4ff;transform:translateX(220%);transition:transform .4s cubic-bezier(.34,1.56,.64,1);pointer-events:none;font-family:'DM Sans',sans-serif}
+    #npXpToast.show{transform:translateX(0)}
+    /* Level-up overlay */
+    #npLvlOverlay{position:fixed;inset:0;z-index:var(--z-system-modal);background:rgba(0,0,0,.82);display:none;align-items:center;justify-content:center;backdrop-filter:blur(10px)}
+    #npLvlOverlay.show{display:flex}
+    .nplvl-card{background:#080820;border:1px solid rgba(0,212,255,.28);border-radius:20px;padding:44px 40px;text-align:center;max-width:380px;width:92%;animation:nplvlIn .5s cubic-bezier(.34,1.56,.64,1);box-shadow:0 0 90px rgba(0,212,255,.12)}
+    @keyframes nplvlIn{from{opacity:0;transform:scale(.65)}to{opacity:1;transform:scale(1)}}
+    .nplvl-tag{font-family:'Orbitron','DM Sans',sans-serif;font-size:10px;letter-spacing:4px;color:#00d4ff;text-transform:uppercase;margin-bottom:10px}
+    .nplvl-num{font-family:'Orbitron','DM Sans',sans-serif;font-size:56px;font-weight:900;color:#fff;line-height:1;margin-bottom:6px}
+    .nplvl-name{font-family:'Syne','DM Sans',sans-serif;font-size:20px;font-weight:800;background:linear-gradient(90deg,#00d4ff,#9333ea);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:18px}
+    .nplvl-tx{font-size:13px;color:rgba(255,255,255,.55);margin-bottom:26px;line-height:1.65;font-family:'DM Sans',sans-serif}
+    .nplvl-btn{padding:12px 38px;background:linear-gradient(135deg,#00d4ff,#9333ea);border:none;color:#fff;font-family:'Orbitron','DM Sans',sans-serif;font-size:11px;letter-spacing:2px;border-radius:50px;cursor:pointer;transition:transform .2s}
+    .nplvl-btn:hover{transform:scale(1.05)}
+    /* ══ Vault Button ══ */
+    /* R20.1: zapVaultBtn — z-index CSS var, bottom raised to 176px to avoid zapQuestToggle collision */
+    #zapVaultBtn{position:fixed;bottom:243px;right:22px;z-index:var(--z-hud, 800);/* R20.12-fix: subiu junto com questToggle */background:linear-gradient(135deg,rgba(10,10,26,.95),rgba(20,10,40,.95));border:1px solid rgba(147,51,234,.5);border-radius:50px;padding:7px 14px;font-size:9px;font-family:'Orbitron','DM Sans',sans-serif;letter-spacing:1.5px;color:#9333ea;cursor:pointer;text-transform:uppercase;display:none;transition:.2s;box-shadow:0 0 20px rgba(147,51,234,.2)}
+    #zapVaultBtn.active{display:block}
+    #zapVaultBtn:hover{border-color:#00d4ff;color:#00d4ff;box-shadow:0 0 28px rgba(0,212,255,.25)}
+    /* ══ Gallery Modal ══ */
+    #zapGallery{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(0.88);width:min(450px,94vw);background:rgba(6,6,20,.97);border:1px solid rgba(0,212,255,.25);border-radius:18px;padding:28px 24px;box-shadow:0 24px 80px rgba(0,0,0,.85),0 0 40px rgba(147,51,234,.18);z-index:var(--z-system-modal, 9900);opacity:0;pointer-events:none;transition:all .35s cubic-bezier(.34,1.56,.64,1);backdrop-filter:blur(16px)}
+    #zapGallery.show{opacity:1;pointer-events:auto;transform:translate(-50%,-50%) scale(1)}
+    .zg-header{font-family:'Orbitron','DM Sans',sans-serif;color:#00d4ff;font-size:15px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;padding-bottom:14px;margin-bottom:16px;border-bottom:1px solid rgba(255,255,255,.08);display:flex;align-items:center;gap:10px}
+    .zg-close{position:absolute;top:18px;right:20px;background:none;border:none;color:rgba(255,255,255,.35);font-size:18px;cursor:pointer;line-height:1;transition:.15s}
+    .zg-close:hover{color:#e8196b;transform:rotate(90deg)}
+    .zg-item{display:flex;justify-content:space-between;align-items:center;background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.07);padding:13px 16px;margin-bottom:9px;border-radius:10px;transition:.2s;gap:12px}
+    .zg-item:hover:not(.zg-locked){background:rgba(0,212,255,.07);border-color:rgba(0,212,255,.3)}
+    .zg-info h4{font-family:'Syne','DM Sans',sans-serif;color:#f0f0ff;margin-bottom:4px;font-size:13px;font-weight:700}
+    .zg-info p{font-size:11px;color:rgba(255,255,255,.45);line-height:1.4}
+    .zg-play{background:linear-gradient(135deg,#00d4ff,#9333ea);border:none;color:#fff;padding:7px 15px;border-radius:50px;font-size:9px;font-weight:900;cursor:pointer;font-family:'Orbitron','DM Sans',sans-serif;letter-spacing:.5px;white-space:nowrap;flex-shrink:0;transition:.2s}
+    .zg-play:hover{transform:scale(1.08);filter:brightness(1.2)}
+    .zg-locked{opacity:.35;pointer-events:none}
+    .zg-locked .zg-play{background:#2a2a3a;color:#555}
+    .zg-badge{font-size:18px;flex-shrink:0}
+
+
+    /* ══ GALLERY TABS + WALLET ══ */
+    .zg-wallet{display:flex;align-items:center;gap:7px;background:rgba(251,191,36,.07);border:1px solid rgba(251,191,36,.25);border-radius:50px;padding:6px 14px;margin-bottom:14px;width:fit-content}
+    .zg-wallet-icon{font-size:14px;line-height:1}
+    .zg-wallet-bal{font-family:'Orbitron','DM Sans',sans-serif;font-size:14px;font-weight:900;color:#fbbf24;letter-spacing:.5px}
+    .zg-wallet-label{font-family:'DM Sans',sans-serif;font-size:10px;color:rgba(251,191,36,.6);letter-spacing:1px;text-transform:uppercase}
+    .zg-wallet-flash{animation:zgWFlash .5s ease both}
+    @keyframes zgWFlash{0%,100%{transform:scale(1)}50%{transform:scale(1.18);color:#fff}}
+    .zg-tabs{display:flex;gap:6px;margin-bottom:16px;border-bottom:1px solid rgba(255,255,255,.07);padding-bottom:12px}
+    .zg-tab{flex:1;padding:7px 0;border:1px solid rgba(255,255,255,.1);border-radius:8px;background:rgba(255,255,255,.03);font-family:'Orbitron','DM Sans',sans-serif;font-size:8.5px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.4);cursor:pointer;transition:.2s;font-weight:700}
+    .zg-tab:hover{border-color:rgba(0,212,255,.3);color:rgba(0,212,255,.7)}
+    .zg-tab.zg-tab-active{background:rgba(0,212,255,.1);border-color:rgba(0,212,255,.5);color:#00d4ff}
+    /* ══ STORE ITEMS ══ */
+    .zs-item{background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:14px 15px;margin-bottom:9px;transition:.2s;position:relative;overflow:hidden}
+    .zs-item:hover{border-color:rgba(251,191,36,.3);background:rgba(251,191,36,.04)}
+    .zs-item.zs-owned{border-color:rgba(0,212,255,.25);background:rgba(0,212,255,.04)}
+    .zs-item.zs-equipped{border-color:rgba(0,232,122,.4);background:rgba(0,232,122,.05)}
+    .zs-item-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:10px}
+    .zs-item-meta{flex:1}
+    .zs-item-name{font-family:'Syne','DM Sans',sans-serif;font-size:13px;font-weight:800;color:#f0f0ff;margin-bottom:3px}
+    .zs-item-desc{font-size:10px;color:rgba(255,255,255,.4);line-height:1.4}
+    .zs-item-icon{font-size:28px;flex-shrink:0;line-height:1}
+    .zs-price-tag{display:flex;align-items:center;gap:5px;font-family:'Orbitron','DM Sans',sans-serif;font-size:11px;font-weight:700;color:#fbbf24}
+    .zs-price-icon{font-size:12px}
+    .zs-btn{border:none;border-radius:50px;padding:7px 16px;font-size:8.5px;font-weight:900;cursor:pointer;font-family:'Orbitron','DM Sans',sans-serif;letter-spacing:.5px;white-space:nowrap;transition:.2s;text-transform:uppercase}
+    .zs-btn-buy{background:linear-gradient(135deg,#fbbf24,#f59e0b);color:#000}
+    .zs-btn-buy:hover{transform:scale(1.06);filter:brightness(1.15)}
+    .zs-btn-buy:disabled{background:#2a2a3a;color:#555;cursor:not-allowed;transform:none;filter:none}
+    .zs-btn-equip{background:linear-gradient(135deg,#00d4ff,#9333ea);color:#fff}
+    .zs-btn-equip:hover{transform:scale(1.06);filter:brightness(1.15)}
+    .zs-btn-equipped{background:rgba(0,232,122,.15);color:#00e87a;border:1px solid rgba(0,232,122,.4);cursor:default}
+    .zs-btn-equipped::before{content:'✓ '}
+    .zs-equipped-glow{position:absolute;inset:0;border-radius:12px;box-shadow:inset 0 0 20px rgba(0,232,122,.08);pointer-events:none}
+    .zs-item-bottom{display:flex;align-items:center;justify-content:space-between;gap:8px}
+    .zs-unlock-hint{font-size:9px;color:rgba(255,255,255,.25);font-family:'DM Sans',sans-serif}
+    /* store empty state */
+    .zs-empty{text-align:center;padding:24px 0;color:rgba(255,255,255,.2);font-size:11px;font-family:'DM Sans',sans-serif}
+    /* coin gain animation */
+    @keyframes coinFly{0%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(-40px)}}
+    .zg-coin-fly{position:fixed;font-family:'Orbitron',sans-serif;font-size:13px;color:#fbbf24;font-weight:700;pointer-events:none;z-index:var(--z-coin-fly, 10100);animation:coinFly .8s ease forwards}
+
+    /* ══ QUEST PANEL ══ */
+    #zapQuestPanel{position:fixed;bottom:175px;right:22px;z-index:var(--z-companion-modal, 9850);width:248px;background:rgba(4,4,18,.97);border:1px solid rgba(0,212,255,.2);border-radius:14px;overflow:hidden;display:none;box-shadow:0 20px 60px rgba(0,0,0,.85),0 0 28px rgba(147,51,234,.12);backdrop-filter:blur(16px);transition:transform .35s cubic-bezier(.34,1.56,.64,1),opacity .3s ease}
+    #zapQuestPanel.active{display:block}
+    #zapQuestPanel.collapsed .zqp-body,#zapQuestPanel.collapsed .zqp-reset{display:none}
+    .zqp-header{display:flex;align-items:center;justify-content:space-between;padding:11px 14px;cursor:pointer;user-select:none;border-bottom:1px solid rgba(255,255,255,.05);background:rgba(147,51,234,.07);transition:background .2s}
+    .zqp-header:hover{background:rgba(147,51,234,.13)}
+    .zqp-header-left{display:flex;align-items:center;gap:8px;font-family:'Orbitron','DM Sans',sans-serif;font-size:9px;letter-spacing:2px;color:#9333ea;text-transform:uppercase;font-weight:700}
+    .zqp-chevron{font-size:9px;color:rgba(255,255,255,.3);transition:transform .25s;line-height:1}
+    #zapQuestPanel:not(.collapsed) .zqp-chevron{transform:rotate(180deg)}
+    .zqp-badge{background:linear-gradient(135deg,#9333ea,#06b6d4);color:#fff;border-radius:50px;font-size:8px;font-family:'Orbitron',sans-serif;padding:2px 8px;letter-spacing:.5px;font-weight:700}
+    .zqp-badge.all-done{background:linear-gradient(135deg,#00e87a,#00d4ff)}
+    .zqp-body{padding:10px 12px;display:flex;flex-direction:column;gap:9px}
+    .zqp-reset{font-size:9px;color:rgba(255,255,255,.22);font-family:'DM Sans',sans-serif;text-align:right;padding:0 14px 9px;margin-top:-3px;letter-spacing:.3px}
+    /* quest item */
+    .zq-item{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.055);border-radius:10px;padding:10px 12px;transition:border-color .3s,background .3s}
+    .zq-item.zq-done{border-color:rgba(0,232,122,.4);background:rgba(0,232,122,.04)}
+    .zq-top{display:flex;align-items:flex-start;justify-content:space-between;gap:6px;margin-bottom:7px}
+    .zq-title{font-family:'Syne','DM Sans',sans-serif;font-size:11px;font-weight:700;color:#ecebff;line-height:1.3;flex:1}
+    .zq-item.zq-done .zq-title{color:#a3ffd6}
+    .zq-xp-tag{font-family:'Orbitron','DM Sans',sans-serif;font-size:7.5px;letter-spacing:.5px;color:#fbbf24;white-space:nowrap;padding-top:2px;font-weight:700}
+    .zq-prog-wrap{height:5px;background:rgba(255,255,255,.07);border-radius:5px;overflow:hidden;margin-bottom:5px}
+    .zq-prog-bar{height:100%;border-radius:5px;transition:width .55s cubic-bezier(.34,1.56,.64,1);background:linear-gradient(90deg,#00d4ff,#9333ea)}
+    .zq-item.zq-done .zq-prog-bar{background:linear-gradient(90deg,#00e87a,#00d4ff)}
+    .zq-status{font-size:9px;color:rgba(255,255,255,.35);font-family:'DM Sans',sans-serif;display:flex;justify-content:space-between;align-items:center}
+    .zq-item.zq-done .zq-status{color:rgba(163,255,214,.7)}
+    .zq-checkmark{color:#00e87a;font-size:11px;font-weight:700}
+    .zq-prog-count{font-family:'Orbitron',sans-serif;font-size:8px;color:rgba(255,255,255,.25);letter-spacing:.5px}
+    .zq-item.zq-done .zq-prog-count{color:#00d4ff}
+    /* toggle button */
+    /* R20.1: zapQuestToggle — z-index CSS var, bottom:128px clear below zapVaultBtn */
+    #zapQuestToggle{position:fixed;bottom:185px;right:22px;z-index:var(--z-hud, 800);/* R20.12-fix: era 128px — cobria o alien canvas (110px + margins) */background:rgba(4,4,18,.95);border:1px solid rgba(147,51,234,.45);border-radius:50px;padding:6px 13px;font-size:8.5px;font-family:'Orbitron','DM Sans',sans-serif;letter-spacing:1.5px;color:#9333ea;cursor:pointer;text-transform:uppercase;display:none;transition:border-color .2s,color .2s,box-shadow .2s;box-shadow:0 0 16px rgba(147,51,234,.15)}
+    #zapQuestToggle.active{display:flex;align-items:center;gap:7px}
+    #zapQuestToggle:hover{border-color:#00d4ff;color:#00d4ff;box-shadow:0 0 22px rgba(0,212,255,.2)}
+    .zqt-dot{width:6px;height:6px;border-radius:50%;background:#9333ea;flex-shrink:0;transition:background .2s}
+    #zapQuestToggle:hover .zqt-dot{background:#00d4ff}
+    .zqt-dot.pulse{animation:zqDotPulse 1.8s ease-in-out infinite}
+    @keyframes zqDotPulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.45;transform:scale(1.5)}}
+    /* all-done glow state */
+    #zapQuestPanel.all-done{border-color:rgba(0,232,122,.45);box-shadow:0 20px 60px rgba(0,0,0,.85),0 0 32px rgba(0,232,122,.22)}
+    #zapQuestPanel.all-done .zqp-header{background:rgba(0,232,122,.06)}
+    /* entrance animation */
+    @keyframes zqpSlideIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+    #zapQuestPanel.active{animation:zqpSlideIn .35s cubic-bezier(.34,1.56,.64,1) both}
+
+    /* ══ Cinematic Overlay ══ */
+    #zapCinematicOverlay{position:fixed;inset:0;z-index:var(--z-cinematic, 10050);display:none;align-items:center;justify-content:center;pointer-events:none}
+    #zapCinematicOverlay.active{display:flex;pointer-events:auto}
+    #zapCinemaCanvas{display:block;width:100%;height:100%;position:absolute;inset:0}
+    .zce-skip{position:absolute;bottom:24px;right:24px;background:rgba(0,0,0,.6);border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.6);font-family:'Orbitron','DM Sans',sans-serif;font-size:9px;letter-spacing:2px;padding:8px 16px;border-radius:50px;cursor:pointer;z-index:2}
+    .zce-skip:hover{border-color:#00d4ff;color:#00d4ff}
+    .zce-title{position:absolute;top:24px;left:50%;transform:translateX(-50%);font-family:'Orbitron','DM Sans',sans-serif;font-size:11px;letter-spacing:3px;color:rgba(0,212,255,.7);text-transform:uppercase;z-index:2;text-align:center}
+  </style>
+  <!-- R20.1: Duplicate font link removed — consolidated into single <link> in <head> above -->
+  <link rel="stylesheet" href="np-r20-11-overlap-fix.css?v=r11">
+</head>
+<body>
+
+<!-- ═══════════ NEON ALIEN INTRO ═══════════ -->
+<div id="npZapIntro" role="dialog" aria-modal="true" aria-label="Tela de entrada NeonPlay">
+  <canvas id="introCanvas"></canvas>
+  <div class="npi-overlay"></div>
+  <div class="npi-corner npi-tl"></div><div class="npi-corner npi-tr"></div>
+  <div class="npi-corner npi-bl"></div><div class="npi-corner npi-br"></div>
+  <div id="npiUI">
+    <div class="npi-logo"><span class="npi-ln">NEON</span><span class="npi-lp">PLAY</span></div>
+    <div class="npi-tag">O universo dos jogos online</div>
+    <button class="npi-btn" id="npiEnterBtn" tabindex="0" aria-label="Entrar no NeonPlay — pressione Enter ou Espaço">▶ ENTRAR NO UNIVERSO</button>
+  </div>
+</div>
+<!-- XP Toast -->
+<div id="npXpToast"><span style="font-size:18px">⚡</span><span id="npXpTxt">+10 XP</span></div>
+<!-- Level-Up Overlay -->
+<div id="npLvlOverlay">
+  <div class="nplvl-card">
+    <canvas id="npLvlCanvas" width="120" height="160" style="margin:0 auto 10px;display:block"></canvas>
+    <div class="nplvl-tag">🎉 subiu de nível!</div>
+    <div class="nplvl-num" id="npLvlNum">2</div>
+    <div class="nplvl-name" id="npLvlName">Explorador Neon</div>
+    <div class="nplvl-tx" id="npLvlTx"></div>
+    <button class="nplvl-btn" id="npLvlClose" aria-label="Fechar tela de nível">INCRÍVEL! ✨</button>
+  </div>
+</div>
+<!-- Alien HUD -->
+<div id="npAlienHud">
+  <div class="nph-bubble" id="nphBubble"></div>
+  <div class="nph-alien" id="nphAlienWrap" title="Clique para falar com o alien">
+    <canvas id="nphCanvas" width="80" height="110"></canvas>
+  </div>
+  <div class="nph-xpbar"><div class="nph-xpfill" id="nphXpFill" style="width:0%"></div></div>
+  <div class="nph-lvl" id="nphLvlTxt">LVL 1</div>
+</div>
+
+<header class="header" role="banner">
+  <div class="container">
+    <div class="header-inner">
+      <a href="index.html" class="logo" aria-label="NeonPlay - Página inicial">
+        <span class="logo-icon" aria-hidden="true">🎮</span>
+        <span class="logo-text">Neon<span class="logo-accent">Play</span></span>
+      </a>
+      <div class="search-wrap" role="search">
+        <label for="searchInput" class="sr-only">Buscar jogos</label>
+        <input type="search" id="searchInput" class="search-input" placeholder="Buscar jogos..." autocomplete="off" aria-label="Buscar jogos" aria-controls="searchDrop">
+        <button class="search-btn" aria-label="Pesquisar">🔍</button>
+        <div id="searchDrop" class="search-drop" role="listbox" hidden></div>
+      </div>
+      <nav class="nav" aria-label="Menu principal">
+        <a href="index.html" class="nav-link active" aria-current="page">Início</a>
+        <a href="category.html?cat=acao" class="nav-link">Ação</a>
+        <a href="category.html?cat=corrida" class="nav-link">Corrida</a>
+        <a href="category.html?cat=puzzle" class="nav-link">Puzzle</a>
+        <a href="category.html" class="nav-link">Categorias</a>
+      </nav>
+      <button id="favBtn" class="fav-btn" aria-label="Meus favoritos" aria-expanded="false">❤️ <span>Favoritos</span> (<span id="favCount">0</span>)</button>
+      <button id="hbg" class="hbg" aria-label="Abrir menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<nav id="mobileNav" class="mobile-nav" aria-label="Menu mobile" hidden>
+  <a href="index.html" class="mnav-link active">🏠 Início</a>
+  <a href="category.html?cat=acao" class="mnav-link">⚔️ Ação</a>
+  <a href="category.html?cat=corrida" class="mnav-link">🏎️ Corrida</a>
+  <a href="category.html?cat=puzzle" class="mnav-link">🧩 Puzzle</a>
+  <a href="category.html?cat=arcade" class="mnav-link">🕹️ Arcade</a>
+  <a href="category.html?cat=esporte" class="mnav-link">⚽ Esporte</a>
+  <a href="category.html?cat=aventura" class="mnav-link">🗺️ Aventura</a>
+  <a href="category.html?cat=tiro" class="mnav-link">🎯 Tiro</a>
+  <a href="category.html?cat=estrategia" class="mnav-link">♟️ Estratégia</a>
+</nav>
+
+<!-- LIVE TICKER -->
+<div class="live-ticker" aria-hidden="true">
+  <div class="container">
+    <div class="ticker-track" id="tickerTrack"></div>
+  </div>
+</div>
+
+<!-- TOP AD — G6 AdSense inteligente com lazy load -->
+<div class="ad-wrap" aria-label="Publicidade">
+  <div class="ad-block ad-leaderboard" data-ad-slot="1234567890" data-ad-format="leaderboard">
+    <span class="ad-label">PUBLICIDADE</span>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="hero" aria-label="Destaque">
+  <div class="hero-grid" aria-hidden="true"></div>
+  <div class="hero-glow hg1" aria-hidden="true"></div>
+  <div class="hero-glow hg2" aria-hidden="true"></div>
+  <div id="heroParticles" aria-hidden="true"></div>
+  <div class="container">
+    <div class="hero-inner">
+      <div class="hero-left">
+        <div class="h-badge" role="status">
+          <span class="ticker-dot" aria-hidden="true"></span>
+          <span id="liveCount">2.847</span> jogadores online agora
+        </div>
+        <!-- G5 — Headline oficial + slogan consistente -->
+        <h1 class="hero-h1">Jogue Grátis,<br><em>Sem Baixar Nada</em></h1>
+        <p class="hero-sub">O maior portal de jogos HTML5 do Brasil. Ação, corrida, puzzle, arcade e muito mais. <strong>Sem download. Sem cadastro.</strong></p>
+        <div class="hero-cta">
+          <a href="category.html" class="btn btn-primary btn-lg">🎮 Explorar Jogos</a>
+          <a href="category.html?sort=popular" class="btn btn-outline btn-lg">🔥 Mais Populares</a>
+        </div>
+        <!-- G8 — Sinais de portal grande (verdadeiros) -->
+        <div class="hero-stats" role="list">
+          <div class="stat-item" role="listitem"><strong>100+</strong><span>Jogos Grátis</span></div>
+          <div class="stat-item" role="listitem"><strong>8</strong><span>Categorias</span></div>
+          <div class="stat-item" role="listitem"><strong>0</strong><span>Downloads</span></div>
+          <div class="stat-item" role="listitem"><strong>24/7</strong><span>Disponível</span></div>
+        </div>
+      </div>
+      <div class="hero-visual" aria-label="Jogos em destaque">
+        <div class="hv-preview-grid" id="heroPreviewGrid"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CAT BAR -->
+<div class="cat-bar">
+  <div class="container">
+    <div class="cat-scroll" role="navigation" aria-label="Categorias de jogos">
+      <a href="category.html" class="cat-chip" style="background:rgba(0,238,255,.1);border-color:rgba(0,238,255,.3);color:var(--cyan)">🎮 Todos</a>
+      <a href="category.html?cat=acao" class="cat-chip cc-acao">⚔️ Ação</a>
+      <a href="category.html?cat=corrida" class="cat-chip cc-corrida">🏎️ Corrida</a>
+      <a href="category.html?cat=puzzle" class="cat-chip cc-puzzle">🧩 Puzzle</a>
+      <a href="category.html?cat=arcade" class="cat-chip cc-arcade">🕹️ Arcade</a>
+      <a href="category.html?cat=esporte" class="cat-chip cc-esporte">⚽ Esporte</a>
+      <a href="category.html?cat=aventura" class="cat-chip cc-aventura">🗺️ Aventura</a>
+      <a href="category.html?cat=tiro" class="cat-chip cc-tiro">🎯 Tiro</a>
+      <a href="category.html?cat=estrategia" class="cat-chip cc-estrategia">♟️ Estratégia</a>
+    </div>
+  </div>
+</div>
+
+<!-- ▶ CONTINUE JOGANDO — G3 Retenção (oculto se não houver histórico) -->
+<div id="continueSection" class="recent-bar" style="display:none" aria-label="Continue jogando">
+  <div class="container">
+    <div class="recent-label">▶ Continue Jogando</div>
+    <div class="recent-chips" id="recentChips"></div>
+    <div id="continueGrid" class="games-grid" style="margin-top:.8rem"></div>
+  </div>
+</div>
+<!-- alias para barra de chips -->
+<div id="recentBar" style="display:none"></div>
+
+<!-- ══ v84: Continue Banner ══ -->
+<div id="np84ContinueBanner" class="np84-continue-banner" style="display:none" aria-label="Continue de onde parou"></div>
+
+<!-- ══ v84: Gamification Strip (streak + time) ══ -->
+<div class="np84-strip container">
+  <span class="np84-streak-days np84-strip-item">🎮 Jogando hoje</span>
+  <span class="np84-time-today np84-strip-item">⏱ Menos de 1 min hoje</span>
+  <span class="np84-strip-item np84-strip-missions" id="np84StripMissions"></span>
+</div>
+
+<!-- ══ v84: Daily Missions Block ══ -->
+<div class="container">
+  <div id="np84MissionsBlock" class="np84-missions-block" style="display:none" aria-label="Missões do dia"></div>
+</div>
+
+<!-- TRUST SIGNALS — G8 -->
+<div class="container">
+  <div class="trust-bar">
+    <div class="trust-item"><span class="trust-icon">⚡</span> Sem download</div>
+    <div class="trust-item"><span class="trust-icon">📱</span> Funciona no celular</div>
+    <div class="trust-item"><span class="trust-icon">🎮</span> Novos jogos toda semana</div>
+    <div class="trust-item"><span class="trust-icon">🏆</span> 100% grátis</div>
+    <div class="trust-item"><span class="trust-icon">🔒</span> Sem cadastro</div>
+  </div>
+</div>
+
+<main id="main-content">
+  <div class="container">
+
+    <!-- 🔥 DESTAQUE — acima da dobra -->
+    <section class="section" aria-labelledby="featured-heading">
+      <div class="section-hd">
+        <div>
+          <h2 class="section-title" id="featured-heading"><span class="sec-icon">🔥</span>Jogos em Destaque</h2>
+          <p class="section-label">Os jogos mais clicados agora</p>
+        </div>
+        <a href="category.html" class="see-all">Ver Todos →</a>
+      </div>
+      <div id="featuredGrid" class="featured-grid" role="list"></div>
+    </section>
+
+    <!-- ❤️ SEUS FAVORITOS AQUI — G3 Retenção (oculto se não houver) -->
+    <section id="userTopSection" class="section reveal" style="display:none" aria-labelledby="usertop-heading">
+      <div class="section-hd">
+        <div>
+          <h2 class="section-title" id="usertop-heading"><span class="sec-icon">❤️</span>Seus Jogos Favoritos</h2>
+          <p class="section-label">Os que você mais volta a jogar</p>
+        </div>
+        <a href="category.html" class="see-all">Ver Todos →</a>
+      </div>
+      <div id="userTopGrid" class="games-grid" role="list"></div>
+    </section>
+
+
+    <!-- 👑 JOGO DO DIA -->
+    <section class="section reveal" aria-labelledby="jdd-heading">
+      <div class="section-hd">
+        <div>
+          <h2 class="section-title" id="jdd-heading"><span class="sec-icon">👑</span>Jogo do Dia</h2>
+          <p class="section-label">Troca toda meia-noite — volte amanhã!</p>
+        </div>
+      </div>
+      <div id="jogoDoDiaWrap" class="jdd-wrap"></div>
+    </section>
+
+    <!-- 🔥 TRENDING AGORA — v82 Engagement Engine -->
+    <section id="trendingSection" class="section reveal" aria-labelledby="trending-heading">
+      <div class="section-hd trending-hd">
+        <div>
+          <h2 class="section-title" id="trending-heading"><span class="sec-icon">🔥</span>Em Alta Agora</h2>
+          <p class="section-label">Os jogos que mais estão bombando neste momento</p>
+        </div>
+        <span id="trendingTimer" aria-live="polite"></span>
+        <a href="category.html?sort=popular" class="see-all">Ver Todos →</a>
+      </div>
+      <div id="trendingGrid" class="games-grid" role="list"></div>
+    </section>
+
+    <!-- 💥 BOMBANDO AGORA — G2 Home Dinâmica (título rotativo) -->
+    <section class="section reveal" aria-labelledby="bombando-heading">
+      <div class="section-hd">
+        <div>
+          <h2 class="section-title glow-title" id="bombando-heading">
+            <span class="sec-icon" id="bombandoIcon">💥</span>
+            <span id="bombandoLabel">Bombando Agora</span>
+          </h2>
+          <p class="section-label" id="bombandoSub">Jogos que todo mundo está abrindo neste momento</p>
+        </div>
+        <a href="category.html?sort=popular" class="see-all">Ver Todos →</a>
+      </div>
+      <div id="bombandoGrid" class="games-grid" role="list"></div>
+    </section>
+
+    <!-- ══ v91: Universos para Explorar ══ -->
+    <section id="np91UniversosSection" class="np91-universos-section section reveal np91-reveal-init" aria-labelledby="np91-universos-heading">
+      <!-- preenchido por cinematic91.js -->
+    </section>
+
+    <!-- MID AD — G6 -->
+    <div class="ad-wrap">
+      <div class="ad-block ad-leaderboard" data-ad-slot="2345678901" data-ad-format="leaderboard">
+        <span class="ad-label">PUBLICIDADE</span>
+      </div>
+    </div>
+
+    <div class="main-layout">
+      <div>
+
+        <!-- 🏆 TOP 10 HOJE -->
+        <section class="section reveal" aria-labelledby="top10-heading">
+          <div class="section-hd">
+            <div>
+              <h2 class="section-title" id="top10-heading"><span class="sec-icon">🏆</span>Top 10 Hoje</h2>
+              <p class="section-label">Mais jogados nas últimas 24 horas</p>
+            </div>
+            <a href="category.html?sort=popular" class="see-all">Ver Ranking →</a>
+          </div>
+          <div id="top10Grid" class="top10-list" role="list"></div>
+        </section>
+
+        <!-- 🗓️ TOP DA SEMANA -->
+        <section class="section reveal" aria-labelledby="semana-heading">
+          <div class="section-hd">
+            <div>
+              <h2 class="section-title" id="semana-heading"><span class="sec-icon">🗓️</span>Top da Semana</h2>
+              <p class="section-label" id="semanaLabel">Os mais jogados desta semana</p>
+            </div>
+            <a href="category.html?sort=popular" class="see-all">Ver Todos →</a>
+          </div>
+          <div id="semanaGrid" class="games-grid" role="list"></div>
+        </section>
+
+        <!-- 👾 MAIS POPULARES carousel -->
+        <section class="section reveal" aria-labelledby="popular-heading">
+          <div class="section-hd">
+            <div>
+              <h2 class="section-title" id="popular-heading"><span class="sec-icon">👾</span>Mais Populares</h2>
+              <p class="section-label">Surpreendentemente divertidos</p>
+            </div>
+            <div style="display:flex;gap:.5rem;align-items:center">
+              <a href="category.html" class="see-all">Ver Todos →</a>
+            </div>
+          </div>
+          <div class="carousel-wrap">
+            <button class="cnav-btn cnav-prev cnav-hidden" id="popPrev" aria-label="Anterior">&#10094;</button>
+            <div class="carousel-scroll" id="popularCarousel" role="list"></div>
+            <button class="cnav-btn cnav-next" id="popNext" aria-label="Próximo">&#10095;</button>
+          </div>
+        </section>
+
+        <!-- 🎯 ESCOLHIDOS PARA VOCÊ -->
+        <section class="section reveal" aria-labelledby="escolhidos-heading">
+          <div class="section-hd">
+            <div>
+              <h2 class="section-title" id="escolhidos-heading"><span class="sec-icon">🎯</span>Escolhidos Para Você</h2>
+              <p class="section-label">Baseado no que você jogou</p>
+            </div>
+            <a href="category.html" class="see-all">Explorar →</a>
+          </div>
+          <div id="escolhidosGrid" class="games-grid" role="list"></div>
+        </section>
+
+        <!-- AD entre seções — G6 Mobile -->
+        <div class="ad-wrap ad-mobile-only">
+          <div class="ad-block ad-rectangle" data-ad-slot="3456789012" data-ad-format="rectangle">
+            <span class="ad-label">PUBLICIDADE</span>
+          </div>
+        </div>
+
+        <!-- ✨ LANÇAMENTOS carousel -->
+        <section class="section reveal" aria-labelledby="new-heading">
+          <div class="section-hd">
+            <div>
+              <h2 class="section-title" id="new-heading"><span class="sec-icon">✨</span>Lançamentos</h2>
+              <p class="section-label">Acabaram de chegar no NeonPlay</p>
+            </div>
+            <div style="display:flex;gap:.5rem;align-items:center">
+              <a href="category.html?sort=newest" class="see-all">Ver Todos →</a>
+            </div>
+          </div>
+          <div class="carousel-wrap">
+            <button class="cnav-btn cnav-prev cnav-hidden" id="newPrev" aria-label="Anterior">&#10094;</button>
+            <div class="carousel-scroll" id="newCarousel" role="list"></div>
+            <button class="cnav-btn cnav-next" id="newNext" aria-label="Próximo">&#10095;</button>
+          </div>
+        </section>
+
+        <!-- ⚔️ AÇÃO -->
+        <section class="section reveal" aria-labelledby="acao-heading">
+          <div class="section-hd">
+            <div>
+              <h2 class="section-title" id="acao-heading"><span class="sec-icon">⚔️</span>Jogos de Ação</h2>
+              <p class="section-label">Adrenalina pura no navegador</p>
+            </div>
+            <div style="display:flex;gap:.5rem;align-items:center">
+              <a href="category.html?cat=acao" class="see-all">Ver Todos →</a>
+            </div>
+          </div>
+          <div class="carousel-wrap">
+            <button class="cnav-btn cnav-prev cnav-hidden" id="acaoPrev" aria-label="Anterior">&#10094;</button>
+            <div class="carousel-scroll" id="acaoCarousel" role="list"></div>
+            <button class="cnav-btn cnav-next" id="acaoNext" aria-label="Próximo">&#10095;</button>
+          </div>
+        </section>
+
+        <!-- 🏎️ CORRIDA -->
+        <section class="section reveal" aria-labelledby="corrida-heading">
+          <div class="section-hd">
+            <div>
+              <h2 class="section-title" id="corrida-heading"><span class="sec-icon">🏎️</span>Corrida</h2>
+              <p class="section-label">Adrenalina garantida</p>
+            </div>
+            <div style="display:flex;gap:.5rem;align-items:center">
+              <a href="category.html?cat=corrida" class="see-all">Ver Todos →</a>
+            </div>
+          </div>
+          <div class="carousel-wrap">
+            <button class="cnav-btn cnav-prev cnav-hidden" id="corridaPrev" aria-label="Anterior">&#10094;</button>
+            <div class="carousel-scroll" id="corridaCarousel" role="list"></div>
+            <button class="cnav-btn cnav-next" id="corridaNext" aria-label="Próximo">&#10095;</button>
+          </div>
+        </section>
+
+        <!-- AD entre categorias — G6 -->
+        <div class="ad-wrap">
+          <div class="ad-block ad-leaderboard" data-ad-slot="4567890123" data-ad-format="leaderboard">
+            <span class="ad-label">PUBLICIDADE</span>
+          </div>
+        </div>
+
+        <!-- 🧩 PUZZLE -->
+        <section class="section reveal" aria-labelledby="puzzle-heading">
+          <div class="section-hd">
+            <div>
+              <h2 class="section-title" id="puzzle-heading"><span class="sec-icon">🧩</span>Puzzle & Raciocínio</h2>
+              <p class="section-label">Desafie seu cérebro agora</p>
+            </div>
+            <div style="display:flex;gap:.5rem;align-items:center">
+              <a href="category.html?cat=puzzle" class="see-all">Ver Todos →</a>
+            </div>
+          </div>
+          <div class="carousel-wrap">
+            <button class="cnav-btn cnav-prev cnav-hidden" id="puzzlePrev" aria-label="Anterior">&#10094;</button>
+            <div class="carousel-scroll" id="puzzleCarousel" role="list"></div>
+            <button class="cnav-btn cnav-next" id="puzzleNext" aria-label="Próximo">&#10095;</button>
+          </div>
+        </section>
+
+        <!-- 🎲 TODOS OS JOGOS GRID -->
+        <section class="section reveal" aria-labelledby="all-heading">
+          <div class="section-hd">
+            <div>
+              <h2 class="section-title" id="all-heading"><span class="sec-icon">🎲</span>Todos os Jogos</h2>
+              <p class="section-label">100+ jogos, sem parar</p>
+            </div>
+            <a href="category.html" class="see-all">Ver Todos →</a>
+          </div>
+          <div id="gamesGrid" class="games-grid" role="list"></div>
+          <div class="lm-wrap">
+            <button id="loadMoreBtn" class="btn-load">⬇ Carregar Mais Jogos</button>
+          </div>
+        </section>
+
+        <!-- 📂 CATEGORIAS -->
+        <section class="section reveal" aria-labelledby="cats-heading">
+          <div class="section-hd">
+            <h2 class="section-title" id="cats-heading"><span class="sec-icon">📂</span>Explorar por Categoria</h2>
+          </div>
+          <div class="top10-scroll-wrap">
+            <button class="cnav-btn cnav-prev cnav-hidden" id="catsPrev" aria-label="Anterior">&#10094;</button>
+            <div id="catsGrid" class="cats-scroll" role="list"></div>
+            <button class="cnav-btn cnav-next" id="catsNext" aria-label="Próximo">&#10095;</button>
+          </div>
+        </section>
+
+        <!-- SEO BLOCK — G4 -->
+        <section class="seo-block">
+          <h2>Jogos Online Grátis no Brasil — Jogue Agora no NeonPlay</h2>
+          <p>O <strong>NeonPlay</strong> é o maior portal de <strong>jogos online grátis</strong> do Brasil. Com mais de 100 jogos HTML5 disponíveis diretamente no navegador, você pode jogar sem download e sem cadastro, a qualquer momento, em qualquer dispositivo.</p>
+          <h3>Por que jogar no NeonPlay?</h3>
+          <ul>
+            <li>✅ <strong>100% grátis</strong> — sem mensalidades, sem compras obrigatórias</li>
+            <li>✅ <strong>Sem download</strong> — jogue direto no navegador Chrome, Firefox ou Safari</li>
+            <li>✅ <strong>Mobile-friendly</strong> — compatível com smartphones e tablets</li>
+            <li>✅ <strong>Favoritos</strong> — salve seus jogos preferidos localmente</li>
+            <li>✅ <strong>Atualizado</strong> — novos jogos adicionados toda semana</li>
+          </ul>
+          <h3>Categorias Disponíveis</h3>
+          <p>Temos jogos de <strong>ação</strong>, <strong>corrida</strong>, <strong>puzzle</strong>, <strong>arcade</strong>, <strong>esporte</strong>, <strong>aventura</strong>, <strong>tiro</strong> e <strong>estratégia</strong>. Todos em HTML5, sem download.</p>
+          <h3>Links Rápidos por Categoria</h3>
+          <p>
+            <a href="category.html?cat=acao">Jogos de Ação</a> ·
+            <a href="category.html?cat=corrida">Jogos de Corrida</a> ·
+            <a href="category.html?cat=puzzle">Jogos de Puzzle</a> ·
+            <a href="category.html?cat=arcade">Jogos de Arcade</a> ·
+            <a href="category.html?cat=esporte">Jogos de Esporte</a> ·
+            <a href="category.html?cat=aventura">Jogos de Aventura</a> ·
+            <a href="category.html?cat=tiro">Jogos de Tiro</a> ·
+            <a href="category.html?cat=estrategia">Jogos de Estratégia</a>
+          </p>
+        </section>
+
+      </div><!-- /main col -->
+
+      <aside class="sidebar">
+        <div class="widget">
+          <div class="widget-title">🏆 Top 5 Esta Semana</div>
+          <div id="top5List"></div>
+        </div>
+        <!-- AD Sidebar — G6 -->
+        <div>
+          <div class="ad-block ad-rectangle" data-ad-slot="5678901234" data-ad-format="rectangle">
+            <span class="ad-label">PUBLICIDADE</span>
+          </div>
+        </div>
+        <div class="widget">
+          <div class="widget-title">📂 Categorias</div>
+          <div class="scats">
+            <a href="category.html?cat=acao" class="scat">⚔️ Ação</a>
+            <a href="category.html?cat=corrida" class="scat">🏎️ Corrida</a>
+            <a href="category.html?cat=puzzle" class="scat">🧩 Puzzle</a>
+            <a href="category.html?cat=arcade" class="scat">🕹️ Arcade</a>
+            <a href="category.html?cat=esporte" class="scat">⚽ Esporte</a>
+            <a href="category.html?cat=aventura" class="scat">🗺️ Aventura</a>
+            <a href="category.html?cat=tiro" class="scat">🎯 Tiro</a>
+            <a href="category.html?cat=estrategia" class="scat">♟️ Estratégia</a>
+          </div>
+        </div>
+        <div class="widget">
+          <div class="widget-title">🎲 Jogo Surpresa</div>
+          <div id="surpriseGame"></div>
+          <button id="surpriseBtn" class="btn-load" aria-label="Jogo surpresa" style="width:100%;margin-top:.6rem;padding:.6rem 1rem;font-size:.8rem">🔀 Outro Jogo</button>
+        </div>
+        <!-- AD Sidebar inferior — G6 -->
+        <div>
+          <div class="ad-block ad-rectangle" data-ad-slot="6789012345" data-ad-format="rectangle">
+            <span class="ad-label">PUBLICIDADE</span>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+  </div>
+</main>
+
+<footer class="footer" role="contentinfo">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="logo"><span class="logo-icon">🎮</span><span class="logo-text">Neon<span class="logo-accent">Play</span></span></a>
+        <!-- G5 — Slogan oficial consistente -->
+        <p class="f-tagline">Jogos Online Grátis — Sem Baixar Nada 🇧🇷</p>
+        <p style="font-size:.75rem;color:var(--text-3);margin-top:.5rem">🔥 Atualizado diariamente · 📱 Funciona no celular · ⭐ Milhares jogando</p>
+      </div>
+      <div class="footer-col"><h4>Categorias</h4><ul>
+        <li><a href="category.html?cat=acao">⚔️ Jogos de Ação</a></li>
+        <li><a href="category.html?cat=corrida">🏎️ Jogos de Corrida</a></li>
+        <li><a href="category.html?cat=puzzle">🧩 Jogos de Puzzle</a></li>
+        <li><a href="category.html?cat=arcade">🕹️ Jogos de Arcade</a></li>
+      </ul></div>
+      <div class="footer-col"><h4>Mais Jogos</h4><ul>
+        <li><a href="category.html?cat=esporte">⚽ Jogos de Esporte</a></li>
+        <li><a href="category.html?cat=aventura">🗺️ Jogos de Aventura</a></li>
+        <li><a href="category.html?cat=tiro">🎯 Jogos de Tiro</a></li>
+        <li><a href="category.html?cat=estrategia">♟️ Jogos de Estratégia</a></li>
+      </ul></div>
+      <div class="footer-col"><h4>Por Intenção</h4><ul>
+        <li><a href="intent.html?intent=faceis">🟢 Jogos Fáceis</a></li>
+        <li><a href="intent.html?intent=rapidos">⚡ Jogos Rápidos</a></li>
+        <li><a href="intent.html?intent=viciantes">🔥 Jogos Viciantes</a></li>
+        <li><a href="intent.html?intent=leves">🪶 Jogos Leves</a></li>
+        <li><a href="intent.html?intent=sem-download">🚫 Sem Download</a></li>
+      </ul></div>
+      <div class="footer-col"><h4>NeonPlay</h4><ul>
+        <li><a href="sobre.html">Sobre Nós</a></li>
+        <li><a href="contato.html">Contato</a></li>
+        <li><a href="privacidade.html">Privacidade</a></li>
+        <li><a href="termos.html">Termos de Uso</a></li>
+        <li><a href="anuncie.html">Anuncie Aqui</a></li>
+      </ul></div>
+      <div class="footer-col"><h4>Tags Populares</h4><ul>
+        <li><a href="jogos-de-stickman.html">🥷 Stickman</a></li>
+        <li><a href="jogos-de-corrida.html">🏎️ Corrida</a></li>
+        <li><a href="jogos-de-tiro.html">🎯 Tiro</a></li>
+        <li><a href="jogos-de-puzzle.html">🧩 Puzzle</a></li>
+        <li><a href="novidades.html">🆕 Novidades 2026</a></li>
+      </ul></div>
+    </div>
+   <div class="footer-bot">
+      <p>© 2026 NeonPlay — Jogos Online Grátis | Todos os direitos reservados | Desenvolvido com ❤️ no Brasil 🇧🇷</p>
+    </div>
+  </div>
+</footer>
+
+<div id="favPanel" class="fav-panel" role="dialog" aria-modal="true">
+  <div class="fav-ph"><h3>❤️ Meus Favoritos</h3><button id="favClose" class="fav-close" aria-label="Fechar favoritos">✕</button></div>
+  <div id="favBody" class="fav-body"></div>
+</div>
+<div id="overlay" class="overlay"></div>
+<div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+<!-- ══ v83: Infinite Scroll Sentinel ══ -->
+<div id="np83InfiniteSentinel" style="height:1px;pointer-events:none" aria-hidden="true"></div>
+
+<!-- ══ v83: Session Recs Panel ══ -->
+<div id="np83SessionRecs" class="np83-srecs" hidden aria-live="polite" aria-label="Recomendados para você">
+  <div class="np83-srecs-header">
+    <span>🎯 Recomendados para Você</span>
+    <button id="np83CloseRecs" class="np83-srecs-close" aria-label="Fechar">✕</button>
+  </div>
+  <div id="np83SrecsGrid" class="np83-srecs-grid"></div>
+</div>
+
+<!-- ══ v83: Streak Badge ══ -->
+<div id="np83Streak" class="np83-streak" hidden aria-live="polite"></div>
+
+<!-- ══ v84: Profile Panel ══ -->
+<div id="np84ProfilePanel" class="np84-profile-panel" hidden aria-modal="true" role="dialog" aria-label="Meu Perfil">
+  <div id="np84Profile"></div>
+</div>
+
+<!-- ══ v84: Level-Up Popup ══ -->
+<div id="np84LevelUpPopup" class="np84-levelup-popup" hidden aria-live="assertive">
+  <div class="np84-lu-inner">
+    <div class="np84-lu-emoji">🏆</div>
+    <div class="np84-lu-level">Nível 1</div>
+    <div class="np84-lu-name">Explorador</div>
+    <div class="np84-lu-msg">Você subiu de nível!</div>
+  </div>
+</div>
+
+<script>
+/* NP-BOOT-GUARD: runtime-freeze.js congela window.NP_BOOT antes de games-data.js
+   chamar NP_SET_PHASE(). Se NP_BOOT está frozen, substitui por cópia mutável. */
+(function() {
+  if (window.NP_BOOT && Object.isFrozen(window.NP_BOOT)) {
+    var prev = window.NP_BOOT;
+    window.NP_BOOT = { phase: prev.phase, history: Array.isArray(prev.history) ? prev.history.slice() : [] };
+  }
+  if (!window.NP_SET_PHASE) {
+    window.NP_SET_PHASE = function(p) {
+      if (window.NP_BOOT && !Object.isFrozen(window.NP_BOOT)) { window.NP_BOOT.phase = p; }
+    };
+  }
+  if (!window.NP_BOOT_PHASES) {
+    window.NP_BOOT_PHASES = { PRE_BOOT:'pre_boot', CORE_READY:'core_ready', DATA_READY:'data_ready', ENGINE_READY:'engine_ready', APP_READY:'app_ready', MODULES_READY:'modules_ready' };
+  }
+})();
+</script>
+<!-- ═══════════ NEON ALIEN ENGINE ═══════════ -->
+<!-- R14: Zap sub-modules — must load before neonplay-init.js -->
+<script src="js/zap/NPUtils.js" defer></script>
+<script src="js/zap/NPBus.js" defer></script>
+<script src="js/zap/ZapMoodSystem.js" defer></script>
+<script src="js/zap/ZapSpeech.js" defer></script>
+<script src="js/zap/ZapIdle.js" defer></script>
+<script src="js/zap/ZapMemory.js" defer></script>
+<script src="js/zap/ZapNotifications.js" defer></script>
+<script src="js/zap/ZapDebugOverlay.js" defer></script>
+<!-- R16: companion personality modules (load order matters) -->
+<script src="js/core/NPClock.js" defer></script>
+<script src="js/core/NPMetrics.js" defer></script>
+<script src="js/zap/NPSaveMigration.js" defer></script>
+<script src="js/zap/ZapPersonalityEngine.js" defer></script>
+<script src="js/zap/ZapAffinity.js" defer></script>
+<script src="js/zap/ZapMemoryGraph.js" defer></script>
+<script src="js/zap/ZapDialogueEngine.js" defer></script>
+<script src="js/zap/ZapPresence.js" defer></script>
+<script src="js/zap/ZapAnimator.js" defer></script>
+<script src="js/zap/ZapAmbientEvents.js" defer></script>
+    <!-- R18: Behavioral Intelligence Layer -->
+  <script defer src="js/zap/ZapAttentionSystem.js?v=r19"></script>
+  <script defer src="js/zap/ZapSilenceModel.js?v=r19"></script>
+  <script defer src="js/zap/ZapTemporalAwareness.js?v=r18"></script>
+  <script defer src="js/zap/ZapEmotionalFatigue.js?v=r18"></script>
+  <script defer src="js/zap/ZapPresenceDensity.js?v=r18"></script>
+  <script defer src="js/zap/ZapSemanticMemory.js?v=r18"></script>
+  <script defer src="js/core/NPRuntimeEcology.js?v=r19"></script>
+  <script defer src="js/zap/ZapBehaviorDirector.js?v=r19"></script>
+  <!-- R17: Stability + Coordination Layer -->
+  <script defer src="js/core/NPRuntimeGuard.js?v=r17"></script>
+  <script defer src="js/core/NPPerformanceBudget.js?v=r17"></script>
+  <script defer src="js/zap/ZapStateCoordinator.js?v=r19"></script>
+  <script defer src="js/zap/ZapEmotionModel.js?v=r19"></script>
+  <script defer src="js/zap/ZapSpeechQueue.js?v=r17"></script>
+  <script defer src="js/zap/ZapContextEngine.js?v=r17"></script>
+  <script defer src="js/zap/ZapPresencePersistence.js?v=r17"></script>
+  <script defer src="js/zap/ZapSaveIntegrity.js?v=r17"></script>
+  <!-- R19: Observability + Stability Layer (core — sem debug) -->
+  <script defer src="js/core/NPBehaviorStability.js?v=r19"></script>
+  <script defer src="js/core/NPRuntimeDrift.js?v=r19"></script>
+  <!-- R19: Debug modules — CSS-C02 R20.7: removidos do HTML pois js/debug/ ausente no build.
+       Causa 7+ erros 404 por página. Reativar quando os arquivos forem incluídos no build.
+  <script defer src="js/debug/NPDecisionTrace.js?v=r19"></script>
+  <script defer src="js/debug/NPBehaviorInspector.js?v=r19"></script>
+  <script defer src="js/debug/NPEmotionTimeline.js?v=r19"></script>
+  <script defer src="js/debug/NPRuntimeReplay.js?v=r19"></script>
+  <script defer src="js/debug/NPIntentVisualizer.js?v=r19"></script>
+  <script defer src="js/debug/NPStateHeatmap.js?v=r19"></script>
+  <script defer src="js/debug/NPSemanticInspector.js?v=r19"></script>
+  -->
+  <script src="neonplay-init.js?v=r16" defer></script>
+<!-- ══ ZAP VAULT BUTTON ══ -->
+<button id="zapVaultBtn" onclick="openVault()" title="Arquivos de Memória do Zap">📼 COFRE</button>
+
+<!-- ══ ZAP GALLERY MODAL ══ -->
+<div id="zapGallery" role="dialog" aria-modal="true" aria-label="Cofre do Zap">
+  <button class="zg-close" onclick="document.getElementById('zapGallery').classList.remove('show')" aria-label="Fechar">✕</button>
+  <!-- Wallet -->
+  <div class="zg-wallet">
+    <span class="zg-wallet-icon">⚡</span>
+    <span class="zg-wallet-bal" id="zgCoinBal">0</span>
+    <span class="zg-wallet-label">Z-Coins</span>
+  </div>
+  <!-- Tabs -->
+  <div class="zg-tabs">
+    <button class="zg-tab zg-tab-active" id="zgTabLore"  onclick="ZapStore.showTab('lore')">📼 Arquivos</button>
+    <button class="zg-tab"               id="zgTabStore" onclick="ZapStore.showTab('store')">🛸 Loja</button>
+  </div>
+  <!-- Lore panel -->
+  <div id="galleryList"></div>
+  <!-- Store panel -->
+  <div id="storeList" style="display:none"></div>
+</div>
+
+<!-- ══ CINEMATIC OVERLAY ══ -->
+<div id="zapCinematicOverlay" role="dialog" aria-modal="true" aria-label="Cena cinemática">
+  <canvas id="zapCinemaCanvas"></canvas>
+  <div class="zce-title" id="zceTitle"></div>
+  <button class="zce-skip" onclick="zapCinematics.skip()">ESC / PULAR ▶</button>
+</div>
+
+<!-- ══ ZAP QUEST TOGGLE ══ -->
+<button id="zapQuestToggle" title="Missões Diárias do Zap" onclick="ZapQuestEngine.togglePanel()">
+  <span class="zqt-dot pulse"></span>🛸 MISSÕES
+</button>
+
+<!-- ══ ZAP QUEST PANEL ══ -->
+<div id="zapQuestPanel" class="collapsed" role="complementary" aria-label="Missões Diárias do Zap">
+  <div class="zqp-header" onclick="ZapQuestEngine.togglePanel()">
+    <div class="zqp-header-left">
+      <span>🛸</span><span>Missões do Dia</span>
+      <span class="zqp-badge" id="zqpBadge">0/3</span>
+    </div>
+    <span class="zqp-chevron">▲</span>
+  </div>
+  <div class="zqp-body" id="zqpBody"></div>
+  <div class="zqp-reset" id="zqpReset">Reinicia à meia-noite</div>
+</div>
+
+<script src="bundle.min.js" defer></script>
+<script src="np-r20-2.js" defer></script>
+<script src="np-r20-4.js" defer></script>
+<script src="np-perception-layer.js?v=r103" defer></script>
+<script src="np-r20-5.js" defer></script>
+<script src="np-r20-6.js" defer></script>
+<!-- NeonPlay R20.8 — Stabilization + Perception Pass -->
+<script src="np-r20-8.js" defer></script>
+<!-- NeonPlay R20.8 — Hardening Pass (focus traps, onclick guards, a11y) -->
+<script src="np-r20-8-hardening.js" defer></script>
+
+
+<script>
+/* ── R20.8 UX Patch — index.html ──────────────────────────────
+   UX-04: favorites empty state
+   UX-06: staggered grid reveal
+──────────────────────────────────────────────────────────────── */
+(function () {
+  function injectFavEmpty() {
+    var favBody = document.getElementById('favBody');
+    if (!favBody || document.querySelector('.fav-empty')) return;
+    var el = document.createElement('div');
+    el.className = 'fav-empty';
+    el.innerHTML = '<div class="fav-empty-icon">💔</div>'
+      + '<div class="fav-empty-title">Nenhum favorito ainda</div>'
+      + '<div class="fav-empty-sub">Clique no ♡ de qualquer jogo<br>para salvar aqui.</div>';
+    favBody.appendChild(el);
+  }
+  var favBtn = document.getElementById('favBtn');
+  if (favBtn) favBtn.addEventListener('click', function () { setTimeout(injectFavEmpty, 100); });
+
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (e) {
+      e.forEach(function (entry) {
+        if (entry.isIntersecting) { entry.target.classList.add('revealed'); io.unobserve(entry.target); }
+      });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.games-grid').forEach(function (g) { io.observe(g); });
+  }
+})();
+</script>
+
+<script>
+/* ── R20.8 Onboarding — first-time visitor explanation ───────────── */
+(function () {
+  var KEY = 'np_onboard_v1';
+  try { if (localStorage.getItem(KEY)) return; } catch(e) { return; }
+
+  // Only run after DOM is ready and user has entered (not on intro screen)
+  var attempts = 0;
+  var check = setInterval(function () {
+    attempts++;
+    var intro = document.getElementById('npZapIntro');
+    var visible = !intro || intro.style.display === 'none' || intro.classList.contains('out');
+    if (!visible && attempts < 20) return;
+    clearInterval(check);
+
+    // Mark as seen
+    try { localStorage.setItem(KEY, '1'); } catch(e) {}
+
+    // Add tooltip hints to key UI elements (appear once, fade after 6s)
+    setTimeout(function () {
+      addTip('favBtn', 'Salve seus jogos favoritos aqui ❤️');
+    }, 2000);
+
+    setTimeout(function () {
+      // Explain XP bar if visible
+      var xpBar = document.querySelector('.np84-xpbar-wrap');
+      if (xpBar) {
+        var tip = document.createElement('div');
+        tip.className = 'np-onboard-tip';
+        tip.textContent = 'Jogue para ganhar XP e subir de nível! 🏆';
+        tip.style.cssText = 'position:fixed;top:calc(var(--hh) + 44px);left:50%;transform:translateX(-50%);z-index:var(--z-hud-toast);background:rgba(0,212,255,.12);border:1px solid rgba(0,212,255,.4);color:#e0e0e0;font-size:.78rem;padding:.5rem 1rem;border-radius:10px;white-space:nowrap;animation:tipFadeIn .4s ease forwards;pointer-events:none;backdrop-filter:blur(8px)';
+        document.body.appendChild(tip);
+        setTimeout(function () { tip.style.opacity = '0'; tip.style.transition = 'opacity .5s'; setTimeout(function () { try { document.body.removeChild(tip); } catch(e){} }, 600); }, 5000);
+      }
+    }, 3500);
+  }, 500);
+
+  function addTip(id, text) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    var tip = document.createElement('span');
+    tip.className = 'np-onboard-tip';
+    tip.textContent = text;
+    el.style.position = 'relative';
+    el.appendChild(tip);
+    setTimeout(function () {
+      tip.style.opacity = '0';
+      tip.style.transition = 'opacity .5s';
+      setTimeout(function () { try { el.removeChild(tip); } catch(e){} }, 600);
+    }, 5000);
+  }
+})();
+</script>
+  <script src="np-r20-11-init-coordinator.js?v=r11" defer></script>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       NeonPlay R21 — Módulos de Expansão
+       Ordem: ZapEventContract R21 Patch → Bridge → Módulos → Boot
+       Cada módulo tem guard de double-init independente.
+       ═══════════════════════════════════════════════════════════ -->
+
+  <!-- R21: Progression Bridge (deve vir antes dos módulos consumidores) -->
+  <script src="js/r21/np-r21-progression-bridge.js" defer></script>
+
+  <!-- R21: Módulos Quick Wins + Fase R21 -->
+  <script src="js/r21/NPGameplay.js" defer></script>
+  <script src="js/r21/NPProfile.js" defer></script>
+  <script src="js/r21/NPMissions.js" defer></script>
+  <script src="js/r21/NPAchievements.js" defer></script>
+  <script src="js/r21/NPCompanionEvolution.js" defer></script>
+
+  <!-- R21: Boot Orchestrator (deve ser o último) -->
+  <script src="js/r21/np-r21-boot.js" defer></script>
+  <script src="js/r21/np-r22-patch.js" defer></script>
+</body>
+</html>

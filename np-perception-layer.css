@@ -1,0 +1,587 @@
+/**
+ * NeonPlay Perception Layer — np-perception-layer.css
+ * R10.3 "PERCEPTION LAYER"
+ *
+ * Evolução perceptual sobre Soul Layer R10.2.
+ * Não substitui np-soul.css. Carrega depois.
+ *
+ * Contém:
+ *   [PL-DNA]  Visual DNA System — tokens globais compartilhados
+ *   [PL-ATM]  Atmospheric Depth — universo contínuo no fundo
+ *   [PL-CAT]  Category Color Identity — assinatura visual por gênero
+ *   [PL-CARD] Cinematic Thumbnail System — game cards como transmissões
+ *   [PL-HOV]  Game Hover Experience — sinal acordando
+ *   [PL-SIL]  Silence Polish — quietude visível
+ *   [PL-CMP]  Companion Presence Refinement — micro-comportamento vivo
+ *   [PL-SAFE] Sanctuary & Performance guards
+ *
+ * Regras de performance:
+ *   — GPU-only: apenas opacity, transform, filter (sparingly)
+ *   — contain: strict em todos os elementos gerados
+ *   — will-change declarado apenas onde há animação real e ativa
+ *   — Nenhum repaint de layout (sem width/height em animações)
+ *   — reduced-motion: desliga tudo com um seletor de topo
+ */
+
+/* ════════════════════════════════════════════════════════════════════
+   [PL-DNA] VISUAL DNA SYSTEM
+   Tokens globais. Todos os sistemas desta camada herdam daqui.
+   ════════════════════════════════════════════════════════════════════ */
+
+:root {
+  /* Glow base — pulsação de presença */
+  --np-soul-glow:         0 0 18px rgba(0, 212, 255, .18);
+  --np-soul-glow-warm:    0 0 18px rgba(147, 51, 234, .18);
+  --np-soul-glow-intense: 0 0 28px rgba(0, 212, 255, .32);
+
+  /* Noise overlay — textura de transmissão */
+  --np-soul-noise:        url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+
+  /* Pulse timing — respiração do universo */
+  --np-soul-pulse:        3.8s;
+  --np-soul-pulse-slow:   7.2s;
+  --np-soul-pulse-rare:  14.0s;
+
+  /* Shadow depth — profundidade atmosférica */
+  --np-soul-shadow:       rgba(0, 0, 0, .72);
+  --np-soul-shadow-mid:   rgba(0, 0, 0, .45);
+
+  /* Fog — névoa volumétrica distante */
+  --np-soul-fog:          rgba(0, 10, 28, .55);
+  --np-soul-fog-light:    rgba(0, 40, 80, .12);
+
+  /* Transmission — sinal digital vivo */
+  --np-soul-transmission: rgba(0, 212, 255, .07);
+  --np-soul-transmission-active: rgba(0, 212, 255, .16);
+
+  /* Scanline — grade de terminal */
+  --np-soul-scanline:     repeating-linear-gradient(
+    to bottom,
+    transparent,
+    transparent 3px,
+    rgba(0, 0, 0, .06) 3px,
+    rgba(0, 0, 0, .06) 4px
+  );
+}
+
+/* Fases psicológicas — DNA intensidade escala com imersão */
+html[data-np-psych-phase="focused"] {
+  --np-soul-glow:          0 0 14px rgba(0, 212, 255, .14);
+  --np-soul-transmission:  rgba(0, 212, 255, .05);
+}
+html[data-np-psych-phase="immersive"] {
+  --np-soul-glow:          0 0 22px rgba(0, 212, 255, .22);
+  --np-soul-transmission:  rgba(0, 212, 255, .09);
+  --np-soul-fog-light:     rgba(0, 40, 80, .18);
+}
+html[data-np-psych-phase="trance"] {
+  --np-soul-glow:          0 0 32px rgba(147, 51, 234, .28);
+  --np-soul-transmission:  rgba(147, 51, 234, .08);
+  --np-soul-fog-light:     rgba(30, 0, 60, .22);
+  --np-soul-pulse:         8.0s;
+  --np-soul-pulse-slow:   16.0s;
+}
+
+
+/* ════════════════════════════════════════════════════════════════════
+   [PL-ATM] ATMOSPHERIC DEPTH
+   Estruturas distantes, estrelas, camadas de névoa.
+   Injetadas via JS como elementos na body — estilizadas aqui.
+   ════════════════════════════════════════════════════════════════════ */
+
+/* Camada de estrelas ultra-distantes */
+.np-atm-stars {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  contain: strict;
+  opacity: 0;
+  background-image:
+    radial-gradient(circle, rgba(255,255,255,.55) 1px, transparent 1px),
+    radial-gradient(circle, rgba(255,255,255,.35) 1px, transparent 1px),
+    radial-gradient(circle, rgba(180,220,255,.4)  1px, transparent 1px);
+  background-size: 340px 340px, 520px 520px, 780px 780px;
+  background-position: 0 0, 170px 85px, 65px 195px;
+  animation: npStarsFade var(--np-soul-pulse-slow) ease forwards;
+  will-change: opacity;
+}
+@keyframes npStarsFade {
+  0%   { opacity: 0; }
+  30%  { opacity: 1; }
+  70%  { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* Névoa de fundo — camada de paralaxe passiva */
+.np-atm-fog {
+  position: fixed;
+  pointer-events: none;
+  z-index: 0;
+  contain: strict;
+  border-radius: 50%;
+  filter: blur(60px);
+  opacity: 0;
+  will-change: opacity, transform;
+  animation: npFogDrift var(--np-soul-pulse-rare) ease-in-out forwards;
+}
+@keyframes npFogDrift {
+  0%   { opacity: 0;    transform: scale(1)    translateY(0);   }
+  20%  { opacity: 1; }
+  80%  { opacity: 1; }
+  100% { opacity: 0;    transform: scale(1.04) translateY(-8px); }
+}
+
+/* Silhueta distante — estrutura abandonada */
+.np-atm-silhouette {
+  position: fixed;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 0;
+  contain: strict;
+  opacity: 0;
+  will-change: opacity, transform;
+  animation: npSilhouette 18s ease-in-out forwards;
+}
+@keyframes npSilhouette {
+  0%   { opacity: 0;    transform: translateX(12px) scaleX(1); }
+  15%  { opacity: 1; }
+  85%  { opacity: 1; }
+  100% { opacity: 0;    transform: translateX(-8px) scaleX(1); }
+}
+
+/* Paralaxe passivo — movimento horizontal ultra-lento */
+.np-atm-parallax {
+  position: fixed;
+  top: 0;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  contain: strict;
+  will-change: transform;
+}
+
+
+/* ════════════════════════════════════════════════════════════════════
+   [PL-CAT] CATEGORY COLOR IDENTITY
+   Cada categoria tem DNA visual próprio.
+   Aplicado via data-np-category nos cards.
+   ════════════════════════════════════════════════════════════════════ */
+
+/* Tokens de categoria */
+:root {
+  --cat-arcade:  #00d4ff;
+  --cat-horror:  #8B1A1A;
+  --cat-dream:   #7C3AED;
+  --cat-retro:   #D97706;
+  --cat-space:   #1D4ED8;
+  --cat-action:  #EA580C;
+  --cat-puzzle:  #16A34A;
+  --cat-rpg:     #9333EA;
+  --cat-casual:  #0EA5E9;
+  --cat-default: #00d4ff;
+}
+
+
+/* ════════════════════════════════════════════════════════════════════
+   [PL-CARD] CINEMATIC THUMBNAIL SYSTEM
+   Game cards como terminais vivos / transmissões digitais.
+   Funciona sobre qualquer seletor: [data-np-card], .np-game-card,
+   .game-card, [data-game-id], [data-category].
+   ════════════════════════════════════════════════════════════════════ */
+
+/* Host do thumbnail — injetado como primeiro filho do card */
+.np-thumb {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  contain: strict;
+  overflow: hidden;
+  border-radius: inherit;
+  z-index: 0;
+}
+
+/* Gradiente base procedural por categoria */
+.np-thumb-gradient {
+  position: absolute;
+  inset: 0;
+  opacity: .82;
+  transition: opacity 600ms ease;
+  will-change: opacity;
+}
+
+/* Scanlines — grade de terminal */
+.np-thumb::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--np-soul-scanline);
+  opacity: .6;
+  pointer-events: none;
+  z-index: 4;
+}
+
+/* Holographic shimmer — reflexo de luz diagonal */
+.np-thumb-shimmer {
+  position: absolute;
+  top: -60%;
+  left: -80%;
+  width: 40%;
+  height: 220%;
+  background: linear-gradient(
+    105deg,
+    transparent 30%,
+    rgba(255, 255, 255, .04) 50%,
+    transparent 70%
+  );
+  transform: skewX(-15deg);
+  pointer-events: none;
+  z-index: 5;
+  will-change: transform, opacity;
+  animation: npThumbShimmer 8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+@keyframes npThumbShimmer {
+  0%   { transform: skewX(-15deg) translateX(0);     opacity: 0; }
+  10%  { opacity: 1; }
+  40%  { transform: skewX(-15deg) translateX(380px); opacity: 0; }
+  100% { transform: skewX(-15deg) translateX(380px); opacity: 0; }
+}
+
+/* Ambient glow — borda que respira */
+.np-thumb-glow {
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 6;
+  opacity: 0;
+  transition: opacity 400ms ease;
+  will-change: opacity;
+}
+
+/* Transmission flicker — pulso de sinal digital */
+.np-thumb-flicker {
+  position: absolute;
+  bottom: 8px;
+  right: 10px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 7;
+  will-change: opacity;
+  animation: npFlicker 3.2s ease-in-out infinite;
+}
+@keyframes npFlicker {
+  0%, 100%  { opacity: .3; }
+  48%        { opacity: .3; }
+  50%        { opacity: .9; }
+  52%        { opacity: .3; }
+  70%        { opacity: .5; }
+  72%        { opacity: .9; }
+  74%        { opacity: .3; }
+}
+
+/* Category identity — noise pattern sobre gradiente */
+.np-thumb-noise {
+  position: absolute;
+  inset: 0;
+  background-image: var(--np-soul-noise);
+  background-size: 200px 200px;
+  opacity: .45;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+  z-index: 3;
+}
+
+/* Label de categoria — canto inferior esquerdo */
+.np-thumb-label {
+  position: absolute;
+  bottom: 9px;
+  left: 10px;
+  font-size: .5rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  pointer-events: none;
+  z-index: 8;
+  opacity: .6;
+  font-family: monospace, monospace;
+}
+
+/* Gradientes por categoria */
+[data-np-category="arcade"]  .np-thumb-gradient {
+  background: radial-gradient(ellipse at 30% 40%,
+    rgba(0,212,255,.28) 0%, rgba(0,40,80,.85) 100%);
+}
+[data-np-category="horror"]  .np-thumb-gradient {
+  background: radial-gradient(ellipse at 50% 60%,
+    rgba(140,20,20,.35) 0%, rgba(8,0,0,.92) 100%);
+}
+[data-np-category="dream"]   .np-thumb-gradient {
+  background: radial-gradient(ellipse at 40% 35%,
+    rgba(124,58,237,.32) 0%, rgba(10,5,25,.90) 100%);
+}
+[data-np-category="retro"]   .np-thumb-gradient {
+  background: radial-gradient(ellipse at 35% 45%,
+    rgba(217,119,6,.28) 0%, rgba(20,10,0,.88) 100%);
+}
+[data-np-category="space"]   .np-thumb-gradient {
+  background: radial-gradient(ellipse at 60% 30%,
+    rgba(29,78,216,.25) 0%, rgba(0,5,20,.93) 100%);
+}
+[data-np-category="action"]  .np-thumb-gradient {
+  background: radial-gradient(ellipse at 45% 50%,
+    rgba(234,88,12,.28) 0%, rgba(20,5,0,.90) 100%);
+}
+[data-np-category="puzzle"]  .np-thumb-gradient {
+  background: radial-gradient(ellipse at 40% 40%,
+    rgba(22,163,74,.22) 0%, rgba(0,15,8,.90) 100%);
+}
+[data-np-category="rpg"]     .np-thumb-gradient {
+  background: radial-gradient(ellipse at 50% 40%,
+    rgba(147,51,234,.30) 0%, rgba(10,0,20,.92) 100%);
+}
+
+/* Fallback */
+.np-thumb-gradient {
+  background: radial-gradient(ellipse at 35% 40%,
+    rgba(0,212,255,.18) 0%, rgba(0,10,25,.88) 100%);
+}
+
+/* Flicker dot color por categoria */
+[data-np-category="arcade"]  .np-thumb-flicker { background: #00d4ff; }
+[data-np-category="horror"]  .np-thumb-flicker { background: #ff3030; }
+[data-np-category="dream"]   .np-thumb-flicker { background: #a78bfa; }
+[data-np-category="retro"]   .np-thumb-flicker { background: #fbbf24; }
+[data-np-category="space"]   .np-thumb-flicker { background: #60a5fa; }
+[data-np-category="action"]  .np-thumb-flicker { background: #fb923c; }
+[data-np-category="puzzle"]  .np-thumb-flicker { background: #4ade80; }
+[data-np-category="rpg"]     .np-thumb-flicker { background: #c084fc; }
+.np-thumb-flicker            { background: #00d4ff; } /* fallback */
+
+/* Label color por categoria */
+[data-np-category="arcade"]  .np-thumb-label { color: #00d4ff; }
+[data-np-category="horror"]  .np-thumb-label { color: #ff6060; }
+[data-np-category="dream"]   .np-thumb-label { color: #a78bfa; }
+[data-np-category="retro"]   .np-thumb-label { color: #fbbf24; }
+[data-np-category="space"]   .np-thumb-label { color: #93c5fd; }
+[data-np-category="action"]  .np-thumb-label { color: #fb923c; }
+[data-np-category="puzzle"]  .np-thumb-label { color: #86efac; }
+[data-np-category="rpg"]     .np-thumb-label { color: #d8b4fe; }
+.np-thumb-label              { color: #00d4ff; }
+
+/* Host card — precisa de position:relative para o thumb funcionar */
+[data-np-card],
+.np-game-card,
+.game-card,
+[data-game-id] {
+  position: relative;
+  isolation: isolate;
+}
+
+
+/* ════════════════════════════════════════════════════════════════════
+   [PL-HOV] GAME HOVER EXPERIENCE
+   O jogo "acorda" — não apenas escala.
+   ════════════════════════════════════════════════════════════════════ */
+
+/* Estado padrão — presença contida */
+[data-np-card],
+.np-game-card,
+.game-card,
+[data-game-id] {
+  transition:
+    transform 500ms cubic-bezier(0.2, 0, 0, 1),
+    box-shadow 500ms ease;
+}
+
+/* Hover — sinal de ativação */
+[data-np-card]:hover           .np-thumb-glow,
+.np-game-card:hover            .np-thumb-glow,
+.game-card:hover               .np-thumb-glow,
+[data-game-id]:hover           .np-thumb-glow {
+  opacity: 1;
+}
+
+[data-np-card]:hover           .np-thumb-shimmer,
+.np-game-card:hover            .np-thumb-shimmer,
+.game-card:hover               .np-thumb-shimmer,
+[data-game-id]:hover           .np-thumb-shimmer {
+  animation-duration: 4s;
+}
+
+[data-np-card]:hover           .np-thumb-gradient,
+.np-game-card:hover            .np-thumb-gradient,
+.game-card:hover               .np-thumb-gradient,
+[data-game-id]:hover           .np-thumb-gradient {
+  opacity: 1;
+}
+
+/* Breathing glow no hover — o card respira mais intenso */
+[data-np-card]:hover,
+.np-game-card:hover,
+.game-card:hover,
+[data-game-id]:hover {
+  transform: translateY(-3px) scale(1.012);
+  box-shadow: var(--np-soul-glow);
+}
+
+/* Signal activation overlay — ondulação sutil de ativação */
+.np-card-signal {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9;
+  border-radius: inherit;
+  opacity: 0;
+  background: radial-gradient(
+    ellipse at var(--np-signal-x, 50%) var(--np-signal-y, 50%),
+    rgba(0,212,255,.12) 0%,
+    transparent 70%
+  );
+  transition: opacity 300ms ease;
+}
+[data-np-card]:hover .np-card-signal,
+.np-game-card:hover  .np-card-signal,
+.game-card:hover     .np-card-signal,
+[data-game-id]:hover .np-card-signal {
+  opacity: 1;
+}
+
+
+/* ════════════════════════════════════════════════════════════════════
+   [PL-SIL] SILENCE POLISH
+   Quietude visível — o sistema em contemplação.
+   ════════════════════════════════════════════════════════════════════ */
+
+/* Transição suave do silence engine */
+body[data-np-silence] {
+  transition: filter 3s ease;
+}
+body[data-np-silence="deep"] {
+  filter: saturate(.85) brightness(.93);
+}
+body[data-np-silence="post-event"] {
+  filter: saturate(.92) brightness(.97);
+}
+html[data-np-psych-phase="trance"] body {
+  filter: saturate(.78) brightness(.88) hue-rotate(8deg);
+  transition: filter 6s ease;
+}
+
+/* Particles morrem lentamente durante silêncio */
+body[data-np-silence="deep"] .np-soul-orbital,
+body[data-np-silence="deep"] .np-soul-shadow,
+body[data-np-silence="deep"] .np-soul-shimmer {
+  opacity: .3 !important;
+  transition: opacity 2s ease !important;
+}
+
+/* UI breathing — elementos da UI respiram mais devagar em silêncio */
+body[data-np-silence="deep"] .np-breathable {
+  animation-duration: 60s !important;
+}
+
+/* Slow ambience — text elements ficam ligeiramente mais tênues */
+body[data-np-silence="deep"] .np9-whisper {
+  opacity: .55;
+  font-size: .92em;
+}
+
+
+/* ════════════════════════════════════════════════════════════════════
+   [PL-CMP] COMPANION PRESENCE REFINEMENT
+   O companion parece vivo — micro-comportamentos visíveis.
+   ════════════════════════════════════════════════════════════════════ */
+
+/* Hesitação micro — pequeno tremer quando vai reagir */
+.np-companion-hesitate {
+  animation: npHesitate 320ms cubic-bezier(0.4, 0, 0.6, 1) !important;
+  will-change: transform;
+}
+@keyframes npHesitate {
+  0%   { transform: translateX(0); }
+  25%  { transform: translateX(-2px); }
+  50%  { transform: translateX(1px); }
+  75%  { transform: translateX(-1px); }
+  100% { transform: translateX(0); }
+}
+
+/* Companion recognition pixel — piscada de reconhecimento */
+.np-companion-recognition {
+  animation: npRecognition 400ms ease forwards !important;
+  will-change: filter;
+}
+@keyframes npRecognition {
+  0%   { filter: none; }
+  30%  { filter: drop-shadow(0 0 6px rgba(0,212,255,.8)); }
+  60%  { filter: drop-shadow(0 0 3px rgba(0,212,255,.5)); }
+  100% { filter: none; }
+}
+
+/* Eye drift — companion olha para outro lado */
+.np-companion-drift {
+  transition: transform 4s cubic-bezier(0.0, 0.0, 0.2, 1) !important;
+}
+
+/* Inatividade — companion fica ainda durante eventos de jogo */
+.np-gameplay-sanctuary [data-np-companion],
+.np-gameplay-sanctuary .np-companion,
+.np-gameplay-sanctuary .zc-widget,
+.np-gameplay-sanctuary #zapCompanionWidget {
+  animation: none !important;
+  filter: none !important;
+}
+
+
+/* ════════════════════════════════════════════════════════════════════
+   [PL-SAFE] SANCTUARY & PERFORMANCE GUARDS
+   ════════════════════════════════════════════════════════════════════ */
+
+/* Tudo apagado durante gameplay */
+.np-gameplay-sanctuary .np-thumb-shimmer,
+.np-gameplay-sanctuary .np-thumb-glow,
+.np-gameplay-sanctuary .np-thumb-flicker,
+.np-gameplay-sanctuary .np-atm-stars,
+.np-gameplay-sanctuary .np-atm-fog,
+.np-gameplay-sanctuary .np-atm-silhouette,
+.np-gameplay-focus     .np-thumb-shimmer,
+.np-gameplay-focus     .np-thumb-glow {
+  animation-play-state: paused !important;
+  opacity: 0 !important;
+}
+
+/* Reduced motion — desliga tudo */
+@media (prefers-reduced-motion: reduce) {
+  .np-thumb-shimmer,
+  .np-thumb-flicker,
+  .np-atm-stars,
+  .np-atm-fog,
+  .np-atm-silhouette,
+  .np-companion-hesitate,
+  .np-companion-recognition,
+  .np-card-signal {
+    animation: none !important;
+    opacity: 0 !important;
+  }
+
+  [data-np-card]:hover,
+  .np-game-card:hover,
+  .game-card:hover,
+  [data-game-id]:hover {
+    transform: none !important;
+  }
+}
+
+/* Mobile — zero efeitos pesados */
+body[data-np9-mobile="1"] .np-thumb-shimmer,
+body[data-np9-mobile="1"] .np-atm-stars,
+body[data-np9-mobile="1"] .np-atm-fog,
+body[data-np9-mobile="1"] .np-atm-silhouette,
+body[data-np9-mobile="1"] .np-card-signal {
+  display: none !important;
+}
+
+body[data-np9-mobile="1"] .np-thumb-flicker {
+  animation-duration: 6s;
+}

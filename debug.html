@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>NeonPlay — Debug</title>
+<style>
+body{background:#08080f;color:#eee;font-family:monospace;padding:20px}
+.ok{color:#00ff88}.err{color:#ff4444}.warn{color:#ffbb00}
+pre{background:#111;padding:10px;border-radius:6px;overflow:auto;font-size:12px}
+</style>
+</head>
+<body>
+<h2>🔍 NeonPlay Debug</h2>
+<div id="out"></div>
+<script>
+const out = document.getElementById('out');
+function log(msg, type='ok') {
+  const d = document.createElement('pre');
+  d.className = type;
+  d.textContent = msg;
+  out.appendChild(d);
+}
+
+window.onerror = (msg, src, line, col, err) => {
+  log(`❌ ERRO GLOBAL: ${msg}\n  em: ${src}:${line}:${col}\n  ${err?.stack||''}`, 'err');
+};
+window.addEventListener('unhandledrejection', e => {
+  log(`❌ PROMISE REJEITADA: ${e.reason}`, 'err');
+});
+</script>
+<script>
+try {
+  log('games-data.js: OK');
+  log(`GAMES_DB: ${typeof GAMES_DB !== 'undefined' ? GAMES_DB.length + ' jogos' : '❌ UNDEFINED'}`);
+  log(`CATEGORIES_DATA: ${typeof CATEGORIES_DATA !== 'undefined' ? CATEGORIES_DATA.length + ' categorias' : '❌ UNDEFINED'}`);
+  log(`gp(): ${typeof gp}`);
+  if (typeof GAMES_DB !== 'undefined' && GAMES_DB.length > 0) {
+    log(`Jogo 0: ${GAMES_DB[0].id} → ${GAMES_DB[0].src}`);
+  }
+} catch(e) { log('games-data.js ERRO: ' + e.message + '\n' + e.stack, 'err'); }
+</script>
+<script>
+try {
+  log('engine.js: OK');
+  log(`NP_CONFIG SID: ${NP_CONFIG?.providers?.gamepix?.sid || '❌ VAZIO'}`);
+  log(`buildGameUrl: ${typeof buildGameUrl}`);
+  log(`launchGameResilient: ${typeof launchGameResilient}`);
+  if (typeof GAMES_DB !== 'undefined' && typeof buildGameUrl !== 'undefined') {
+    const url = buildGameUrl(GAMES_DB[0]);
+    log(`URL runtime jogo 0: ${url}`);
+  }
+  log('MAX_PLAYS: ' + (typeof MAX_PLAYS !== 'undefined' ? MAX_PLAYS : '❌ UNDEFINED'));
+} catch(e) { log('engine.js ERRO: ' + e.message + '\n' + e.stack, 'err'); }
+</script>
+    <script src="bundle.min.js"></script>
+</body>
+</html>

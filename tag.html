@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <!-- Título, description e canonical preenchidos dinamicamente por initTagPage() -->
+  <title>Tags de Jogos — NeonPlay</title>
+  <meta name="description" content="Explore jogos HTML5 grátis por tag no NeonPlay. Sem download, sem cadastro.">
+  <meta name="robots" content="index, follow">
+
+  <link rel="canonical" href="https://neonplay-nu.vercel.app/tag.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="NeonPlay">
+  <meta property="og:title" content="Tags de Jogos — NeonPlay">
+  <meta property="og:description" content="Explore jogos HTML5 grátis por tag no NeonPlay. Sem download, sem cadastro.">
+  <meta property="og:url" content="https://neonplay-nu.vercel.app/tag.html">
+
+  <!-- Schema CollectionPage preenchido dinamicamente -->
+  <script type="application/ld+json" id="tagSchema">{
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "Tags de Jogos — NeonPlay",
+    "description": "Explore jogos HTML5 grátis por tag no NeonPlay. Sem download, sem cadastro.",
+    "url": "https://neonplay-nu.vercel.app/tag.html",
+    "publisher": { "@type": "Organization", "name": "NeonPlay", "url": "https://neonplay-nu.vercel.app" }
+  }</script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Syne:wght@400;600;700;800;900&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="preload" href="style.css" as="style">
+  <link rel="stylesheet" href="style.css?v=796f7ae9">
+  <link rel="stylesheet" href="np-perception-layer.css?v=r103">
+</head>
+<body>
+
+<!-- ═══ HEADER ════════════════════════════════════════════════════════════ -->
+<header class="header" role="banner">
+  <div class="container">
+    <div class="header-inner">
+      <a href="index.html" class="logo" aria-label="NeonPlay - Página inicial">
+        <span class="logo-icon" aria-hidden="true">🎮</span>
+        <span class="logo-text">Neon<span class="logo-accent">Play</span></span>
+      </a>
+      <div class="search-wrap" role="search">
+        <label for="searchInput" class="sr-only">Buscar jogos</label>
+        <input type="search" id="searchInput" class="search-input" placeholder="Buscar jogos..." autocomplete="off" aria-label="Buscar jogos" aria-controls="searchDrop">
+        <button class="search-btn" aria-label="Pesquisar">🔍</button>
+        <div id="searchDrop" class="search-drop" role="listbox" hidden></div>
+      </div>
+      <nav class="nav" aria-label="Menu principal">
+        <a href="index.html" class="nav-link">Início</a>
+        <a href="category.html?cat=acao" class="nav-link">Ação</a>
+        <a href="category.html?cat=corrida" class="nav-link">Corrida</a>
+        <a href="category.html?cat=puzzle" class="nav-link">Puzzle</a>
+        <a href="category.html" class="nav-link">Categorias</a>
+      </nav>
+      <button id="favBtn" class="fav-btn" aria-label="Meus favoritos" aria-expanded="false">❤️ <span>Favoritos</span> (<span id="favCount">0</span>)</button>
+      <button id="hbg" class="hbg" aria-label="Abrir menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<!-- ═══ MOBILE NAV ════════════════════════════════════════════════════════ -->
+<nav id="mobileNav" class="mobile-nav" aria-label="Menu mobile" hidden>
+  <a href="index.html" class="mnav-link">🏠 Início</a>
+  <a href="category.html?cat=acao" class="mnav-link">⚔️ Ação</a>
+  <a href="category.html?cat=corrida" class="mnav-link">🏎️ Corrida</a>
+  <a href="category.html?cat=puzzle" class="mnav-link">🧩 Puzzle</a>
+  <a href="category.html?cat=arcade" class="mnav-link">🕹️ Arcade</a>
+  <a href="category.html?cat=esporte" class="mnav-link">⚽ Esporte</a>
+  <a href="category.html?cat=aventura" class="mnav-link">🗺️ Aventura</a>
+  <a href="category.html?cat=tiro" class="mnav-link">🎯 Tiro</a>
+  <a href="category.html?cat=estrategia" class="mnav-link">♟️ Estratégia</a>
+</nav>
+
+<!-- ═══ MAIN ══════════════════════════════════════════════════════════════ -->
+<main id="main-content">
+  <div class="container" style="padding-top:1rem;padding-bottom:2rem">
+
+    <!-- Breadcrumb: Home > Tags > [tag] -->
+    <nav class="breadcrumb" aria-label="Navegação estrutural">
+      <a href="index.html">🏠 Início</a>
+      <span class="bc-sep" aria-hidden="true">›</span>
+      <a href="tag.html">Tags</a>
+      <span class="bc-sep" aria-hidden="true">›</span>
+      <span id="bcTag" aria-current="page"></span>
+    </nav>
+
+    <!-- Hero da tag -->
+    <div class="cat-hero" style="--hero-color:#7c4dff">
+      <div class="cat-hero-icon">🏷️</div>
+      <div class="cat-hero-info">
+        <h1 class="cat-hero-title" id="tagHeroTitle">Tags de Jogos</h1>
+        <p class="cat-hero-count" id="tagHeroCount">Carregando...</p>
+        <p class="cat-hero-desc">Grátis · Sem download · Sem cadastro</p>
+      </div>
+    </div>
+
+    <!-- Mensagem de fallback (exibida pelo JS quando sem resultados) -->
+    <p id="tagEmpty" class="seo-intro" style="display:none;color:var(--text-3);padding:1rem 0"></p>
+
+    <!-- Layout: grid + sidebar -->
+    <div class="main-layout" style="margin-top:1.5rem">
+      <div>
+        <!-- Grade de jogos -->
+        <div id="tagPageGrid" class="games-grid" role="list" aria-label="Jogos por tag"></div>
+
+        <!-- Bloco SEO gerado por buildTagSeoText() -->
+        <div id="tagSeoBlock" class="seo-block" style="margin-top:2rem"></div>
+      </div>
+
+      <!-- Sidebar -->
+      <aside class="sidebar" aria-label="Sidebar">
+        <div class="widget">
+          <div class="widget-title">🔥 Mais Jogados</div>
+          <div id="tagSidebarHot"></div>
+        </div>
+
+        <div class="widget" style="margin-top:1rem">
+          <div class="widget-title">📂 Categorias</div>
+          <div class="scats">
+            <a href="category.html?cat=acao"      class="scat">⚔️ Ação</a>
+            <a href="category.html?cat=corrida"   class="scat">🏎️ Corrida</a>
+            <a href="category.html?cat=puzzle"    class="scat">🧩 Puzzle</a>
+            <a href="category.html?cat=arcade"    class="scat">🕹️ Arcade</a>
+            <a href="category.html?cat=esporte"   class="scat">⚽ Esporte</a>
+            <a href="category.html?cat=aventura"  class="scat">🗺️ Aventura</a>
+            <a href="category.html?cat=tiro"      class="scat">🎯 Tiro</a>
+            <a href="category.html?cat=estrategia" class="scat">♟️ Estratégia</a>
+          </div>
+        </div>
+
+        <div class="widget" style="margin-top:1rem">
+          <div class="widget-title">🏷️ Tags Populares</div>
+          <div class="scats">
+            <a href="tag.html?tag=stickman"   class="scat">🥷 Stickman</a>
+            <a href="tag.html?tag=zumbi"      class="scat">🧟 Zumbi</a>
+            <a href="tag.html?tag=carro"      class="scat">🚗 Carro</a>
+            <a href="tag.html?tag=tiro"       class="scat">🎯 Tiro</a>
+            <a href="tag.html?tag=futebol"    class="scat">⚽ Futebol</a>
+            <a href="tag.html?tag=puzzle"     class="scat">🧩 Puzzle</a>
+            <a href="tag.html?tag=merge"      class="scat">🔀 Merge</a>
+            <a href="tag.html?tag=corrida"    class="scat">🏎️ Corrida</a>
+            <a href="tag.html?tag=aventura"   class="scat">🗺️ Aventura</a>
+            <a href="tag.html?tag=sobrevivencia" class="scat">🛡️ Sobrevivência</a>
+            <a href="tag.html?tag=idle"       class="scat">⏱️ Idle</a>
+            <a href="tag.html?tag=arcade"     class="scat">🕹️ Arcade</a>
+          </div>
+        </div>
+
+        <div class="widget" style="margin-top:1rem">
+          <div class="widget-title">🔗 Páginas SEO</div>
+          <div class="scats">
+            <a href="jogos-de-stickman.html" class="scat">🥷 Stickman</a>
+            <a href="jogos-de-corrida.html"  class="scat">🏎️ Corrida</a>
+            <a href="jogos-de-tiro.html"     class="scat">🎯 Tiro</a>
+            <a href="jogos-de-puzzle.html"   class="scat">🧩 Puzzle</a>
+            <a href="novidades.html"         class="scat">🆕 Novidades 2026</a>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+  </div>
+</main>
+
+<!-- ═══ FOOTER ════════════════════════════════════════════════════════════ -->
+
+<!-- ═══ EXPLORAR MAIS — Interlinking automático ════════════════════════ -->
+<section class="explore-block" aria-label="Explorar mais jogos">
+  <div class="container">
+    <h2 class="explore-title">🔥 Explorar mais jogos</h2>
+    <div id="exploreLinks" class="scats"></div>
+  </div>
+</section>
+
+<footer class="footer" role="contentinfo">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="logo">
+          <span class="logo-icon">🎮</span>
+          <span class="logo-text">Neon<span class="logo-accent">Play</span></span>
+        </a>
+        <p class="f-tagline">O melhor portal de jogos HTML5 grátis do Brasil. Sem download, sem cadastro.</p>
+      </div>
+      <div class="footer-col"><h4>Categorias</h4><ul>
+        <li><a href="category.html?cat=acao">⚔️ Ação</a></li>
+        <li><a href="category.html?cat=corrida">🏎️ Corrida</a></li>
+        <li><a href="category.html?cat=puzzle">🧩 Puzzle</a></li>
+        <li><a href="category.html?cat=arcade">🕹️ Arcade</a></li>
+      </ul></div>
+      <div class="footer-col"><h4>Tags</h4><ul>
+        <li><a href="tag.html?tag=stickman">🥷 Stickman</a></li>
+        <li><a href="tag.html?tag=zumbi">🧟 Zumbi</a></li>
+        <li><a href="tag.html?tag=carro">🚗 Carro</a></li>
+        <li><a href="tag.html?tag=futebol">⚽ Futebol</a></li>
+        <li><a href="tag.html?tag=merge">🔀 Merge</a></li>
+      </ul></div>
+      <div class="footer-col"><h4>Por Intenção</h4><ul>
+        <li><a href="intent.html?intent=faceis">🟢 Jogos Fáceis</a></li>
+        <li><a href="intent.html?intent=rapidos">⚡ Jogos Rápidos</a></li>
+        <li><a href="intent.html?intent=viciantes">🔥 Jogos Viciantes</a></li>
+        <li><a href="intent.html?intent=leves">🪶 Jogos Leves</a></li>
+        <li><a href="intent.html?intent=sem-download">🚫 Sem Download</a></li>
+      </ul></div>
+      <div class="footer-col"><h4>NeonPlay</h4><ul>
+        <li><a href="index.html">🏠 Início</a></li>
+        <li><a href="category.html">📂 Categorias</a></li>
+        <li><a href="buscar.html">🔍 Busca</a></li>
+        <li><a href="novidades.html">🆕 Novidades 2026</a></li>
+        <li><a href="melhores-jogos-online.html">🏆 Melhores Jogos</a></li>
+      </ul></div>
+    </div>
+    <div class="footer-bot">
+      <p>© 2026 NeonPlay — Jogos Online Grátis | Todos os direitos reservados | 🇧🇷 Brasil</p>
+    </div>
+  </div>
+</footer>
+
+<div id="favPanel" class="fav-panel" role="dialog" aria-modal="true">
+  <div class="fav-ph"><h3>❤️ Meus Favoritos</h3><button id="favClose" class="fav-close" aria-label="Fechar">✕</button></div>
+  <div id="favBody" class="fav-body"></div>
+</div>
+<div id="overlay" class="overlay" aria-hidden="true"></div>
+<div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+  <script src="bundle.min.js"></script>
+<script src="np-r20-4.js" defer></script>
+<script src="np-perception-layer.js?v=r103" defer></script>
+</body>
+</html>

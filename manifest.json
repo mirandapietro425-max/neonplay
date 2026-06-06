@@ -1,0 +1,13 @@
+{
+  "name": "NeonPlay",
+  "short_name": "NeonPlay",
+  "description": "Portal de jogos HTML5 grátis online",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#060610",
+  "theme_color": "#00d4ff",
+  "lang": "pt-BR",
+  "icons": [
+    { "src": "/favicon.ico", "sizes": "any", "type": "image/x-icon" }
+  ]
+}

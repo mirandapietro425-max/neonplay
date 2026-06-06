@@ -1,0 +1,161 @@
+/*
+ * NeonPlay R20.11 — np-r20-11-overlap-fix.css
+ * Corrige as 4 sobreposições visuais identificadas na homepage.
+ *
+ * Fix 1 — np91 hero spotlight não deve sobrepor o texto do hero-inner
+ * Fix 2 — np91 hero overlay z-index coordination
+ * Fix 3 — np84 missions block não deve aparecer flutante sobre thumbnails
+ * Fix 4 — XP bar + cat-bar + ticker coordenação vertical
+ */
+
+/* ══════════════════════════════════════════════════════
+   FIX 1 — NP91 HERO SPOTLIGHT
+   O .np91-hero-spotlight estava com z-index:2, igual ao
+   .hero-inner, causando sobreposição de texto.
+   Solução: spotlight fica em z-index:1 (abaixo do hero-inner).
+   O texto principal do hero-inner (z-index:2) fica sempre acima.
+   ══════════════════════════════════════════════════════ */
+.np91-hero-spotlight {
+  /* R20.12: z-index:0 — abaixo de tudo no overlay, hero-inner em z:3 */
+  z-index: 0 !important;
+  bottom: 0 !important;
+  top: auto !important;
+  transform: none !important;
+  pointer-events: none;
+  max-width: min(420px, 44%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 45%);
+  mask-image: linear-gradient(to bottom, transparent 0%, black 45%);
+}
+
+/* Em mobile o spotlight some — só texto nativo do hero */
+@media (max-width: 768px) {
+  .np91-hero-spotlight {
+    display: none !important;
+  }
+}
+
+/* ══════════════════════════════════════════════════════
+   FIX 2 — NP91 HERO OVERLAY ISOLATION
+   isolation: isolate garante que filhos com filter/blur
+   não vazem o stacking context para o hero raiz.
+   O overlay fica em z-index:1, abaixo do hero-inner (z:2).
+   ══════════════════════════════════════════════════════ */
+.np91-hero-overlay {
+  z-index: 1 !important;
+  isolation: isolate;
+}
+
+/* ══════════════════════════════════════════════════════
+   FIX 3 — ADAPTIVE87 PERSONA MUTATION (lo module)
+   O módulo lo muta .hero-sub com opacity transition de 300ms.
+   Durante essa transição, o conteúdo original e o novo ficam
+   visíveis ao mesmo tempo se o cinematic91 também estiver ativo.
+   Solução: quando .np91-hero-overlay[data-np91-active] existe,
+   esconder o .hero-sub nativo para evitar texto duplo.
+   ══════════════════════════════════════════════════════ */
+.np91-hero-overlay[data-active="1"] ~ * .hero-sub[data-np87],
+.np91-hero-overlay.np91--active ~ * .hero-sub[data-np87] {
+  opacity: 0 !important;
+  pointer-events: none;
+}
+
+/* Quando cinematic91 está ativo, o hero-content da coluna esquerda
+   não deve sobrepor o spotlight */
+.hero-inner:has(.np91-hero-overlay) .hero-content {
+  position: relative;
+  z-index: 3; /* acima do spotlight (z:1) e overlay (z:1) */
+}
+
+/* Fallback para browsers sem :has() */
+.hero-inner .hero-content {
+  position: relative;
+  z-index: 3;
+}
+
+/* ══════════════════════════════════════════════════════
+   FIX 4 — NP84 MISSIONS BLOCK POSICIONAMENTO
+   O painel de missões não deve flutuar sobre os thumbnails.
+   Quando renderizado dentro do hero ou sidebar, fica contido.
+   Quando injetado como fixed/absolute, reposicionar para bottom.
+   ══════════════════════════════════════════════════════ */
+
+/* Se o painel de missões for renderizado como posição fixa/absoluta */
+.np84-missions-panel,
+#np84MissionsPanel,
+[id*="missions"][class*="np84"] {
+  position: fixed !important;
+  top: auto !important;
+  bottom: calc(80px + env(safe-area-inset-bottom, 0px));
+  right: 16px !important;
+  left: auto !important;
+  z-index: 150 !important; /* abaixo de modais (900) */
+  max-height: 60vh;
+  overflow-y: auto;
+  max-width: min(340px, calc(100vw - 32px));
+}
+
+/* O missions-block no fluxo normal (dentro de sidebar/card) fica estático */
+.sidebar .np84-missions-block,
+.np84-panel .np84-missions-block,
+[class*="sidebar"] .np84-missions-block {
+  position: static !important;
+  max-height: none;
+  overflow: visible;
+}
+
+/* ══════════════════════════════════════════════════════
+   FIX 5 — TICKER + XP BAR VERTICAL STACK
+   Garantir que o live-ticker não fique por cima da XP bar
+   ou vice-versa. Stack order: header → xpbar → ticker → content
+   ══════════════════════════════════════════════════════ */
+.np84-xpbar-wrap {
+  top: var(--hh) !important;           /* logo abaixo do header */
+  z-index: var(--z-sticky) !important; /* 80 — abaixo de dropdowns */
+}
+
+.live-ticker {
+  position: relative;
+  z-index: 50; /* abaixo da xpbar e header */
+}
+
+/* ══════════════════════════════════════════════════════
+   FIX 6 — ONBOARDING TOOLTIP / ZAP SPEECH
+   Garantir que o balão de fala do Zap não fique atrás
+   do spotlight ou sobre o ticker.
+   ══════════════════════════════════════════════════════ */
+.zc-speech,
+.zap-speech,
+[class*="zap-speech"],
+[class*="speech-bubble"] {
+  z-index: 9850 !important; /* abaixo de modais (9900) mas acima de tudo */
+}
+
+/* ══════════════════════════════════════════════════════
+   FIX 7 — NP88 RE-ENGAGEMENT + NP83 STREAK
+   Garantir z-index correto para elementos de sistema
+   ══════════════════════════════════════════════════════ */
+.np88-reeng-hook {
+  z-index: 9870 !important;
+}
+
+.np83-streak {
+  z-index: 9870 !important;
+}
+
+.np83-autonext {
+  z-index: 9900 !important;
+}
+
+/* ══════════════════════════════════════════════════════
+   FIX 8 — HERO THUMBNAILS (coluna direita)
+   Os 4 thumbnails de jogos em destaque nunca devem ser
+   cobertos pelo spotlight ou overlay do cinematic91.
+   ══════════════════════════════════════════════════════ */
+.hero-games,
+.hero-grid-games,
+.featured-grid,
+[class*="hero"][class*="game"],
+[class*="hero"][class*="thumb"] {
+  position: relative;
+  z-index: 3 !important; /* acima do overlay (z:1) e spotlight (z:1) */
+}

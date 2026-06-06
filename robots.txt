@@ -1,0 +1,12 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /?debug=
+
+Sitemap: https://neonplay-nu.vercel.app/sitemap.xml
+
+# Crawl-delay para bots menos relevantes
+User-agent: AhrefsBot
+Crawl-delay: 10
+User-agent: SemrushBot
+Crawl-delay: 10

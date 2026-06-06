@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Anuncie — NeonPlay</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;900&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="preload" href="style.css" as="style">
+  <link rel="stylesheet" href="style.css?v=796f7ae9">
+  <style>
+    .legal-wrap { max-width: 600px; margin: 3rem auto; padding: 0 1.5rem 4rem; }
+    .legal-wrap h1 { font-size: 2rem; font-weight: 900; margin-bottom: 0.5rem; }
+    .legal-wrap p { color: var(--text-muted, #aaa); font-size: 0.9rem; line-height: 1.75; margin-bottom: 0.75rem; }
+    .back-link { display: inline-flex; align-items: center; gap: 0.4rem; margin: 1.5rem 0 0 1.5rem; font-size: 0.85rem; color: var(--cyan, #00d4ff); text-decoration: none; }
+    .back-link:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+<header class="header" role="banner">
+  <div class="container">
+    <div class="header-inner">
+      <a href="index.html" class="logo" aria-label="NeonPlay - Página inicial">
+        <span class="logo-icon" aria-hidden="true">🎮</span>
+        <span class="logo-text">Neon<span class="logo-accent">Play</span></span>
+      </a>
+      <div class="search-wrap" role="search">
+        <input type="search" id="searchInput" class="search-input" placeholder="Buscar jogos..." autocomplete="off" aria-label="Buscar jogos">
+        <button class="search-btn" aria-label="Pesquisar">🔍</button>
+        <div id="searchDrop" class="search-drop" role="listbox" hidden></div>
+      </div>
+      <nav class="nav" aria-label="Menu principal">
+        <a href="index.html" class="nav-link">Início</a>
+        <a href="category.html?cat=acao" class="nav-link">Ação</a>
+        <a href="category.html?cat=corrida" class="nav-link">Corrida</a>
+        <a href="category.html" class="nav-link">Categorias</a>
+      </nav>
+      <button id="hbg" class="hbg" aria-label="Abrir menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+<nav id="mobileNav" class="mobile-nav" aria-label="Menu mobile" hidden>
+  <a href="index.html" class="mnav-link">🏠 Início</a>
+  <a href="category.html?cat=acao" class="mnav-link">⚔️ Ação</a>
+  <a href="category.html?cat=corrida" class="mnav-link">🏎️ Corrida</a>
+  <a href="category.html?cat=puzzle" class="mnav-link">🧩 Puzzle</a>
+  <a href="category.html" class="mnav-link">🕹️ Categorias</a>
+</nav>
+<div style="margin:1rem 1.5rem 0"><a href="index.html" class="back-link">← Voltar para NeonPlay</a></div>
+<div class="legal-wrap">
+  <h1>📢 Anuncie no NeonPlay</h1>
+  <p>O NeonPlay é um portal de jogos com identidade emocional única e audiência engajada no Brasil.</p>
+  <p>Para propostas de parceria ou publicidade, entre em contato pelo canal de <a href="contato.html" style="color:var(--cyan,#00d4ff)">contato</a>. Apresentaremos nossa mídia kit com dados de audiência.</p>
+</div>
+<footer style="text-align:center;padding:2rem;color:#555;font-size:.8rem;border-top:1px solid rgba(255,255,255,.06);">
+  © 2026 NeonPlay — <a href="privacidade.html" style="color:#00d4ff">Privacidade</a> · <a href="termos.html" style="color:#00d4ff">Termos</a>
+</footer>
+<script src="bundle.min.js" defer></script>
+<script src="neonplay-init.js?v=r16" defer></script>
+</body>
+</html>

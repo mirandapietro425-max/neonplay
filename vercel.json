@@ -1,0 +1,222 @@
+{
+  "headers": [
+    {
+      "source": "/bundle.min.js",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/(Zap[^/]+\\.js)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=604800, stale-while-revalidate=86400"
+        }
+      ]
+    },
+    {
+      "source": "/neonplay-init.js",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=3600, stale-while-revalidate=86400"
+        }
+      ]
+    },
+    {
+      "source": "/zap-companion.css",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/(.*\\.xml)",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/xml; charset=utf-8"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=3600"
+        }
+      ]
+    },
+    {
+      "source": "/style.css",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/engine.js",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/games-data.js",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=86400"
+        }
+      ]
+    },
+    {
+      "source": "/(.*\\.html)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=3600, must-revalidate"
+        }
+      ]
+    },
+    {
+      "source": "/np92-video-engine.js",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=604800, stale-while-revalidate=86400"
+        }
+      ]
+    },
+    {
+      "source": "/np-gp-tag-fix.js",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=604800, stale-while-revalidate=86400"
+        }
+      ]
+    },
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "SAMEORIGIN"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        }
+      ]
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/jogos-faceis",
+      "destination": "/intent.html"
+    },
+    {
+      "source": "/jogos-dificeis",
+      "destination": "/intent.html"
+    },
+    {
+      "source": "/jogos-rapidos",
+      "destination": "/intent.html"
+    },
+    {
+      "source": "/jogos-leves",
+      "destination": "/intent.html"
+    },
+    {
+      "source": "/jogos-viciantes",
+      "destination": "/intent.html"
+    },
+    {
+      "source": "/jogos-para-passar-o-tempo",
+      "destination": "/intent.html"
+    },
+    {
+      "source": "/jogos-online-gratis",
+      "destination": "/intent.html"
+    },
+    {
+      "source": "/jogos-sem-download",
+      "destination": "/intent.html"
+    },
+    {
+      "source": "/jogos-de-:tag1-e-:tag2",
+      "destination": "/combo.html"
+    },
+    {
+      "source": "/jogos-de-:tag1-com-:tag2",
+      "destination": "/combo.html"
+    },
+    {
+      "source": "/melhores-jogos-de-:tag",
+      "destination": "/collection.html"
+    },
+    {
+      "source": "/jogos-de-:tag-online",
+      "destination": "/collection.html"
+    },
+    {
+      "source": "/jogos-de-:tag-para-celular",
+      "destination": "/collection.html"
+    },
+    {
+      "source": "/jogos-de-corrida",
+      "destination": "/jogos-de-corrida.html"
+    },
+    {
+      "source": "/jogos-de-puzzle",
+      "destination": "/jogos-de-puzzle.html"
+    },
+    {
+      "source": "/jogos-de-tiro",
+      "destination": "/jogos-de-tiro.html"
+    },
+    {
+      "source": "/jogos-de-stickman",
+      "destination": "/jogos-de-stickman.html"
+    },
+    {
+      "source": "/novidades",
+      "destination": "/novidades.html"
+    },
+    {
+      "source": "/jogos-friv",
+      "destination": "/jogos-friv.html"
+    },
+    {
+      "source": "/jogos-para-celular",
+      "destination": "/jogos-para-celular.html"
+    },
+    {
+      "source": "/melhores-jogos-online",
+      "destination": "/melhores-jogos-online.html"
+    },
+    {
+      "source": "/jogos-de-:tag",
+      "destination": "/collection.html"
+    },
+    {
+      "source": "/tag/:tag",
+      "destination": "/tag.html"
+    },
+    {
+      "source": "/buscar/:q",
+      "destination": "/buscar.html"
+    }
+  ]
+}

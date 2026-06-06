@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Carregando Jogo... — NeonPlay</title>
+  <meta name="description" content="Jogue grátis online no NeonPlay. Sem download, sem cadastro.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://neonplay-nu.vercel.app/game.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="NeonPlay">
+  <meta property="og:title" content="NeonPlay — Jogos Online Grátis">
+  <meta property="og:description" content="Jogue grátis online no NeonPlay. Sem download, sem cadastro.">
+  <meta property="og:image" content="">
+  <meta property="og:url" content="https://neonplay-nu.vercel.app/game.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800;900&family=DM+Sans:wght@400;500;700&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="preload" href="style.css?v=796f7ae9" as="style">
+  <link rel="preload" href="bundle.min.js" as="script">
+  <link rel="stylesheet" href="style.css?v=796f7ae9">
+  <link rel="stylesheet" href="np-perception-layer.css?v=r103">
+  <!-- ══ R7: Companion Mode ══ -->
+  <link rel="stylesheet" href="zap-companion.css">
+  <link rel="stylesheet" href="np-r20-11-overlap-fix.css?v=r11">
+</head>
+<body>
+
+<header class="header" role="banner">
+  <div class="container">
+    <div class="header-inner">
+      <a href="index.html" class="logo" aria-label="NeonPlay - Página inicial">
+        <span class="logo-icon" aria-hidden="true">🎮</span>
+        <span class="logo-text">Neon<span class="logo-accent">Play</span></span>
+      </a>
+      <div class="search-wrap" role="search">
+        <label for="searchInput" class="sr-only">Buscar jogos</label>
+        <input type="search" id="searchInput" class="search-input" placeholder="Buscar jogos..." autocomplete="off" aria-label="Buscar jogos" aria-controls="searchDrop">
+        <button class="search-btn" aria-label="Pesquisar">🔍</button>
+        <div id="searchDrop" class="search-drop" role="listbox" hidden></div>
+      </div>
+      <nav class="nav" aria-label="Menu principal">
+        <a href="index.html" class="nav-link">Início</a>
+        <a href="category.html?cat=acao" class="nav-link">Ação</a>
+        <a href="category.html?cat=corrida" class="nav-link">Corrida</a>
+        <a href="category.html?cat=puzzle" class="nav-link">Puzzle</a>
+        <a href="category.html" class="nav-link">Categorias</a>
+      </nav>
+      <button id="favBtn" class="fav-btn" aria-label="Meus favoritos" aria-expanded="false">❤️ <span>Favoritos</span> (<span id="favCount">0</span>)</button>
+      <button id="hbg" class="hbg" aria-label="Abrir menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<nav id="mobileNav" class="mobile-nav" aria-label="Menu mobile" hidden>
+  <a href="index.html" class="mnav-link">🏠 Início</a>
+  <a href="category.html?cat=acao" class="mnav-link">⚔️ Ação</a>
+  <a href="category.html?cat=corrida" class="mnav-link">🏎️ Corrida</a>
+  <a href="category.html?cat=puzzle" class="mnav-link">🧩 Puzzle</a>
+  <a href="category.html?cat=arcade" class="mnav-link">🕹️ Arcade</a>
+  <a href="category.html?cat=esporte" class="mnav-link">⚽ Esporte</a>
+  <a href="category.html?cat=aventura" class="mnav-link">🗺️ Aventura</a>
+  <a href="category.html?cat=tiro" class="mnav-link">🎯 Tiro</a>
+  <a href="category.html?cat=estrategia" class="mnav-link">♟️ Estratégia</a>
+</nav>
+
+<div class="ad-wrap">
+  <div class="ad-block ad-leaderboard"><span class="ad-label">PUBLICIDADE</span></div>
+</div>
+
+<main id="main-content">
+  <div class="container" style="padding-top:1rem;padding-bottom:2rem">
+
+    <nav class="breadcrumb" aria-label="Navegação estrutural">
+      <a href="index.html">🏠 Início</a>
+      <span class="bc-sep" aria-hidden="true">›</span>
+      <a href="category.html" id="bcCat">Categorias</a>
+      <span class="bc-sep" aria-hidden="true">›</span>
+      <span id="bcGame" aria-current="page">Carregando...</span>
+    </nav>
+
+    <div class="gp-layout">
+      <div>
+
+        <!-- ══ v92: Intro Cinemática — DOM removido (BUG-03 R20.8): assets ausentes, reativar com np92-video-engine.js quando .mp4 disponíveis ══ -->
+
+        <!-- SPLASH SCREEN -->
+        <div id="gameSplash" class="game-splash">
+          <div id="splashPoster" class="splash-poster">🎮</div>
+          <div class="splash-info">
+            <h1 id="gpTitle" class="gp-title">Carregando...</h1>
+            <div id="gpMeta" class="gp-meta">
+              <span id="gpTagCat" class="gp-tag cat">🎮</span>
+              <span id="gpTagRating" class="gp-tag">⭐</span>
+              <span id="gpTagPlays" class="gp-tag">👾</span>
+              <span id="gpTagYear" class="gp-tag">📅</span>
+              <span id="gpTagDev" class="gp-tag">🏢</span>
+            </div>
+            <p id="gpDesc" class="gp-desc">Carregando informações do jogo...</p>
+            <div class="gp-actions">
+              <button id="playNowBtn" class="btn-play" aria-label="Jogar agora">▶ Jogar Agora</button>
+              <button id="favSplashBtn" class="btn-fav" data-id="" aria-label="Favoritar">♡ Favoritar</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- AD PRÉ-JOGO -->
+        <div class="ad-wrap" id="preGameAdWrap" style="display:none">
+          <div class="ad-block ad-leaderboard"><span class="ad-label">PUBLICIDADE</span></div>
+        </div>
+
+        <!-- GAME FRAME -->
+        <div id="gameFrameWrap" class="game-frame-wrap" style="display:none">
+          <div class="gframe-bar">
+            <span id="iframeTitle" class="gframe-title">🎮</span>
+            <div class="gframe-btns">
+              <button id="restartBtn" class="gframe-btn" title="Reiniciar" aria-label="Reiniciar">🔄</button>
+              <button id="favIframeBtn" class="gframe-btn" title="Favoritar" aria-label="Favoritar">♡</button>
+              <button id="shareWppBtn" class="gframe-btn gframe-btn--share" title="Desafiar amigo no WhatsApp" aria-label="Compartilhar no WhatsApp">📲</button>
+              <button id="fullscreenBtn" class="gframe-btn" title="Tela cheia" aria-label="Tela cheia" data-fs="0">⛶</button>
+            </div>
+          </div>
+          <div class="iframe-outer">
+            <div id="iframeLoader" class="iframe-loader">
+              <div class="spin"></div>
+              <p id="iframeLoaderMsg">Carregando jogo...</p>
+            </div>
+            <iframe id="gameFrame" class="game-iframe" src="about:blank"
+              title="Jogo NeonPlay" allowfullscreen allow="fullscreen; autoplay"
+              sandbox="allow-scripts allow-popups allow-forms allow-pointer-lock allow-orientation-lock allow-top-navigation-by-user-activation allow-same-origin"
+              loading="lazy"></iframe>
+          </div>
+          <!-- Contador de tempo jogado -->
+          <div id="playtimeBar" class="playtime-bar" style="display:none">
+            <span class="playtime-icon">⏱</span>
+            <span id="playtimeText">Você jogou por 0 min</span>
+            <span id="playtimeBest" class="playtime-best"></span>
+          </div>
+        </div>
+
+        <!-- AD PÓS-JOGO -->
+        <div class="ad-wrap">
+          <div class="ad-block ad-leaderboard"><span class="ad-label">PUBLICIDADE</span></div>
+        </div>
+
+        <!-- INFO CARD -->
+        <div class="ginfo-card">
+          <h2 id="ginfoCTitle">Sobre o Jogo</h2>
+          <p id="ginfoDesc">Carregando...</p>
+          <div id="gameTags" class="gtags"></div>
+        </div>
+
+        <article id="seoBlock" class="seo-block game-description" aria-label="Informações sobre o jogo"></article>
+
+        <!-- 🎮 PRÓXIMO JOGO — retenção crítica -->
+        <section class="reveal" aria-labelledby="next-heading" style="margin-top:2rem">
+          <div class="section-hd">
+            <h2 class="section-title" id="next-heading"><span class="sec-icon">▶</span>Jogue Este a Seguir</h2>
+          </div>
+          <div id="nextGamePanel"></div>
+        </section>
+
+        <!-- 🎮 JOGOS PARECIDOS -->
+        <section class="reveal" aria-labelledby="related-heading" style="margin-top:1.5rem">
+          <div class="section-hd">
+            <h2 class="section-title" id="related-heading"><span class="sec-icon">🎮</span>Jogos Parecidos</h2>
+            <a id="relatedSeeAll" href="category.html" class="see-all">Ver categoria →</a>
+          </div>
+          <div id="relatedGrid" class="games-grid" role="list"></div>
+        </section>
+
+        <!-- 🧲 QUEM JOGOU ESTE TAMBÉM ABRIU -->
+        <section class="also-section reveal" aria-labelledby="also-heading">
+          <div class="section-hd">
+            <div>
+              <h2 class="section-title" id="also-heading"><span class="sec-icon">🧲</span>Quem Jogou Este Também Abriu</h2>
+              <p class="also-label">Você vai querer jogar esses também</p>
+            </div>
+          </div>
+          <div id="alsoGrid" class="games-grid" role="list"></div>
+        </section>
+
+        <!-- 🎯 RECOMENDADOS carousel -->
+        <section class="reveal" aria-labelledby="rec-heading" style="margin-top:2rem">
+          <div class="section-hd">
+            <div>
+              <h2 class="section-title" id="rec-heading"><span class="sec-icon">🎯</span>Você Também Pode Gostar</h2>
+              <p class="section-label">Selecionados especialmente para você</p>
+            </div>
+            <a href="category.html" class="see-all">Explorar →</a>
+          </div>
+          <div id="recommendedGrid" class="carousel-scroll" role="list"></div>
+        </section>
+
+      </div>
+
+      <aside class="sidebar">
+        <div>
+          <div class="ad-block ad-rectangle"><span class="ad-label">PUBLICIDADE</span></div>
+        </div>
+        <div class="widget">
+          <div class="widget-title">🔥 Mais Jogados</div>
+          <div id="sidebarHot"></div>
+        </div>
+        <div>
+          <div class="ad-block ad-rectangle"><span class="ad-label">PUBLICIDADE</span></div>
+        </div>
+        <div class="widget">
+          <div class="widget-title">📂 Categorias</div>
+          <div class="scats">
+            <a href="category.html?cat=acao" class="scat">⚔️ Ação</a>
+            <a href="category.html?cat=corrida" class="scat">🏎️ Corrida</a>
+            <a href="category.html?cat=puzzle" class="scat">🧩 Puzzle</a>
+            <a href="category.html?cat=arcade" class="scat">🕹️ Arcade</a>
+            <a href="category.html?cat=esporte" class="scat">⚽ Esporte</a>
+            <a href="category.html?cat=aventura" class="scat">🗺️ Aventura</a>
+            <a href="category.html?cat=tiro" class="scat">🎯 Tiro</a>
+            <a href="category.html?cat=estrategia" class="scat">♟️ Estratégia</a>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+  </div>
+</main>
+
+<footer class="footer" role="contentinfo">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="logo"><span class="logo-icon">🎮</span><span class="logo-text">Neon<span class="logo-accent">Play</span></span></a>
+        <p class="f-tagline">O melhor portal de jogos HTML5 grátis do Brasil.</p>
+      </div>
+      <div class="footer-col"><h4>Categorias</h4><ul>
+        <li><a href="category.html?cat=acao">⚔️ Ação</a></li>
+        <li><a href="category.html?cat=corrida">🏎️ Corrida</a></li>
+        <li><a href="category.html?cat=puzzle">🧩 Puzzle</a></li>
+        <li><a href="category.html?cat=arcade">🕹️ Arcade</a></li>
+      </ul></div>
+      <div class="footer-col"><h4>Mais Jogos</h4><ul>
+        <li><a href="category.html?cat=esporte">⚽ Esporte</a></li>
+        <li><a href="category.html?cat=aventura">🗺️ Aventura</a></li>
+        <li><a href="category.html?cat=tiro">🎯 Tiro</a></li>
+        <li><a href="category.html?cat=estrategia">♟️ Estratégia</a></li>
+      </ul></div>
+      <div class="footer-col"><h4>Por Intenção</h4><ul>
+        <li><a href="intent.html?intent=faceis">🟢 Jogos Fáceis</a></li>
+        <li><a href="intent.html?intent=rapidos">⚡ Jogos Rápidos</a></li>
+        <li><a href="intent.html?intent=viciantes">🔥 Jogos Viciantes</a></li>
+        <li><a href="intent.html?intent=leves">🪶 Jogos Leves</a></li>
+        <li><a href="intent.html?intent=sem-download">🚫 Sem Download</a></li>
+      </ul></div>
+      <div class="footer-col"><h4>NeonPlay</h4><ul>
+        <li><a href="sobre.html">Sobre Nós</a></li>
+        <li><a href="contato.html">Contato</a></li>
+        <li><a href="privacidade.html">Privacidade</a></li>
+        <li><a href="termos.html">Termos de Uso</a></li>
+      </ul></div>
+      <div class="footer-col"><h4>Tags Populares</h4><ul>
+        <li><a href="jogos-de-stickman.html">🥷 Stickman</a></li>
+        <li><a href="jogos-de-corrida.html">🏎️ Corrida</a></li>
+        <li><a href="jogos-de-tiro.html">🎯 Tiro</a></li>
+        <li><a href="jogos-de-puzzle.html">🧩 Puzzle</a></li>
+        <li><a href="novidades.html">🆕 Novidades 2026</a></li>
+      </ul></div><!-- R12: </ul> corrigido -->
+    </div>
+   <div class="footer-bot"><p>© 2026 NeonPlay — Jogos Online Grátis | Todos os direitos reservados | 🇧🇷 Brasil</p></div>
+  </div>
+</footer>
+
+<div id="favPanel" class="fav-panel" role="dialog" aria-modal="true">
+  <div class="fav-ph"><h3>❤️ Meus Favoritos</h3><button id="favClose" class="fav-close">✕</button></div>
+  <div id="favBody" class="fav-body"></div>
+</div>
+<div id="overlay" class="overlay"></div>
+<div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+<!-- ══ v83: Auto-Next Overlay ══ -->
+<div id="np83AutoNext" class="np83-autonext" hidden aria-modal="true" role="dialog" aria-label="Próximo jogo recomendado">
+  <div class="np83-an-close-wrap">
+    <button id="np83CloseNext" class="np83-an-close" aria-label="Fechar">✕</button>
+  </div>
+  <div class="np83-an-header">
+    <span class="np83-an-icon">🎮</span>
+    <div>
+      <div class="np83-an-title">Próximo Jogo Recomendado</div>
+      <div class="np83-an-sub">Auto-abrindo em <span id="np83Countdown">10</span>s</div>
+    </div>
+  </div>
+  <div id="np83NextGame" class="np83-an-card"></div>
+  <div class="np83-an-actions">
+    <button id="np83PlayNext" class="np83-btn-play">▶ Jogar Agora</button>
+    <button id="np83SeeMore" class="np83-btn-more">🔁 Ver Mais Parecidos</button>
+  </div>
+  <div class="np83-an-bar"><div id="np83AnProgress" class="np83-an-progress"></div></div>
+</div>
+
+<!-- ══ v83: Continue Explorando ══ -->
+<section id="continueFeedSection" class="np83-continue-section" style="display:none" aria-labelledby="cf-heading">
+  <div class="container">
+    <div class="section-hd">
+      <div>
+        <h2 class="section-title" id="cf-heading"><span class="sec-icon">🎯</span>Continue Explorando</h2>
+        <p class="section-label">Mais jogos que você vai adorar</p>
+      </div>
+      <a id="cfSeeAll" href="category.html" class="see-all">Ver categoria →</a>
+    </div>
+    <div id="continueFeedCarousel" class="carousel-scroll np83-cf-carousel" role="list"></div>
+  </div>
+</section>
+
+<!-- ══ v83: Streak Badge ══ -->
+<div id="np83Streak" class="np83-streak" hidden aria-live="polite"></div>
+
+<!-- ══ v84: Micro Game Loop Panel ══ -->
+<div id="np84MicroLoop" class="np84-micro-loop container" style="display:none" aria-label="Seu progresso"></div>
+
+<!-- ══ v84: Profile Panel ══ -->
+<div id="np84ProfilePanel" class="np84-profile-panel" hidden aria-modal="true" role="dialog" aria-label="Meu Perfil">
+  <div id="np84Profile"></div>
+</div>
+
+<!-- ══ v84: Level-Up Popup ══ -->
+<div id="np84LevelUpPopup" class="np84-levelup-popup" hidden aria-live="assertive">
+  <div class="np84-lu-inner">
+    <div class="np84-lu-emoji">🏆</div>
+    <div class="np84-lu-level">Nível 1</div>
+    <div class="np84-lu-name">Explorador</div>
+    <div class="np84-lu-msg">Você subiu de nível!</div>
+  </div>
+</div>
+
+<!-- JQ-02 R20.6: np92-video-engine desativado — window._np92VideoConfig e o .mp4 ausentes no build.
+     Reativar quando os assets de vídeo forem incluídos e _np92VideoConfig configurado.
+<script src="np92-video-engine.js?v=7cd7bab3" defer></script>
+-->
+<!-- R20.8: GamePix health probe — detecta bloqueio antes do timeout de 9s -->
+<script src="neonplay-init.js?v=r16" defer></script>
+<script src="np-r20-8-gamepix-health.js" defer></script>
+<script src="bundle.min.js" defer></script>
+<script src="np-r20-2.js" defer></script>
+<script src="np-r20-4.js" defer></script>
+<script src="np-perception-layer.js?v=r103" defer></script>
+<script src="np-r20-5.js" defer></script>
+<script src="np-r20-6.js" defer></script>
+<!-- NeonPlay R20.8 — Stabilization + Perception Pass -->
+<script src="np-r20-8.js" defer></script>
+<!-- NeonPlay R20.8 — Hardening Pass (focus traps, onclick guards, a11y) -->
+<script src="np-r20-8-hardening.js" defer></script>
+
+<!-- ══ R7: Companion Mode — carrega APÓS o bundle ══ -->
+<script src="ZapEconomy.js" defer></script>
+<script src="ZapCosmetics.js" defer></script>
+<!-- COMP-01 R20.6: Módulos soul do companion — ausentes em game.html, presentes em index.html.
+     Sem estes scripts ZapCompanion monta mas não fala, não reage, não tem memória. -->
+<script src="js/zap/NPUtils.js" defer></script>
+<script src="js/zap/NPBus.js" defer></script>
+<script src="js/zap/ZapMoodSystem.js" defer></script>
+<script src="js/zap/ZapSpeech.js" defer></script>
+<script src="js/zap/ZapIdle.js" defer></script>
+<script src="js/zap/ZapMemory.js" defer></script>
+<script src="js/zap/ZapNotifications.js" defer></script>
+<script src="js/zap/ZapDebugOverlay.js" defer></script>
+<script src="js/zap/NPSaveMigration.js" defer></script>
+<script src="js/zap/ZapPersonalityEngine.js" defer></script>
+<script src="js/zap/ZapAffinity.js" defer></script>
+<script src="js/zap/ZapMemoryGraph.js" defer></script>
+<script src="js/zap/ZapDialogueEngine.js" defer></script>
+<script src="js/zap/ZapPresence.js" defer></script>
+<script src="js/zap/ZapAnimator.js" defer></script>
+<script src="js/zap/ZapAmbientEvents.js" defer></script>
+<script defer src="js/zap/ZapAttentionSystem.js?v=r19"></script>
+<script defer src="js/zap/ZapSilenceModel.js?v=r19"></script>
+<script defer src="js/zap/ZapTemporalAwareness.js?v=r18"></script>
+<script defer src="js/zap/ZapEmotionalFatigue.js?v=r18"></script>
+<script defer src="js/zap/ZapPresenceDensity.js?v=r18"></script>
+<script defer src="js/zap/ZapSemanticMemory.js?v=r18"></script>
+<script defer src="js/zap/ZapBehaviorDirector.js?v=r19"></script>
+<script defer src="js/zap/ZapStateCoordinator.js?v=r19"></script>
+<script defer src="js/zap/ZapEmotionModel.js?v=r19"></script>
+<script defer src="js/zap/ZapSpeechQueue.js?v=r17"></script>
+<script defer src="js/zap/ZapContextEngine.js?v=r17"></script>
+<script defer src="js/zap/ZapPresencePersistence.js?v=r17"></script>
+<script defer src="js/zap/ZapSaveIntegrity.js?v=r17"></script>
+<script src="ZapCompanion.js" defer></script>
+<script src="ZapConnect.js" defer></script>
+  <!-- R20.8: BUG-01 CORRIGIDO — bloco R18/R17 duplicado removido (13 scripts redundantes) -->
+  <script src="ZapAudioEngine.js" defer></script>
+<script src="ZapBadges.js" defer></script>
+<script src="ZapLoreEngine.js" defer></script>
+<script src="ZapSentience.js" defer></script>
+<script src="ZapBioreactive.js" defer></script>
+<script src="ZapWorldEngine.js" defer></script>
+<!-- NeonPlay R9 — Governance Layer (carrega por último, após todos os módulos) -->
+<script src="ZapEventContract.js" defer></script>
+<script src="ZapEventBus.js" defer></script>
+<script src="ZapCompanionController.js" defer></script>
+<script src="np-gp-tag-fix.js?v=23cbe1e3" defer></script>
+
+<script>
+/* ── R20.6 PATCH INLINE — game.html ─────────────────────────────
+   JQ-01: Slug não encontrado → redirect para home após 3s.
+   A11Y-04: iframe title dinâmico com nome do jogo atual.
+   Compatível com R20.1–R20.5. Zero dependência de bundle.
+────────────────────────────────────────────────────────────────── */
+(function () {
+  /* JQ-01 — Detectar "Jogo não encontrado" e redirecionar */
+  function _watchNotFound() {
+    var POLL_INTERVAL = 600;
+    var MAX_WAIT = 8000;
+    var _elapsed = 0;
+    var _timer = setInterval(function () {
+      _elapsed += POLL_INTERVAL;
+      var splash = document.getElementById('gameSplash');
+      /* O bundle injeta classe 'not-found' ou texto de erro quando jogo não existe */
+      if (splash && (
+        splash.classList.contains('not-found') ||
+        (splash.textContent || '').toLowerCase().indexOf('não encontrado') !== -1 ||
+        (splash.textContent || '').toLowerCase().indexOf('not found') !== -1
+      )) {
+        clearInterval(_timer);
+        var msg = document.createElement('p');
+        msg.style.cssText = 'text-align:center;color:#94a3b8;padding:1rem;font-size:.85rem';
+        msg.textContent = 'Redirecionando para a página inicial…';
+        splash.appendChild(msg);
+        setTimeout(function () {
+          try { window.location.replace('index.html'); } catch(e) {}
+        }, 3000);
+        return;
+      }
+      if (_elapsed >= MAX_WAIT) clearInterval(_timer);
+    }, POLL_INTERVAL);
+  }
+
+  /* A11Y-04 — Atualizar title do iframe com nome do jogo */
+  function _watchGameTitle() {
+    var frame = document.getElementById('gameFrame');
+    if (!frame) return;
+    /* Observar mudanças no iframeTitle (injetado pelo bundle) */
+    var titleEl = document.getElementById('iframeTitle');
+    if (titleEl) {
+      var mo = new MutationObserver(function () {
+        var name = (titleEl.textContent || '').replace(/^🎮\s*/, '').trim();
+        if (name) frame.title = 'Jogando: ' + name;
+      });
+      mo.observe(titleEl, { childList: true, characterData: true, subtree: true });
+    }
+    /* Fallback: escutar NP.events.gameplay:start */
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.NP && window.NP.events) {
+        NP.events.on('gameplay:start', function (d) {
+          if (d && d.slug) frame.title = 'Jogando: ' + d.slug;
+        });
+      }
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function () {
+      _watchNotFound();
+      _watchGameTitle();
+    });
+  } else {
+    _watchNotFound();
+    _watchGameTitle();
+  }
+})();
+</script>
+  <script src="np-r20-11-init-coordinator.js?v=r11" defer></script>
+</html>

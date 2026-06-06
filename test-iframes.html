@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>NeonPlay — Teste de Iframes</title>
+  <meta name="robots" content="noindex,nofollow">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #0a0a1a; color: #fff; font-family: monospace; padding: 1rem; }
+    h1 { color: #00eeff; margin-bottom: .5rem; }
+    .subtitle { color: #666; font-size: .85rem; margin-bottom: 1.5rem; }
+    .config-box { background: #111; border: 1px solid rgba(0,238,255,.3); border-radius: 8px; padding: 1rem; margin-bottom: 1.5rem; }
+    .config-box label { display: block; color: #888; font-size: .8rem; margin-bottom: .3rem; }
+    .config-box input { width: 100%; background: #0a0a1a; border: 1px solid #333; color: #00eeff; padding: .5rem .8rem; border-radius: 4px; font-family: monospace; font-size: .9rem; }
+    .btn { background: linear-gradient(135deg,#00eeff,#7c4dff); color: #000; border: none; padding: .6rem 1.4rem; border-radius: 6px; font-weight: 700; cursor: pointer; font-size: .85rem; margin: .3rem; }
+    .btn-sm { background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.15); color: #ccc; border-radius: 4px; padding: .3rem .7rem; font-size: .75rem; cursor: pointer; font-family: monospace; }
+    .btn-sm:hover { background: rgba(0,238,255,.15); color: #00eeff; border-color: #00eeff; }
+    .stats { display: flex; gap: 1rem; margin-bottom: 1rem; flex-wrap: wrap; }
+    .stat { background: #111; border: 1px solid #222; border-radius: 6px; padding: .5rem 1rem; font-size: .85rem; }
+    .stat span { color: #00eeff; font-weight: 700; font-size: 1.1rem; }
+    #results { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: .8rem; }
+    .game-test { background: #111; border: 1px solid #222; border-radius: 8px; overflow: hidden; position: relative; }
+    .game-test.loading  { border-color: #ffb628; }
+    .game-test.ok       { border-color: #00ff88; }
+    .game-test.error    { border-color: #ff4444; }
+    .game-test.blocked  { border-color: #ff8c00; }
+    .game-header { padding: .5rem .7rem; display: flex; align-items: center; gap: .4rem; background: rgba(255,255,255,.03); border-bottom: 1px solid #222; }
+    .game-name { font-size: .8rem; font-weight: 700; flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .game-slug { font-size: .65rem; color: #555; }
+    .status-dot { width: 8px; height: 8px; border-radius: 50%; background: #555; flex-shrink: 0; }
+    .ok    .status-dot { background: #00ff88; box-shadow: 0 0 6px #00ff88; }
+    .error .status-dot { background: #ff4444; box-shadow: 0 0 6px #ff4444; }
+    .blocked .status-dot { background: #ff8c00; box-shadow: 0 0 6px #ff8c00; }
+    .loading .status-dot { background: #ffb628; animation: blink .8s infinite; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+    .frame-wrap { position: relative; height: 180px; background: #0a0a1a; }
+    .frame-wrap iframe { width: 100%; height: 100%; border: none; }
+    .frame-overlay { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: .8rem; text-align: center; padding: 1rem; }
+    .frame-msg { color: #00ff88; }
+    .frame-err { color: #ff4444; }
+    .frame-block { color: #ff8c00; }
+    .game-footer { padding: .4rem .7rem; display: flex; gap: .3rem; align-items: center; }
+    .time-badge { font-size: .65rem; color: #555; margin-left: auto; }
+    .progress-bar { height: 3px; background: #222; }
+    .progress-fill { height: 100%; width: 0%; transition: width .3s; }
+    .ok .progress-fill    { background: #00ff88; width: 100%; }
+    .error .progress-fill { background: #ff4444; width: 100%; }
+    .blocked .progress-fill { background: #ff8c00; width: 100%; }
+    .loading .progress-fill { background: #ffb628; animation: progress 14s linear; }
+    @keyframes progress { from{width:0%} to{width:95%} }
+    #log { background: #0a0a1a; border: 1px solid #222; border-radius: 8px; padding: .8rem; margin-top: 1.5rem; font-size: .75rem; max-height: 200px; overflow-y: auto; }
+    .log-ok   { color: #00ff88; }
+    .log-err  { color: #ff4444; }
+    .log-warn { color: #ffb628; }
+    .log-info { color: #888; }
+    #summary { display: none; background: #111; border: 1px solid #333; border-radius: 8px; padding: 1rem; margin-top: 1rem; }
+    #summary h3 { color: #00eeff; margin-bottom: .5rem; }
+    .export-btn { margin-top: .8rem; }
+  </style>
+</head>
+<body>
+
+<h1>🎮 NeonPlay — Teste de Iframes</h1>
+<p class="subtitle">Ferramenta de diagnóstico — verifica quais jogos carregam corretamente no seu domínio</p>
+
+<div class="config-box">
+  <label>Publisher SID do GamePix (obter em partners.gamepix.com):</label>
+  <input type="text" id="sidInput" placeholder="Cole seu SID aqui — ex: abc123xyz" value="" oninput="syncSidToConfig(this.value)">
+  <div style="margin-top:.6rem;display:flex;gap:.5rem;flex-wrap:wrap;align-items:center">
+    <button class="btn" onclick="startTest()">▶ Iniciar Teste</button>
+    <button class="btn" onclick="startTest(5)">Testar 5 jogos</button>
+    <button class="btn" onclick="startTest(20)">Testar 20 jogos</button>
+    <span style="color:#666;font-size:.75rem">Cada teste demora até 14s por jogo</span>
+  </div>
+</div>
+
+<div class="stats">
+  <div class="stat">Total: <span id="statTotal">0</span></div>
+  <div class="stat" style="border-color:#00ff88">✅ OK: <span id="statOk" style="color:#00ff88">0</span></div>
+  <div class="stat" style="border-color:#ff4444">❌ Erro: <span id="statErr" style="color:#ff4444">0</span></div>
+  <div class="stat" style="border-color:#ff8c00">🚫 Bloqueado: <span id="statBlock" style="color:#ff8c00">0</span></div>
+  <div class="stat">⏳ Pendente: <span id="statPend">0</span></div>
+</div>
+
+<div id="results"></div>
+<div id="log"></div>
+<div id="summary"></div>
+
+<script>
+let results = { ok: [], error: [], blocked: [] };
+let testing  = false;
+let TIMEOUT  = 14000;
+
+function log(msg, type = 'info') {
+  const el = document.getElementById('log');
+  const line = document.createElement('div');
+  line.className = 'log-' + type;
+  line.textContent = `[${new Date().toLocaleTimeString()}] ${msg}`;
+  el.appendChild(line);
+  el.scrollTop = el.scrollHeight;
+}
+
+function updateStats() {
+  document.getElementById('statOk').textContent    = results.ok.length;
+  document.getElementById('statErr').textContent   = results.error.length;
+  document.getElementById('statBlock').textContent = results.blocked.length;
+  const pend = parseInt(document.getElementById('statTotal').textContent)
+               - results.ok.length - results.error.length - results.blocked.length;
+  document.getElementById('statPend').textContent  = Math.max(0, pend);
+}
+
+// Sincroniza SID digitado com NP_CONFIG para que buildGameUrl() funcione
+function syncSidToConfig(val) {
+  if (typeof NP_CONFIG !== 'undefined' && NP_CONFIG.providers?.gamepix) {
+    NP_CONFIG.providers.gamepix.sid = val.trim();
+  }
+}
+// Auto-preenche o campo se NP_CONFIG já tiver SID
+document.addEventListener('DOMContentLoaded', () => {
+  const cfg = typeof NP_CONFIG !== 'undefined' ? NP_CONFIG?.providers?.gamepix?.sid : '';
+  if (cfg) document.getElementById('sidInput').value = cfg;
+});
+
+function testGame(game, sid) {
+  return new Promise(resolve => {
+    const src = sid
+      ? `https://www.gamepix.com/play/${game.slug || game.id}/?sdk=1&sid=${sid}`
+      : `https://www.gamepix.com/play/${game.slug || game.id}/?sdk=1`;
+
+    const card = document.getElementById('card-' + game.id);
+    if (!card) { resolve({ game, status: 'error', reason: 'no-card' }); return; }
+
+    card.className = 'game-test loading';
+    const overlay = card.querySelector('.frame-overlay');
+    const iframe  = card.querySelector('iframe');
+    let resolved  = false;
+    let startTime = Date.now();
+
+    function done(status, reason) {
+      if (resolved) return;
+      resolved = true;
+      clearTimeout(timer);
+      const elapsed = ((Date.now() - startTime) / 1000).toFixed(1) + 's';
+      card.className = 'game-test ' + status;
+      if (overlay) {
+        overlay.style.display = 'none';
+        if (status !== 'ok') {
+          overlay.style.display = 'flex';
+          overlay.innerHTML = `<div class="frame-${status === 'blocked' ? 'block' : 'err'}">${reason}</div>`;
+        }
+      }
+      card.querySelector('.time-badge').textContent = elapsed;
+      results[status === 'ok' ? 'ok' : status === 'blocked' ? 'blocked' : 'error'].push({ game, reason, elapsed });
+      updateStats();
+      log(`${status === 'ok' ? '✅' : status === 'blocked' ? '🚫' : '❌'} ${game.namePT} — ${reason} (${elapsed})`,
+          status === 'ok' ? 'ok' : status === 'blocked' ? 'warn' : 'err');
+      resolve({ game, status, reason, elapsed });
+    }
+
+    const timer = setTimeout(() => done('error', 'Timeout ' + TIMEOUT/1000 + 's'), TIMEOUT);
+
+    iframe.onload = () => {
+      // Verificar se realmente carregou ou se é página de erro do GamePix
+      try {
+        // Se conseguir acessar o contentDocument, carregou no mesmo origin (raro)
+        const doc = iframe.contentDocument;
+        const title = doc?.title || '';
+        if (title.toLowerCase().includes('error') || title.toLowerCase().includes('403')) {
+          done('blocked', '403 — Domínio não autorizado');
+        } else if (title) {
+          done('ok', `Carregado: "${title.substring(0,30)}"`);
+        } else {
+          done('ok', 'Iframe carregado (cross-origin)');
+        }
+      } catch(e) {
+        // Cross-origin — é o comportamento normal e correto!
+        // Se chegou aqui, o iframe carregou (GamePix é cross-origin)
+        done('ok', 'Carregado (cross-origin ✓)');
+      }
+    };
+
+    iframe.onerror = () => done('error', 'Erro de rede ou URL inválida');
+
+    iframe.src = src;
+    log(`🔄 Testando: ${game.namePT} — ${src}`, 'info');
+  });
+}
+
+async function startTest(limit) {
+  if (testing) return;
+  testing = true;
+  results = { ok: [], error: [], blocked: [] };
+
+  const sid   = document.getElementById('sidInput').value.trim();
+  const games = limit ? GAMES_DB.slice(0, limit) : GAMES_DB;
+
+  document.getElementById('statTotal').textContent = games.length;
+  document.getElementById('results').innerHTML = '';
+  document.getElementById('log').innerHTML = '';
+  document.getElementById('summary').style.display = 'none';
+
+  log(`Iniciando teste de ${games.length} jogos${sid ? ' com SID: ' + sid : ' SEM SID'}`, 'info');
+  if (!sid) log('⚠️  SEM SID — todos GamePix provavelmente vão falhar!', 'warn');
+
+  // Renderiza todos os cards
+  games.forEach(game => {
+    const card = document.createElement('div');
+    card.id = 'card-' + game.id;
+    card.className = 'game-test loading';
+    card.innerHTML = `
+      <div class="progress-bar"><div class="progress-fill"></div></div>
+      <div class="game-header">
+        <div class="status-dot"></div>
+        <div>
+          <div class="game-name">${game.namePT}</div>
+          <div class="game-slug">${game.slug || game.id}</div>
+        </div>
+      </div>
+      <div class="frame-wrap">
+        <iframe sandbox="allow-scripts allow-same-origin allow-popups" loading="lazy"></iframe>
+        <div class="frame-overlay"><div style="color:#ffb628">⏳ Aguardando...</div></div>
+      </div>
+      <div class="game-footer">
+        <button class="btn-sm" onclick="window.open('https://www.gamepix.com/play/${game.slug || game.id}/?sdk=1','_blank')">Abrir direto</button>
+        <button class="btn-sm" onclick="window.open('game.html?id=${game.id}','_blank')">Ver no site</button>
+        <span class="time-badge">—</span>
+      </div>`;
+    document.getElementById('results').appendChild(card);
+  });
+
+  // Testa em paralelo (grupos de 3 para não sobrecarregar)
+  const BATCH = 3;
+  for (let i = 0; i < games.length; i += BATCH) {
+    const batch = games.slice(i, i + BATCH);
+    await Promise.all(batch.map(g => testGame(g, sid)));
+    await new Promise(r => setTimeout(r, 500)); // pequena pausa entre batches
+  }
+
+  // Resumo final
+  const summary = document.getElementById('summary');
+  summary.style.display = 'block';
+  summary.innerHTML = `
+    <h3>📊 Resultado Final</h3>
+    <p>✅ OK: <strong style="color:#00ff88">${results.ok.length}</strong> &nbsp;
+       ❌ Erro: <strong style="color:#ff4444">${results.error.length}</strong> &nbsp;
+       🚫 Bloqueado: <strong style="color:#ff8c00">${results.blocked.length}</strong></p>
+    ${!sid && results.error.length + results.blocked.length > 0 ? `
+    <div style="margin-top:.8rem;background:rgba(255,140,0,.1);border:1px solid #ff8c00;border-radius:6px;padding:.8rem;font-size:.8rem">
+      <strong>⚠️ Diagnóstico:</strong><br>
+      Falhas provavelmente causadas pela falta do SID.<br>
+      1. Acesse <a href="https://partners.gamepix.com" target="_blank" style="color:#00eeff">partners.gamepix.com</a><br>
+      2. Crie conta gratuita e cadastre seu domínio<br>
+      3. Cole o SID no campo acima e teste novamente
+    </div>` : ''}
+    <div class="export-btn">
+      <button class="btn" onclick="exportResults()">📋 Exportar slugs que funcionaram</button>
+      <button class="btn" onclick="exportBroken()">📋 Exportar slugs quebrados</button>
+    </div>`;
+
+  testing = false;
+}
+
+function exportResults() {
+  const slugs = results.ok.map(r => r.game.slug || r.game.id).join('\n');
+  navigator.clipboard?.writeText(slugs);
+  alert('Slugs OK copiados! Total: ' + results.ok.length);
+}
+function exportBroken() {
+  const data = [...results.error, ...results.blocked]
+    .map(r => `${r.game.slug || r.game.id} — ${r.reason}`)
+    .join('\n');
+  navigator.clipboard?.writeText(data);
+  alert('Slugs quebrados copiados! Total: ' + (results.error.length + results.blocked.length));
+}
+</script>
+    <script src="bundle.min.js"></script>
+</body>
+</html>
