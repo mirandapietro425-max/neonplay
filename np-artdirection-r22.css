@@ -1,0 +1,711 @@
+/* ═══════════════════════════════════════════════════════════════
+   NeonPlay — Direção de Arte R22
+   Portal do Infinito · Companion Bit · Cristais de XP
+   Glassmorphism Neon · Microinterações · Plasma Buttons
+   Holographic Cards · Warp Speed · Neural Particles
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ════════════════════════════════
+   1. DESIGN TOKENS — ARTE R22
+   ════════════════════════════════ */
+:root {
+  --art-cyan:        #00FFFF;
+  --art-magenta:     #FF00FF;
+  --art-dark:        #0B0C10;
+  --art-deep-purple: #1A0B2E;
+  --art-orange:      #FF6B00;
+  --art-green-e:     #39FF14;
+  --art-emerald:     #50C878;
+  --art-gold:        #FFD700;
+  --xp-blue:         #00d4ff;
+  --xp-purple:       #9333ea;
+  --xp-red:          #e8196b;
+  --xp-gold:         #fbbf24;
+  --glass-neon-bg:     rgba(8,8,24,0.78);
+  --glass-neon-border: rgba(0,255,255,0.12);
+  --glass-neon-blur:   blur(20px) saturate(180%);
+  --portal-glow: 0 0 60px rgba(0,255,255,0.4), 0 0 120px rgba(255,0,255,0.2);
+  --card-holo:   0 0 0 1px rgba(0,212,255,0.15), 0 20px 60px rgba(0,0,0,0.7), 0 0 40px rgba(0,212,255,0.08);
+  --btn-plasma:  0 0 30px rgba(0,212,255,0.5), 0 4px 20px rgba(0,0,0,0.5);
+  --ease-spring: cubic-bezier(.34,1.56,.64,1);
+  --ease-silk:   cubic-bezier(.25,.46,.45,.94);
+}
+
+/* ════════════════════════════════
+   2. GALAXY BACKGROUND
+   ════════════════════════════════ */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 15% 25%, rgba(147,51,234,0.05) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 85% 75%, rgba(0,212,255,0.04) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ════════════════════════════════
+   3. SCROLL PROGRESS — NEON LINE
+   ════════════════════════════════ */
+#npScrollProgress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2px;
+  width: 100%;
+  background: linear-gradient(90deg, var(--art-cyan), var(--art-magenta));
+  z-index: calc(var(--z-header, 100) + 1);
+  box-shadow: 0 0 10px rgba(0,212,255,0.8), 0 0 20px rgba(0,212,255,0.4);
+  transform-origin: left;
+  transform: scaleX(0);
+  transition: transform 0.08s linear;
+  pointer-events: none;
+}
+
+/* ════════════════════════════════
+   4. HERO — PORTAL DO INFINITO
+   ════════════════════════════════ */
+.hero {
+  background:
+    radial-gradient(ellipse 70% 80% at 65% 40%, rgba(147,51,234,0.18) 0%, transparent 65%),
+    radial-gradient(ellipse 50% 60% at 20% 70%, rgba(0,212,255,0.12) 0%, transparent 55%),
+    radial-gradient(ellipse 40% 40% at 85% 15%, rgba(232,25,107,0.1) 0%, transparent 50%),
+    var(--art-dark);
+}
+
+.hero-grid {
+  background-image:
+    linear-gradient(rgba(0,212,255,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,212,255,0.04) 1px, transparent 1px);
+  background-size: 48px 48px;
+  animation: r22GridScroll 40s linear infinite;
+}
+
+@keyframes r22GridScroll {
+  0%   { transform: translate(0, 0); }
+  100% { transform: translate(48px, 48px); }
+}
+
+.hg1 {
+  background: radial-gradient(circle, rgba(147,51,234,0.25) 0%, transparent 70%);
+  animation: r22FloatGlow 8s ease-in-out infinite;
+}
+.hg2 {
+  background: radial-gradient(circle, rgba(0,212,255,0.18) 0%, transparent 70%);
+  animation: r22FloatGlow 10s ease-in-out infinite reverse;
+}
+
+@keyframes r22FloatGlow {
+  0%, 100% { transform: translate(0,0) scale(1); }
+  33%       { transform: translate(30px,-20px) scale(1.05); }
+  66%       { transform: translate(-20px,30px) scale(0.95); }
+}
+
+/* Headline — Portal do Infinito */
+.hero-h1 {
+  font-family: 'Orbitron', 'Syne', sans-serif;
+  font-weight: 900;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  text-shadow: 0 0 60px rgba(0,212,255,0.12);
+}
+
+.hero-h1 em {
+  font-style: normal;
+  background: linear-gradient(135deg, var(--art-cyan) 0%, var(--art-magenta) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 0 20px rgba(0,255,255,0.5));
+  animation: r22TextPulse 3s ease-in-out infinite;
+}
+
+@keyframes r22TextPulse {
+  0%, 100% { filter: drop-shadow(0 0 20px rgba(0,255,255,0.4)); }
+  50%       { filter: drop-shadow(0 0 40px rgba(255,0,255,0.6)); }
+}
+
+/* Live badge */
+.h-badge {
+  background: rgba(0,212,255,0.07);
+  border: 1px solid rgba(0,212,255,0.3);
+  animation: r22BadgePulse 2s ease-in-out infinite;
+  position: relative;
+  overflow: hidden;
+}
+.h-badge::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(0,212,255,0.1), transparent);
+  animation: r22BadgeSweep 3s linear infinite;
+}
+@keyframes r22BadgeSweep {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+@keyframes r22BadgePulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(0,212,255,0.25); }
+  50%       { box-shadow: 0 0 0 6px rgba(0,212,255,0); }
+}
+
+/* Stats */
+.stat-item strong {
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 900;
+  background: linear-gradient(135deg, #00d4ff, #9333ea);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 0 8px rgba(0,212,255,0.3));
+}
+
+/* Portal canvas */
+#npPortalCanvas {
+  position: absolute;
+  top: 50%;
+  right: -40px;
+  transform: translateY(-50%);
+  width: 480px;
+  height: 480px;
+  pointer-events: none;
+  opacity: 0.7;
+  z-index: 1;
+}
+@media (max-width: 1024px) {
+  #npPortalCanvas { display: none; }
+}
+
+/* ════════════════════════════════
+   5. LOGO — IDENTIDADE NEON
+   ════════════════════════════════ */
+.logo-icon {
+  filter: drop-shadow(0 0 12px rgba(0,212,255,0.7)) drop-shadow(0 0 24px rgba(0,212,255,0.3));
+  animation: r22LogoFloat 4s ease-in-out infinite;
+}
+@keyframes r22LogoFloat {
+  0%, 100% { transform: translateY(0); filter: drop-shadow(0 0 12px rgba(0,212,255,0.7)); }
+  50%       { transform: translateY(-2px); filter: drop-shadow(0 0 20px rgba(255,0,255,0.6)); }
+}
+.logo-accent {
+  background: linear-gradient(135deg, var(--art-cyan), var(--art-magenta));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 0 8px rgba(0,212,255,0.5));
+}
+
+/* ════════════════════════════════
+   6. HEADER — GLASSMORPHISM NEON
+   ════════════════════════════════ */
+.header {
+  backdrop-filter: var(--glass-neon-blur);
+  position: relative;
+}
+.header::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    var(--art-cyan) 30%,
+    var(--art-magenta) 70%,
+    transparent 100%);
+  background-size: 200% 100%;
+  animation: r22HeaderLine 4s linear infinite;
+}
+@keyframes r22HeaderLine {
+  0%   { background-position: -100% center; }
+  100% { background-position: 100% center; }
+}
+
+.header.scrolled {
+  box-shadow: 0 1px 0 rgba(0,212,255,0.15), 0 8px 40px rgba(0,0,0,0.7);
+}
+
+.nav-link {
+  position: relative;
+}
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -4px; left: 50%;
+  width: 0; height: 1px;
+  background: linear-gradient(90deg, var(--art-cyan), var(--art-magenta));
+  transition: width 0.3s var(--ease-spring), left 0.3s var(--ease-spring);
+  box-shadow: 0 0 8px rgba(0,212,255,0.5);
+}
+.nav-link:hover::after,
+.nav-link.active::after {
+  width: 100%; left: 0;
+}
+
+/* ════════════════════════════════
+   7. BOTÕES DE PLASMA
+   ════════════════════════════════ */
+.btn-primary {
+  font-family: 'Orbitron', 'Syne', sans-serif !important;
+  font-size: 0.78rem !important;
+  font-weight: 900 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase;
+  clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
+  transition: transform 0.25s var(--ease-spring), box-shadow 0.25s ease, filter 0.25s !important;
+  box-shadow: var(--btn-plasma) !important;
+  position: relative;
+  overflow: hidden;
+}
+.btn-primary::before {
+  content: '';
+  position: absolute;
+  inset: -50%;
+  background: conic-gradient(from 0deg, rgba(0,255,255,0.3), rgba(255,0,255,0.3), rgba(0,255,255,0.3));
+  animation: r22PlasmaRotate 3s linear infinite;
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+.btn-primary:hover::before { opacity: 0.3; }
+@keyframes r22PlasmaRotate {
+  0%   { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+.btn-primary:hover {
+  transform: translateY(-3px) scale(1.02) !important;
+  box-shadow: 0 0 50px rgba(0,212,255,0.65), 0 8px 30px rgba(0,0,0,0.5) !important;
+  filter: brightness(1.1);
+}
+.btn-primary:active {
+  transform: translateY(0) scale(0.98) !important;
+}
+
+/* Ripple de Neon */
+.np-ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(0,255,255,0.45);
+  transform: scale(0);
+  animation: r22Ripple 0.65s ease-out forwards;
+  pointer-events: none;
+  width: 60px; height: 60px;
+  margin-left: -30px; margin-top: -30px;
+}
+@keyframes r22Ripple {
+  0%   { transform: scale(0); opacity: 1; }
+  100% { transform: scale(5); opacity: 0; }
+}
+
+/* Outline button */
+.btn-outline {
+  border: 1px solid rgba(0,212,255,0.35);
+  font-family: 'Orbitron', 'Syne', sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  font-weight: 700;
+  transition: all 0.25s var(--ease-spring);
+}
+.btn-outline:hover {
+  border-color: rgba(0,212,255,0.7);
+  color: var(--art-cyan);
+  transform: translateY(-2px);
+  box-shadow: 0 0 20px rgba(0,212,255,0.2), inset 0 0 20px rgba(0,212,255,0.05);
+}
+
+/* ════════════════════════════════
+   8. CARDS HOLOGRÁFICOS
+   ════════════════════════════════ */
+.game-card {
+  transition:
+    transform 0.35s var(--ease-spring),
+    box-shadow 0.35s ease,
+    border-color 0.35s ease !important;
+  transform-style: preserve-3d;
+}
+
+.game-card::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: 13px;
+  background: linear-gradient(135deg,
+    rgba(0,212,255,0),
+    rgba(0,212,255,0.5),
+    rgba(147,51,234,0.5),
+    rgba(0,212,255,0));
+  background-size: 300% 300%;
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+  z-index: -1;
+}
+.game-card:hover {
+  transform: translateY(-8px) scale(1.02) !important;
+  box-shadow: var(--card-holo) !important;
+  border-color: rgba(0,212,255,0.3) !important;
+}
+.game-card:hover::after {
+  opacity: 1;
+  animation: r22BorderRun 2s linear infinite;
+}
+@keyframes r22BorderRun {
+  0%   { background-position: 0% 50%; }
+  100% { background-position: 300% 50%; }
+}
+.game-card:hover .card-thumb img {
+  transform: scale(1.1) !important;
+}
+.game-card:hover .card-name {
+  animation: r22MicroGlitch 0.15s ease both;
+}
+@keyframes r22MicroGlitch {
+  0%   { transform: translateX(0); }
+  25%  { transform: translateX(-2px); text-shadow: 2px 0 rgba(255,0,255,0.5); }
+  50%  { transform: translateX(2px);  text-shadow: -2px 0 rgba(0,255,255,0.5); }
+  100% { transform: translateX(0); text-shadow: none; }
+}
+
+/* Holographic overlay */
+.card-thumb::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg,
+    rgba(0,212,255,0) 0%,
+    rgba(0,212,255,0.1) 50%,
+    rgba(147,51,234,0.1) 100%);
+  opacity: 0;
+  transition: opacity 0.3s;
+  z-index: 1;
+  pointer-events: none;
+}
+.game-card:hover .card-thumb::before { opacity: 1; }
+
+/* ════════════════════════════════
+   9. SECTION TITLES
+   ════════════════════════════════ */
+.section-title {
+  font-family: 'Orbitron', 'Syne', sans-serif;
+  font-weight: 800;
+  text-transform: uppercase;
+  transition: text-shadow 0.3s;
+}
+.section-title::before {
+  background: linear-gradient(180deg, var(--art-cyan), var(--art-magenta)) !important;
+  box-shadow: 0 0 12px rgba(0,212,255,0.5);
+}
+.section-title:hover {
+  text-shadow: 0 0 20px rgba(0,212,255,0.3);
+}
+
+/* ════════════════════════════════
+   10. CAT CHIPS
+   ════════════════════════════════ */
+.cat-chip {
+  font-family: 'Orbitron', 'Syne', sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  transition: all 0.25s var(--ease-spring);
+}
+.cat-chip:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4), 0 0 20px rgba(0,212,255,0.15);
+}
+
+/* ════════════════════════════════
+   11. LIVE TICKER
+   ════════════════════════════════ */
+.live-ticker {
+  background: linear-gradient(90deg,
+    rgba(0,212,255,0.05),
+    rgba(147,51,234,0.05),
+    rgba(0,212,255,0.05));
+  border-bottom: 1px solid rgba(0,212,255,0.1);
+  position: relative;
+  overflow: hidden;
+}
+.live-ticker::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    90deg,
+    transparent 0, transparent 60px,
+    rgba(0,212,255,0.02) 60px, rgba(0,212,255,0.02) 61px);
+  pointer-events: none;
+}
+
+/* ════════════════════════════════
+   12. XP BAR — CRISTAL DE XP
+   ════════════════════════════════ */
+.nph-xpfill {
+  background: linear-gradient(90deg, var(--xp-blue), var(--xp-purple)) !important;
+  box-shadow: 0 0 8px rgba(0,212,255,0.5);
+  animation: r22XpPulse 2s ease-in-out infinite;
+}
+@keyframes r22XpPulse {
+  0%, 100% { box-shadow: 0 0 6px rgba(0,212,255,0.4); }
+  50%       { box-shadow: 0 0 16px rgba(147,51,234,0.7); }
+}
+
+/* Companion bit float */
+.nph-alien {
+  animation: r22BitFloat 3s ease-in-out infinite !important;
+}
+@keyframes r22BitFloat {
+  0%, 100% { transform: translateY(0); filter: drop-shadow(0 0 14px rgba(0,212,255,0.5)); }
+  50%       { transform: translateY(-5px); filter: drop-shadow(0 0 22px rgba(0,212,255,0.9)); }
+}
+
+/* ════════════════════════════════
+   13. QUEST PANEL GLASSMORPHISM
+   ════════════════════════════════ */
+#zapQuestPanel {
+  backdrop-filter: blur(20px) saturate(180%);
+  background: rgba(4,4,18,0.95) !important;
+  border-color: rgba(147,51,234,0.25) !important;
+}
+
+/* ════════════════════════════════
+   14. SECTION REVEALS
+   ════════════════════════════════ */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s var(--ease-silk), transform 0.6s var(--ease-silk);
+}
+.reveal.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ════════════════════════════════
+   15. FOOTER
+   ════════════════════════════════ */
+.footer {
+  background: linear-gradient(180deg, #040410 0%, #020208 100%) !important;
+  border-top: 1px solid rgba(0,212,255,0.1) !important;
+  position: relative;
+  overflow: hidden;
+}
+.footer::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent,
+    rgba(0,212,255,0.4),
+    rgba(147,51,234,0.4),
+    transparent);
+}
+.footer-col a:hover {
+  color: var(--art-cyan) !important;
+  text-shadow: 0 0 8px rgba(0,212,255,0.4);
+}
+
+/* ════════════════════════════════
+   16. WARP SPEED OVERLAY
+   ════════════════════════════════ */
+.np-warp-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-cinematic, 10050);
+  pointer-events: none;
+  opacity: 0;
+}
+.np-warp-overlay.active {
+  animation: r22WarpIn 0.55s ease-in forwards;
+}
+@keyframes r22WarpIn {
+  0%   { opacity: 0; }
+  35%  { opacity: 1; background: radial-gradient(circle at center,
+    rgba(255,255,255,0.95) 0%,
+    rgba(0,212,255,0.6) 20%,
+    transparent 60%); }
+  100% { opacity: 0; background: #000; }
+}
+
+/* ════════════════════════════════
+   17. XP FLOAT TEXT
+   ════════════════════════════════ */
+.np-xp-float {
+  position: fixed;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 14px;
+  font-weight: 900;
+  color: var(--art-cyan);
+  text-shadow: 0 0 10px rgba(0,212,255,0.9);
+  pointer-events: none;
+  z-index: var(--z-coin-fly, 10100);
+  animation: r22XpFloat 1.3s ease-out forwards;
+}
+@keyframes r22XpFloat {
+  0%   { opacity: 1; transform: translateY(0) scale(1); }
+  50%  { opacity: 1; transform: translateY(-32px) scale(1.15); }
+  100% { opacity: 0; transform: translateY(-64px) scale(0.8); }
+}
+
+/* ════════════════════════════════
+   18. NEURAL BG CANVAS
+   ════════════════════════════════ */
+#npNeuralBg {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.3;
+}
+
+/* ════════════════════════════════
+   19. HV THUMBS — HERO PREVIEW
+   ════════════════════════════════ */
+.hv-thumb {
+  border: 1px solid rgba(0,212,255,0.15);
+  border-radius: 10px;
+  overflow: hidden;
+  transition: all 0.3s var(--ease-spring);
+  position: relative;
+}
+.hv-thumb::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(0,212,255,0.07), transparent);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.hv-thumb:hover {
+  transform: translateY(-4px) scale(1.04);
+  border-color: rgba(0,212,255,0.5);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.5), 0 0 24px rgba(0,212,255,0.2);
+}
+.hv-thumb:hover::after { opacity: 1; }
+
+/* ════════════════════════════════
+   20. TOP 10
+   ════════════════════════════════ */
+.top10-item:hover {
+  border-color: rgba(0,212,255,0.25) !important;
+  background: rgba(0,212,255,0.03) !important;
+  box-shadow: inset 3px 0 0 var(--art-cyan);
+}
+
+/* ════════════════════════════════
+   21. FAVORITE HEART
+   ════════════════════════════════ */
+.card-fav.cf-active {
+  animation: r22HeartBeat 0.4s var(--ease-spring);
+}
+@keyframes r22HeartBeat {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.5); }
+  70%  { transform: scale(0.9); }
+  100% { transform: scale(1); }
+}
+
+/* ════════════════════════════════
+   22. TRUST BAR
+   ════════════════════════════════ */
+.trust-item {
+  transition: color 0.2s, text-shadow 0.2s;
+}
+.trust-item:hover {
+  color: var(--art-cyan);
+  text-shadow: 0 0 10px rgba(0,212,255,0.4);
+}
+.trust-icon {
+  filter: drop-shadow(0 0 4px rgba(0,212,255,0.3));
+}
+
+/* ════════════════════════════════
+   23. TRENDING SECTION
+   ════════════════════════════════ */
+#trendingSection .section-title {
+  color: var(--art-magenta);
+}
+#trendingSection .section-title::before {
+  background: linear-gradient(180deg, var(--art-magenta), var(--art-cyan)) !important;
+  box-shadow: 0 0 12px rgba(255,0,255,0.5);
+}
+
+/* ════════════════════════════════
+   24. JDD CARD — PREMIUM
+   ════════════════════════════════ */
+.jdd-card {
+  border-color: rgba(0,212,255,0.2) !important;
+  background: linear-gradient(145deg, #0e0e20, #12122a) !important;
+  position: relative;
+  overflow: hidden;
+}
+.jdd-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg,
+    rgba(0,212,255,0.04) 0%,
+    transparent 50%,
+    rgba(147,51,234,0.04) 100%);
+  pointer-events: none;
+}
+
+/* ════════════════════════════════
+   25. CARD ENTRY ANIMATION
+   ════════════════════════════════ */
+@keyframes r22CardWake {
+  0%   { opacity: 0; transform: translateY(16px) scale(0.96); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ════════════════════════════════
+   26. SEARCH INPUT
+   ════════════════════════════════ */
+.search-input:focus {
+  border-color: rgba(0,212,255,0.45) !important;
+  box-shadow: 0 0 20px rgba(0,212,255,0.12), inset 0 0 20px rgba(0,212,255,0.04) !important;
+  background: rgba(0,212,255,0.04) !important;
+}
+
+/* ════════════════════════════════
+   27. MOBILE
+   ════════════════════════════════ */
+@media (max-width: 768px) {
+  .btn-primary {
+    clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+    font-size: 0.72rem !important;
+  }
+  .game-card:hover {
+    transform: translateY(-4px) scale(1.01) !important;
+  }
+}
+
+/* ════════════════════════════════
+   28. REDUCED MOTION
+   ════════════════════════════════ */
+@media (prefers-reduced-motion: reduce) {
+  .hero-h1 em,
+  .logo-icon,
+  .h-badge,
+  .h-badge::before,
+  .btn-primary::before,
+  .nph-alien,
+  .nph-xpfill,
+  .hero-grid,
+  .hg1, .hg2,
+  .header::before,
+  #npPortalCanvas,
+  #npNeuralBg {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* ════════════════════════════════
+   29. LOGO CLICK FLASH KEYFRAME
+   ════════════════════════════════ */
+@keyframes r22FadeOut {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
