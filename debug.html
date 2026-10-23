@@ -8,6 +8,13 @@ body{background:#08080f;color:#eee;font-family:monospace;padding:20px}
 .ok{color:#00ff88}.err{color:#ff4444}.warn{color:#ffbb00}
 pre{background:#111;padding:10px;border-radius:6px;overflow:auto;font-size:12px}
 </style>
+  <!-- NP: ícones, PWA, SEO e compartilhamento social -->
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/favicon.ico" sizes="48x48">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#060610">
+  <meta name="robots" content="noindex,nofollow">
 </head>
 <body>
 <h2>🔍 NeonPlay Debug</h2>
@@ -52,6 +59,6 @@ try {
   log('MAX_PLAYS: ' + (typeof MAX_PLAYS !== 'undefined' ? MAX_PLAYS : '❌ UNDEFINED'));
 } catch(e) { log('engine.js ERRO: ' + e.message + '\n' + e.stack, 'err'); }
 </script>
-    <script src="bundle.min.js"></script>
+    <script src="bundle.min.js?v=fade39b2"></script>
 </body>
 </html>

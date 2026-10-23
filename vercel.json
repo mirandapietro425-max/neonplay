@@ -1,6 +1,15 @@
 {
   "headers": [
     {
+      "source": "/(favicon\\.svg|favicon\\.ico|apple-touch-icon\\.png|icon-[a-z0-9-]+\\.png|og-image\\.png)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=604800, stale-while-revalidate=86400"
+        }
+      ]
+    },
+    {
       "source": "/bundle.min.js",
       "headers": [
         {
@@ -117,6 +126,15 @@
         {
           "key": "Referrer-Policy",
           "value": "strict-origin-when-cross-origin"
+        }
+      ]
+    },
+    {
+      "source": "/(debug|test-iframes)\\.html",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
         }
       ]
     }
