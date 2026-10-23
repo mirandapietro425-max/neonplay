@@ -1,52 +1,21 @@
-# Fontes, licenças e decisões de hospedagem — NeonPlay
+# Fontes e licenças — NeonPlay
 
-## O que está incluído
+Este documento acompanha o catálogo das referências reunidas pelo usuário no arquivo `LISTA-COMPLETA-FINAL-jogos-emuladores-archive.pdf`. O catálogo registra 135 entradas da lista, agrupando URLs repetidas para exibir 132 fontes distintas. Os nomes e links vêm da lista enviada; os tags são uma classificação editorial para navegação, não uma auditoria jurídica nem atestado de que o jogo está executando no NeonPlay.
 
-O pacote contém 19 minijogos próprios em HTML/CSS/JavaScript: Snake Neon, 2048 Neon, Blocos Orbitais, Memória Cósmica, Pong Pulse, Prisma Breaker, Três em Linha, Quatro em Linha, Eco de Luz, Palavra Secreta, Puzzle Deslizante, Ritmo de Teclas, Campo de Lógica, Sudoku Relâmpago, Órbita de Luz, Código Secreto, Caixas no Lugar, Caça-palavras e Reversi Neon. Estas implementações foram criadas para o pacote e não copiam os arquivos de código ou artes dos repositórios citados no PDF.
+## Regras de integração
 
-## Pesquisa de repositórios do PDF
+- Repositório público não significa permissão automática para republicar todos os arquivos, imagens, músicas, fontes ou marcas nele presentes.
+- Inspecionar sempre o arquivo `LICENSE`, avisos de terceiros e termos de assets; se não há licença clara, não importar para hospedagem pública.
+- Licenças como MIT exigem conservar avisos pertinentes; copyleft como GPL pode impor obrigações na distribuição de obras derivadas. Conferir a versão exata da licença e o conteúdo copiado.
+- Jogos multiplayer podem precisar de WebSocket/backend persistente, banco de dados e configuração antiabuso. A homepage estática não os transforma em multiplayer funcional.
+- Emuladores são software; BIOS, ROMs e jogos comerciais são conteúdo separado e devem ser licenciados ou claramente autorizados. Use apenas homebrew autorizado, domínio público, freeware redistribuível ou incorporações oficiais do arquivo de origem.
+- Para serviços externos (Poki, CrazyGames, itch.io etc.), abrir o site de origem é diferente de copiar o jogo para o NeonPlay. Não tente extrair arquivos de seus players nem contornar suas proteções.
+- Franchises e marcas famosas podem envolver direitos autorais/marcas; nomes no catálogo identificam a referência apresentada pelo usuário, não uma afirmação de afiliação.
 
-- `gabrielecirulli/2048`: projeto de código aberto com licença MIT, explicitada no README e no arquivo de licença. Foi consultado como referência de jogo/licenciamento, mas o minijogo 2048 incluído neste pacote foi escrito novamente; o código original não foi copiado. Fontes: https://github.com/gabrielecirulli/2048 e https://github.com/gabrielecirulli/2048/blob/master/LICENSE.txt
-- `wangzifan396-wzf/mini-browser-games`: repositório descreve uma coleção de HTMLs independentes e publica uma licença MIT. É um candidato para curadoria adicional; seus arquivos não foram copiados para esta entrega. A existência de uma licença permissiva não substitui a análise de conteúdo, idioma, qualidade, dependências e adequação de cada jogo. Fontes: https://github.com/wangzifan396-wzf/mini-browser-games e https://github.com/wangzifan396-wzf/mini-browser-games/blob/main/LICENSE
-- `attogram/games`: o repositório do instalador possui licença MIT, mas isso não torna automaticamente todas as obras de terceiros que o instalador reúne licenciadas sob MIT. Cada jogo e cada asset precisam ser avaliados separadamente. Fonte: https://github.com/attogram/games
-- `emjay045/browser-games`: o README descreve minijogos HTML autocontidos; a página examinada não apresentou uma licença explícita. Por precaução, seu código não foi redistribuído. Fonte: https://github.com/emjay045/browser-games
-- `KoRifCan/Classic-Games`: o README descreve um conjunto de jogos HTML5; a página examinada não apresentou uma licença explícita. Por precaução, seu código não foi redistribuído. Fonte: https://github.com/KoRifCan/Classic-Games
+## UX aplicada com base em pesquisa pública
 
-## Por que não foram copiados indiscriminadamente todos os links do PDF
+A página usa padrões vistos em documentação pública dos portais de jogos: entrar rapidamente no jogo, controles claramente apresentados, suporte a teclado/toque quando o jogo tiver suporte, opção de tela cheia quando apropriada, thumbnails e recomendações. A documentação de Poki descreve o player e requisitos de UI responsiva e entrada rápida; a documentação de qualidade da CrazyGames destaca objetivos claros, controles intuitivos, layout confortável e full-screen gerido pela plataforma. Referências: https://developers.poki.com/guide/your-game-page ; https://developers.poki.com/guide/requirements-quality ; https://docs.crazygames.com/requirements/quality/ .
 
-O PDF não é um pacote único pronto para instalar. Ele combina catálogos de links, projetos completos, motores e bases multiplayer, clones de franquias conhecidas e repositórios com licenças diferentes ou não identificadas. Copiar todos os repositórios sem revisar licenças de código, fontes, áudio, imagens, marcas, dependências e regras de distribuição pode infringir direitos de terceiros.
+## Auditoria futura recomendada
 
-O próprio PDF alerta que personagens/franquias como Disney, Marvel e Nintendo normalmente não podem ser re-hospedados sem autorização. Alguns projetos multiplayer também dependem de backend, salas ou serviços complementares; servir apenas o HTML não faz o multiplayer funcionar.
-
-A integração mantém o catálogo legado do NeonPlay sem alegar que os 127 títulos existentes agora estão armazenados localmente. Os 19 jogos locais listados acima são os que de fato estão fisicamente incluídos na pasta `games/`. Para acrescentar outros jogos, selecione apenas projetos que permitam redistribuição, inclua a licença e os avisos de copyright exigidos, revise os arquivos de mídia e teste cada jogo dentro do mesmo domínio.
-
-## Avisos de licença
-
-- Para software sob MIT, mantenha o aviso de copyright e o texto integral da licença em todas as cópias ou partes substanciais do material redistribuído.
-- A licença do código não necessariamente cobre marcas ou personagens de terceiros, nem arquivos de assets adicionados ao repositório.
-- Os arquivos de integração e os 19 minijogos escritos para este pacote são fornecidos para uso e modificação no projeto NeonPlay. Não há promessa de autorização para re-hospedar obras externas não incluídas aqui.
-
-
-## Decisão de integração para os tipos de fonte do PDF
-
-| Tipo de fonte | Decisão nesta versão | Motivo |
-|---|---|---|
-| Jogos originais feitos para este pacote | Incluídos: 19 | HTML/CSS/JS local, sem baixar recursos de terceiros. |
-| `gabrielecirulli/2048` | Referência; não copiado | A fonte publica licença MIT; o 2048 daqui é uma implementação independente. |
-| `wangzifan396-wzf/mini-browser-games` | Candidato à próxima curadoria | O README do upstream informa coleção de HTML independentes e MIT. Ainda seria necessário selecionar cada jogo, confirmar assets e testar a integração; nenhum arquivo desse repo foi copiado. |
-| `Hextris` | Não integrado nesta versão | O projeto declara GPL-3.0; distribuição exige preservar os avisos e cumprir as condições da licença. Não foi copiado. |
-| `attogram/games` | Ferramenta de instalação, não um pacote universal de jogos sob uma só licença | O próprio README diferencia a licença do construtor das licenças individuais dos jogos. Verificar jogo por jogo. |
-| Catálogos (`osgameclones`, `leereilly/games`, tópicos e coleções do GitHub) | Usados como índices de pesquisa, não como jogos | Um catálogo de links não contém necessariamente os artefatos, dependências ou licenças necessárias para execução no site. |
-| Jogos multiplayer e MMO | Não integrados sem backend próprio | Servir HTML sozinho não ativa salas, autenticação, matchmaking ou estado compartilhado. Cada backend precisaria de auditoria e configuração própria. |
-| Emuladores e bibliotecas DOS | Não incluídos nesta versão | A biblioteca do emulador não fornece automaticamente direitos sobre ROMs, BIOS, mídia ou jogos comerciais. A integração requer fontes autorizadas e licenças compatíveis. |
-| Jogos baseados em franquias comerciais | Não redistribuídos | Nome, marca, personagens, áudio e imagens podem ter direitos próprios mesmo quando existe um clone de código aberto. |
-
-### Fontes verificadas na pesquisa
-
-- README e licença MIT do 2048: https://github.com/gabrielecirulli/2048/blob/master/README.md e https://github.com/gabrielecirulli/2048/blob/master/LICENSE.txt
-- README do pacote Mini Browser Games, que descreve 124 HTMLs independentes no repositório (115 ativos e 9 históricos): https://github.com/wangzifan396-wzf/mini-browser-games
-- Página do Hextris e sua declaração GPL-3.0: https://github.com/Hextris/hextris
-- README do construtor Attogram, que alerta que cada jogo incluído tem sua própria licença: https://github.com/attogram/games
-- Catálogo Open Source Game Clones: https://github.com/opengaming/osgameclones
-
-Esta versão não afirma que todos os 135 links do PDF foram baixados ou testados. Eles foram tratados como fontes candidatas, e a entrega mantém apenas os 19 jogos originais no servidor local. Isso evita apresentar um link como se fosse um jogo instalado e evita redistribuir material sem verificação suficiente.
+Adicionar a cada jogo importado: URL do upstream, commit SHA, licença exata, créditos, arquivos modificados, dependências de build, necessidade de backend, se foi testado no desktop e no celular, data da última verificação e plano de remoção caso upstream revogue a permissão.

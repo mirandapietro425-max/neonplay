@@ -37,14 +37,6 @@ const server = http.createServer((req,res) => {
   let url;
   try { url = new URL(req.url || '/', `http://${req.headers.host || 'localhost'}`); }
   catch { return send(res,400,'Bad request'); }
-  /* Route every old catalog link through the new player. The player sets
-     np_raw=1 on its iframe request to avoid redirecting itself in a loop. */
-  if (url.pathname === '/game.html' && url.searchParams.has('id') && url.searchParams.get('np_raw') !== '1') {
-    const legacyId = url.searchParams.get('id') || '';
-    if (!/^[a-z0-9-]{1,90}$/.test(legacyId)) return send(res,400,'Invalid game id');
-    res.writeHead(302, { 'Location': '/play.html?legacy=' + encodeURIComponent(legacyId), 'Cache-Control': 'no-store' });
-    return res.end();
-  }
   if (url.pathname === '/api/health') return send(res,200,JSON.stringify({ok:true,service:'neonplay-local-arcade',time:new Date().toISOString()}),'application/json; charset=utf-8');
   if (url.pathname === '/api/games') {
     fs.readFile(path.join(ROOT,'games.json'), (err,data) => {
