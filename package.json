@@ -1,5 +1,17 @@
 {
+  "name": "neonplay-local-arcade",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Servidor Node.js sem dependências de runtime para o NeonPlay e sua coleção de jogos HTML5 locais.",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "check": "node --check server.js"
+  },
   "devDependencies": {
     "acorn": "^8.16.0"
+  },
+  "engines": {
+    "node": ">=18"
   }
 }

@@ -1,0 +1,211 @@
+[
+  {
+    "id": "snake",
+    "name": "Snake Neon",
+    "category": "Arcade",
+    "emoji": "🐍",
+    "accent": "#50f5a6",
+    "description": "Guie a cobra, colete orbes e tente superar seu recorde.",
+    "controls": "Setas ou WASD para mover. No celular, deslize na área do jogo.",
+    "difficulty": "Fácil de aprender",
+    "minutes": "2–5 min"
+  },
+  {
+    "id": "2048",
+    "name": "2048 Neon",
+    "category": "Puzzle",
+    "emoji": "🔢",
+    "accent": "#ffd166",
+    "description": "Combine números iguais e planeje cada movimento até chegar a 2048.",
+    "controls": "Use as setas do teclado, WASD ou deslize no tabuleiro.",
+    "difficulty": "Estratégia",
+    "minutes": "3–8 min"
+  },
+  {
+    "id": "tetris",
+    "name": "Blocos Orbitais",
+    "category": "Puzzle",
+    "emoji": "🧩",
+    "accent": "#a78bfa",
+    "description": "Encaixe as peças, complete linhas e mantenha o ritmo.",
+    "controls": "Setas movem; ↑ gira; Espaço derruba; P pausa.",
+    "difficulty": "Reflexo",
+    "minutes": "2–6 min"
+  },
+  {
+    "id": "memory",
+    "name": "Memória Cósmica",
+    "category": "Memória",
+    "emoji": "🪐",
+    "accent": "#67e8f9",
+    "description": "Encontre os pares com o menor número de tentativas.",
+    "controls": "Toque ou clique nas cartas para revelar os símbolos.",
+    "difficulty": "Relaxante",
+    "minutes": "1–4 min"
+  },
+  {
+    "id": "pong",
+    "name": "Pong Pulse",
+    "category": "Arcade",
+    "emoji": "🏓",
+    "accent": "#00d4ff",
+    "description": "Um duelo clássico contra o computador, com placar até sete.",
+    "controls": "W/S ou ↑/↓. Também pode mover o controle arrastando na área.",
+    "difficulty": "Reflexo",
+    "minutes": "1–3 min"
+  },
+  {
+    "id": "breakout",
+    "name": "Prisma Breaker",
+    "category": "Arcade",
+    "emoji": "🟣",
+    "accent": "#fb7185",
+    "description": "Rebata a bola, quebre os blocos e tente usar todas as vidas.",
+    "controls": "Mouse, toque ou ←/→ movem a plataforma. Espaço lança/reinicia.",
+    "difficulty": "Reflexo",
+    "minutes": "2–5 min"
+  },
+  {
+    "id": "tic-tac-toe",
+    "name": "Três em Linha",
+    "category": "2 jogadores",
+    "emoji": "❎",
+    "accent": "#f0abfc",
+    "description": "Enfrente o computador ou jogue localmente com outra pessoa.",
+    "controls": "Escolha uma casa no tabuleiro. Use o seletor para trocar o modo.",
+    "difficulty": "Raciocínio",
+    "minutes": "1–2 min"
+  },
+  {
+    "id": "connect-four",
+    "name": "Quatro em Linha",
+    "category": "2 jogadores",
+    "emoji": "🔴",
+    "accent": "#fbbf24",
+    "description": "Alinhe quatro fichas antes do outro jogador em uma partida local.",
+    "controls": "Clique em uma coluna para soltar a ficha.",
+    "difficulty": "Estratégia",
+    "minutes": "2–4 min"
+  },
+  {
+    "id": "simon",
+    "name": "Eco de Luz",
+    "category": "Memória",
+    "emoji": "🎛️",
+    "accent": "#4ade80",
+    "description": "Repita a sequência de luzes e sons, acrescentando um passo a cada rodada.",
+    "controls": "Clique nos quatro painéis ou use as teclas 1, 2, 3 e 4.",
+    "difficulty": "Memória",
+    "minutes": "1–4 min"
+  },
+  {
+    "id": "word-guess",
+    "name": "Palavra Secreta",
+    "category": "Palavras",
+    "emoji": "🔤",
+    "accent": "#86efac",
+    "description": "Descubra uma palavra portuguesa de cinco letras em seis tentativas.",
+    "controls": "Digite no teclado ou use as teclas na tela. Enter confirma.",
+    "difficulty": "Linguagem",
+    "minutes": "2–4 min"
+  },
+  {
+    "id": "fifteen-puzzle",
+    "name": "Puzzle Deslizante",
+    "category": "Puzzle",
+    "emoji": "🔳",
+    "accent": "#c4b5fd",
+    "description": "Organize as peças numeradas em ordem, usando o espaço vazio.",
+    "controls": "Clique em uma peça vizinha ao espaço vazio ou use as setas.",
+    "difficulty": "Raciocínio",
+    "minutes": "2–6 min"
+  },
+  {
+    "id": "typing-test",
+    "name": "Ritmo de Teclas",
+    "category": "Habilidade",
+    "emoji": "⌨️",
+    "accent": "#7dd3fc",
+    "description": "Teste sua velocidade e precisão digitando frases curtas em português.",
+    "controls": "Comece a digitar no campo. O teste dura 30 segundos.",
+    "difficulty": "Precisão",
+    "minutes": "30 s"
+  },
+  {
+    "id": "minesweeper",
+    "name": "Campo de Lógica",
+    "category": "Puzzle",
+    "emoji": "💎",
+    "accent": "#67e8f9",
+    "description": "Descubra todas as casas seguras e use os números para deduzir onde estão as minas.",
+    "controls": "Clique para abrir uma casa. Clique com o botão direito para marcar uma possível mina; no celular, mantenha pressionada uma casa para marcar.",
+    "difficulty": "Raciocínio",
+    "minutes": "2–8 min"
+  },
+  {
+    "id": "sudoku",
+    "name": "Sudoku Relâmpago",
+    "category": "Puzzle",
+    "emoji": "🔢",
+    "accent": "#c4b5fd",
+    "description": "Complete cada linha, coluna e quadrante 3×3 com os números de 1 a 9 sem repetições.",
+    "controls": "Selecione uma casa vazia e use o teclado numérico ou os botões 1–9.",
+    "difficulty": "Raciocínio",
+    "minutes": "2–8 min"
+  },
+  {
+    "id": "lights-out",
+    "name": "Órbita de Luz",
+    "category": "Puzzle",
+    "emoji": "💡",
+    "accent": "#fbbf24",
+    "description": "Apague todas as luzes do tabuleiro. Cada toque alterna a luz escolhida e suas vizinhas diretas.",
+    "controls": "Clique ou toque em uma luz. O objetivo é deixar todas apagadas.",
+    "difficulty": "Raciocínio",
+    "minutes": "2–8 min"
+  },
+  {
+    "id": "mastermind",
+    "name": "Código Secreto",
+    "category": "Lógica",
+    "emoji": "🎨",
+    "accent": "#fb7185",
+    "description": "Descubra a sequência de quatro cores. A cada tentativa, veja quantas posições estão certas e quantas cores existem no código.",
+    "controls": "Selecione quatro cores e pressione Verificar. A posição das cores importa.",
+    "difficulty": "Raciocínio",
+    "minutes": "2–8 min"
+  },
+  {
+    "id": "sokoban",
+    "name": "Caixas no Lugar",
+    "category": "Puzzle",
+    "emoji": "📦",
+    "accent": "#4ade80",
+    "description": "Empurre as caixas para os pontos marcados. Planeje os movimentos: você não consegue puxar uma caixa de volta.",
+    "controls": "Use as setas do teclado ou os botões de direção. R reinicia o nível.",
+    "difficulty": "Raciocínio",
+    "minutes": "2–8 min"
+  },
+  {
+    "id": "word-search",
+    "name": "Caça-palavras",
+    "category": "Palavras",
+    "emoji": "🔎",
+    "accent": "#86efac",
+    "description": "Encontre palavras escondidas no quadro. Elas podem aparecer na horizontal, vertical ou diagonal.",
+    "controls": "Procure: NEON, JOGO, PIXEL, NUVEM, ASTRO, LUZ, PORTAL.",
+    "difficulty": "Raciocínio",
+    "minutes": "2–8 min"
+  },
+  {
+    "id": "reversi",
+    "name": "Reversi Neon",
+    "category": "Estratégia",
+    "emoji": "⚫",
+    "accent": "#7dd3fc",
+    "description": "Coloque peças no tabuleiro e vire as peças do adversário ao cercá-las em linha reta. Vence quem tiver mais peças no final.",
+    "controls": "Dois jogadores no mesmo dispositivo: preto começa, depois branco. Jogue onde uma peça cercar peças opostas.",
+    "difficulty": "Raciocínio",
+    "minutes": "2–8 min"
+  }
+]

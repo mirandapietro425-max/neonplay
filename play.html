@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#070711">
+<title>Jogar | NeonPlay</title><meta name="description" content="Jogue no NeonPlay: minijogos próprios e jogos do catálogo em uma experiência unificada.">
+<style>
+:root{--bg:#070711;--panel:#11111f;--line:rgba(255,255,255,.09);--text:#f4f3ff;--muted:#a3a1c0;--cyan:#00d4ff;--purple:#9333ea;--pink:#e8196b}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(ellipse at 12% -10%,rgba(147,51,234,.22),transparent 36%),radial-gradient(ellipse at 100% 0,rgba(0,212,255,.12),transparent 32%),var(--bg);color:var(--text);font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}a{color:inherit;text-decoration:none}button{font:inherit;cursor:pointer}button:focus-visible,a:focus-visible{outline:3px solid var(--cyan);outline-offset:3px}.wrap{max-width:1400px;margin:auto;padding:0 22px}.top{min-height:64px;display:flex;align-items:center;gap:18px;border-bottom:1px solid var(--line);background:rgba(7,7,17,.82);backdrop-filter:blur(18px);position:sticky;top:0;z-index:10}.logo{font-size:22px;font-weight:1000;letter-spacing:-.05em;color:var(--cyan)}.logo em{font-style:normal;color:#f0abfc}.topline{display:flex;align-items:center;width:100%;gap:16px}.back{margin-left:auto;color:var(--muted);font-weight:750;padding:9px 13px;border:1px solid var(--line);border-radius:11px}.back:hover{color:#fff;border-color:var(--cyan)}main{padding:25px 0 52px}.crumb{display:flex;gap:8px;align-items:center;font-size:12px;letter-spacing:.12em;color:var(--muted);text-transform:uppercase}.title-row{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;margin:12px 0 18px}.tag{color:#9eecff;font-weight:850;font-size:12px;letter-spacing:.1em;text-transform:uppercase}.title{font-size:clamp(30px,4vw,48px);letter-spacing:-.05em;line-height:1.05;margin:5px 0 8px}.description{margin:0;max-width:760px;color:var(--muted)}.head-actions{display:flex;gap:8px;flex-wrap:wrap}.btn{border:1px solid var(--line);background:#17172b;border-radius:12px;padding:10px 14px;color:#f5f4ff;font-weight:800;transition:transform .15s,border-color .15s}.btn:hover{border-color:var(--cyan);transform:translateY(-1px)}.btn.primary{background:linear-gradient(120deg,var(--cyan),#8b5cf6);color:#070711;border:0}.stage{position:relative;background:#080812;border:1px solid rgba(255,255,255,.08);border-radius:20px;overflow:hidden;box-shadow:0 30px 100px rgba(0,0,0,.42)}.stage-head{min-height:54px;display:flex;align-items:center;padding:10px 16px;border-bottom:1px solid var(--line);background:rgba(255,255,255,.025);gap:8px}.dots{display:flex;gap:5px}.dot{width:8px;height:8px;border-radius:50%;background:#fb7185}.dot:nth-child(2){background:#fbbf24}.dot:nth-child(3){background:#4ade80}.stage-label{color:#aaa8c2;font-size:12px;margin-left:8px}.stage iframe{display:block;width:100%;height:min(74vh,760px);min-height:500px;border:0;background:#080812}.stage:fullscreen{border-radius:0;width:100vw;height:100vh;display:flex;flex-direction:column}.stage:fullscreen iframe{height:calc(100vh - 55px);min-height:0;flex:1}.below{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(260px,.8fr);gap:16px;margin-top:18px}.box{border:1px solid var(--line);background:rgba(17,17,31,.82);border-radius:17px;padding:18px}.box h2{font-size:17px;margin:0 0 12px}.controls{display:flex;gap:8px;flex-wrap:wrap}.key{display:inline-block;border:1px solid rgba(255,255,255,.17);background:#0c0c1a;border-radius:7px;padding:3px 8px;margin:2px;font-size:12px;font-weight:800;color:#e9e8ff}.muted{color:var(--muted);font-size:13px}.game-list{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px;margin-top:16px}.mini{display:flex;flex-direction:column;min-height:145px;border:1px solid var(--line);background:linear-gradient(135deg,rgba(255,255,255,.05),rgba(255,255,255,.015));border-radius:15px;padding:13px;transition:transform .18s,border-color .18s}.mini:hover{transform:translateY(-3px);border-color:var(--cyan)}.mini-art{height:55px;display:flex;align-items:center;justify-content:center;border-radius:10px;margin-bottom:9px;background:var(--artbg);font-size:30px}.mini b{font-size:13px;line-height:1.25}.mini small{color:var(--muted);font-size:11px;margin-top:4px}.msg{padding:40px 20px;text-align:center;color:var(--muted)}.hidden{display:none!important}.note{border:1px solid rgba(0,212,255,.15);border-radius:12px;background:rgba(0,212,255,.045);color:#bceefa;padding:12px 14px;margin:0 0 14px;font-size:13px}
+@media(max-width:1000px){.game-list{grid-template-columns:repeat(4,minmax(0,1fr))}.below{grid-template-columns:1fr}}@media(max-width:640px){.wrap{padding:0 12px}.top{min-height:58px}.topline{gap:10px}.title-row{display:block}.head-actions{margin-top:13px}.stage{border-radius:14px}.stage iframe{height:68vh;min-height:430px}.stage-head{min-height:42px}.game-list{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.mini{min-height:120px}.mini-art{height:47px}.box{padding:14px}}@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style></head><body>
+<header class="top"><div class="wrap topline"><a class="logo" href="/" aria-label="NeonPlay início">NEON<em>PLAY</em></a><span id="crumbGame" class="muted">ARCADE</span><a class="back" href="/" aria-label="Voltar ao catálogo">← Voltar aos jogos</a></div></header>
+<main class="wrap"><div id="loading" class="msg" role="status" aria-live="polite">Preparando a área de jogo…</div><div id="content" class="hidden"><div class="crumb"><a href="/">NeonPlay</a><span>›</span><span id="crumbSection">Jogos</span></div><div class="title-row"><div><div id="tag" class="tag">ARCADE LOCAL</div><h1 id="title" class="title">Jogo</h1><p id="description" class="description"></p></div><div class="head-actions"><button id="restart" class="btn" type="button">↻ Reiniciar</button><button id="full" class="btn primary" type="button">⛶ Tela cheia</button></div></div><p id="legacyNote" class="note hidden">Este jogo usa o player original do catálogo NeonPlay, agora dentro de uma página de jogo unificada. Os arquivos do jogo continuam servidos conforme a integração original.</p><section class="stage" id="stage" aria-label="Área do jogo"><div class="stage-head"><span class="dots" aria-hidden="true"><i class="dot"></i><i class="dot"></i><i class="dot"></i></span><span id="stageLabel" class="stage-label">Jogo executado no servidor NeonPlay</span></div><iframe id="frame" title="Jogo NeonPlay" allow="fullscreen; gamepad" allowfullscreen loading="eager"></iframe></section><div class="below"><section class="box"><h2>Como jogar</h2><p id="controls" class="muted"></p><div class="controls"><span class="key">No navegador</span><span class="key">Tela cheia</span><span class="key">Voltar ao catálogo</span></div></section><section class="box"><h2>Próximo desafio</h2><p class="muted">Experimente outro jogo sem sair do NeonPlay.</p><button id="random" class="btn primary" type="button">✦ Surpreenda-me</button><p id="recentNote" class="muted" style="margin-bottom:0"></p></section></div><section aria-labelledby="moreTitle"><div style="display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-top:30px"><h2 id="moreTitle" style="font-size:22px;margin:0">Mais jogos do NeonPlay</h2><a href="/" class="muted">Ver catálogo completo ↗</a></div><div class="game-list" id="more"></div></section></div></main>
+<script>
+(async function(){
+  'use strict';
+  const $ = selector => document.querySelector(selector);
+  const params = new URLSearchParams(location.search);
+  const localId = params.get('game');
+  const legacyId = params.get('legacy');
+  const isLegacy = Boolean(legacyId);
+  const loading = $('#loading');
+  let games = [];
+  let current = null;
+  let legacyCards = [];
+  function normalize(value){return String(value||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'');}
+  function showError(message){loading.textContent=message;loading.classList.remove('hidden');$('#content').classList.add('hidden');}
+  try {
+    const response = await fetch('/games.json',{cache:'no-store'});
+    if(!response.ok) throw new Error('games.json');
+    games = await response.json();
+    if(!Array.isArray(games)) throw new Error('invalid catalog');
+  } catch (error) {
+    showError('Não foi possível carregar o catálogo local. Inicie o servidor Node com npm start e tente novamente.');
+    return;
+  }
+  if(isLegacy){
+    if(!/^[a-z0-9-]{1,90}$/.test(legacyId)) { showError('Identificador de jogo inválido. Volte ao catálogo e escolha outro jogo.'); return; }
+    try {
+      const response = await fetch('/index.html',{cache:'no-store'});
+      if(!response.ok) throw new Error('homepage');
+      const html = await response.text();
+      const doc = new DOMParser().parseFromString(html,'text/html');
+      legacyCards = Array.from(doc.querySelectorAll('.g[data-id]'));
+      const card = legacyCards.find(node => node.dataset.id === legacyId);
+      if(!card){ showError('Não encontrei esse jogo no catálogo da homepage. Volte à lista e escolha outro jogo.'); return; }
+      const title = card.querySelector('b')?.textContent?.trim() || legacyId.replace(/-/g,' ');
+      const category = card.dataset.c || card.querySelector('small')?.textContent?.split('·')[0]?.trim() || 'Catálogo';
+      current = {id:'legacy:'+legacyId, legacyId, name:title, category, emoji:'🎮', accent:'#00d4ff', description:'Abra '+title+' na experiência integrada do NeonPlay.', controls:'Os controles variam conforme o jogo. Consulte as instruções exibidas dentro da área de jogo.', difficulty:'Catálogo'};
+    } catch (error) {
+      showError('Não consegui ler os dados do jogo no catálogo. Confirme que index.html está na raiz do servidor.'); return;
+    }
+  } else {
+    if(!/^[a-z0-9-]{1,40}$/.test(localId||'')){ showError('Escolha um jogo da coleção local a partir da homepage.'); return; }
+    current = games.find(game => game.id === localId);
+    if(!current){ showError('Esse jogo não existe no catálogo local. Volte à página inicial e escolha outro jogo.'); const link=document.createElement('a');link.href='/';link.textContent='Voltar ao catálogo';link.style.color='#00d4ff';loading.append(' ',link);return; }
+  }
+  loading.classList.add('hidden');
+  $('#content').classList.remove('hidden');
+  document.title = current.name+' | NeonPlay';
+  $('#title').textContent = current.name;
+  $('#tag').textContent = isLegacy ? (current.category+' · CATÁLOGO') : (current.category+' · '+current.difficulty);
+  $('#description').textContent = current.description;
+  $('#controls').textContent = current.controls;
+  $('#crumbGame').textContent = current.category.toUpperCase();
+  $('#crumbSection').textContent = isLegacy ? 'Catálogo de jogos' : 'Jogos locais';
+  $('#stageLabel').textContent = isLegacy ? current.name+' · player original NeonPlay' : current.name+' · hospedado no servidor NeonPlay';
+  $('#legacyNote').classList.toggle('hidden',!isLegacy);
+  const frame = $('#frame');
+  const frameUrl = isLegacy ? '/game.html?id='+encodeURIComponent(legacyId)+'&np_raw=1' : '/games/'+current.id+'/index.html';
+  frame.title = 'Jogar '+current.name+' no NeonPlay';
+  frame.src = frameUrl;
+  function updateRecentNote(){let recent=[];try{recent=JSON.parse(localStorage.getItem('np_recent_local')||'[]')}catch(error){};$('#recentNote').textContent=recent.length>1?'Você abriu '+(recent.length-1)+' outro(s) jogo(s) recentemente.':'Seu histórico fica salvo neste navegador.';}
+  frame.addEventListener('load',function(){
+    try { const stored=JSON.parse(localStorage.getItem('np_recent_local')||'[]'); const value=isLegacy?'legacy:'+legacyId:current.id; const next=stored.filter(item=>item!==value); next.unshift(value); localStorage.setItem('np_recent_local',JSON.stringify(next.slice(0,8))); } catch(error) {}
+    updateRecentNote();
+  });
+  $('#restart').addEventListener('click',function(){try{frame.contentWindow.location.reload()}catch(error){frame.src=frameUrl;}});
+  $('#full').addEventListener('click',async function(){const stage=$('#stage');try{if(document.fullscreenElement){await document.exitFullscreen()}else if(stage.requestFullscreen){await stage.requestFullscreen()}else if(stage.webkitRequestFullscreen){stage.webkitRequestFullscreen()}else{frame.focus()}}catch(error){frame.focus();}});
+  document.addEventListener('fullscreenchange',function(){$('#full').textContent=document.fullscreenElement?'⤢ Sair da tela cheia':'⛶ Tela cheia';});
+  $('#random').addEventListener('click',function(){const pool=games.filter(game=>!isLegacy&&game.id===current.id?false:true);if(!pool.length)return;const pick=pool[Math.floor(Math.random()*pool.length)];location.href='/play.html?game='+encodeURIComponent(pick.id);});
+  const more = $('#more');
+  let candidates = games.filter(game=>normalize(game.category)===normalize(current.category));
+  candidates = candidates.concat(games.filter(game=>normalize(game.category)!==normalize(current.category)));
+  candidates = candidates.filter((game,index,self)=>game.id!==(isLegacy?'':current.id)&&self.findIndex(other=>other.id===game.id)===index).slice(0,6);
+  candidates.forEach(function(game){const link=document.createElement('a');link.href='/play.html?game='+encodeURIComponent(game.id);link.className='mini';link.style.setProperty('--artbg','linear-gradient(135deg,'+game.accent+'33,#151526)');const art=document.createElement('span');art.className='mini-art';art.setAttribute('aria-hidden','true');art.textContent=game.emoji;const title=document.createElement('b');title.textContent=game.name;const cat=document.createElement('small');cat.textContent=game.category;link.append(art,title,cat);more.append(link);});
+  updateRecentNote();
+})();
+</script></body></html>
