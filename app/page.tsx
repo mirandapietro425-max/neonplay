@@ -21,7 +21,8 @@ type GamePixGame = {
   source: 'gamepix'
   providerRank: number
 }
-type Game = CatalogGame | GamePixGame
+type NebulaGame = { id: string; title: string; category: string; kind: 'game'; launchUrl: string; route: string; source: 'nebula'; status: string; slug: string }
+type Game = CatalogGame | GamePixGame | NebulaGame
 const fetcher = (url: string) => fetch(url, { cache: 'no-store' }).then((r) => r.json())
 const names: Record<string, string> = { todos: 'Todos', gamepix: 'GamePix', ...categoryLabels }
 
@@ -30,27 +31,30 @@ function categoryArt(category: string) {
 }
 
 function imageFor(game: Game) {
-  return game.source === 'gamepix' ? game.imageUrl : game.imagePath
+  if (game.source === 'gamepix') return game.imageUrl
+  if (game.source === 'nebula') return categoryArt(game.category)
+  return game.imagePath
 }
 
 function isGamePix(game: Game): game is GamePixGame {
   return game.source === 'gamepix'
 }
 
+function gameSlug(game: Game) {
+  return game.slug
+}
+
 export default function Page() {
   const [search, setSearch] = useState('')
   const [category, setCategory] = useState('todos')
-  const [source, setSource] = useState<'todos' | 'internet-archive' | 'gamepix' | 'browser-games'>('todos')
+  const [source, setSource] = useState<'todos' | 'internet-archive' | 'gamepix' | 'browser-games' | 'nebula'>('todos')
   const [sort, setSort] = useState<'featured' | 'az'>('featured')
   const [visibleCount, setVisibleCount] = useState(90)
   const searchRef = useRef<HTMLInputElement>(null)
   useEffect(() => { setVisibleCount(90) }, [search, category, source, sort])
-  const { data, isLoading, error, mutate } = useSWR<{ games?: Game[] }>('/api/games?source=gamepix', fetcher, { revalidateOnFocus: false })
+  const { data, isLoading, error, mutate } = useSWR<{ games?: Game[] }>('/api/games?source=todos', fetcher, { revalidateOnFocus: false })
 
-  const allGames = useMemo(() => [
-    ...catalogGames,
-    ...(data?.games ?? []).filter(isGamePix),
-  ], [data])
+  const allGames = useMemo(() => data?.games ?? catalogGames, [data])
   const categories = useMemo(() => Array.from(new Set(allGames.map((game) => game.category)))
     .filter((id) => id !== 'gamepix')
     .map((id) => ({ id, count: allGames.filter((game) => game.category === id).length })), [allGames])
@@ -67,7 +71,8 @@ export default function Page() {
       if (isGamePix(a) && isGamePix(b)) return a.providerRank - b.providerRank
       if (isGamePix(a)) return 1
       if (isGamePix(b)) return -1
-      return compareCatalogPopularity(a, b)
+      if (a.source === 'nebula' || b.source === 'nebula') return a.title.localeCompare(b.title, 'pt-BR')
+      return compareCatalogPopularity(a as CatalogGame, b as CatalogGame)
     })
   }, [allGames, category, search, sort, source])
 
@@ -115,12 +120,12 @@ export default function Page() {
 
       {!search && category === 'todos' && source === 'todos' && featuredGames.length > 0 && <div className="zg-discovery">
         <div className="zg-discovery-head"><div><p className="zg-kicker">Descobertas da semana</p><h3>Em alta agora</h3></div><span>Seleção GamePix</span></div>
-        <div className="zg-mini-grid">{featuredGames.map((game) => <a className="zg-mini-card" key={`featured-${game.id}`} href={`/jogos/${game.slug}`}><img src={imageFor(game)} alt={`Capa de ${game.title}`} loading="lazy" onError={(event) => { event.currentTarget.onerror = null; event.currentTarget.src = categoryArt(game.category) }} /><span>{game.title}</span></a>)}</div>
+        <div className="zg-mini-grid">{featuredGames.map((game) => <a className="zg-mini-card" key={`featured-${game.id}`} href={`/jogos/${gameSlug(game)}`}><img src={imageFor(game)} alt={`Capa de ${game.title}`} loading="lazy" onError={(event) => { event.currentTarget.onerror = null; event.currentTarget.src = categoryArt(game.category) }} /><span>{game.title}</span></a>)}</div>
       </div>}
 
       {!search && category === 'todos' && source === 'todos' && <div className="zg-discovery zg-discovery-secondary">
         <div className="zg-discovery-head"><div><p className="zg-kicker">Interesse de busca e editorial</p><h3>Clássicos em destaque</h3></div><span>Autocomplete + editorial</span></div>
-        <div className="zg-mini-grid">{quickPicks.map((game) => <a className="zg-mini-card" key={`quick-${game.id}`} href={`/jogos/${game.slug}`}><img src={imageFor(game)} alt={`Capa de ${game.title}`} loading="lazy" onError={(event) => { event.currentTarget.onerror = null; event.currentTarget.src = categoryArt(game.category) }} /><span>{game.title}</span></a>)}</div>
+        <div className="zg-mini-grid">{quickPicks.map((game) => <a className="zg-mini-card" key={`quick-${game.id}`} href={`/jogos/${gameSlug(game)}`}><img src={imageFor(game)} alt={`Capa de ${game.title}`} loading="lazy" onError={(event) => { event.currentTarget.onerror = null; event.currentTarget.src = categoryArt(game.category) }} /><span>{game.title}</span></a>)}</div>
       </div>}
 
       <div className="zg-catalog-toolbar">
@@ -129,7 +134,7 @@ export default function Page() {
       </div>
 
       {filtered.length ? <>
-        <div className="zg-game-grid">{visibleGames.map((game) => <a className="zg-game-card" key={game.id} href={`/jogos/${game.slug}`} aria-label={`Ver ficha de ${game.title}`}>
+        <div className="zg-game-grid">{visibleGames.map((game) => <a className="zg-game-card" key={game.id} href={`/jogos/${gameSlug(game)}`} aria-label={`Ver ficha de ${game.title}`}>
           {game.source === 'browser-games' && <b className="zg-browser-tag">Jogue agora</b>}
           {game.source === 'gamepix' && <b className="zg-gamepix-tag">GamePix</b>}
           <div className="zg-game-thumb"><img src={imageFor(game)} alt={`Capa de ${game.title}`} loading="lazy" onError={(event) => { event.currentTarget.onerror = null; event.currentTarget.src = categoryArt(game.category) }} /><span className="zg-play-mark"><ArrowUpRight size={14} /></span></div>
