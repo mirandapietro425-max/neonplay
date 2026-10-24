@@ -35,7 +35,14 @@ for (const g of servers) {
 unique(local.map(x => x.id), 'ID de jogo local');
 unique(servers.map(x => x.id), 'ID de serviço');
 unique([...local.map(x => x.id), ...servers.map(x => x.id)], 'ID combinado');
-assert(fs.readFileSync(path.join(root, 'index.html'), 'utf8').includes("fetch('/games-imported.json'"), 'Homepage não tem carregador do catálogo instalado.');
+const homepage = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
+let homepageLoadsCatalog = homepage.includes("fetch('/games-imported.json'");
+const externalCatalogScript = homepage.match(/<script\b[^>]*src=["']([^"']*np-r24-local-catalog\.js(?:\?[^"']*)?)["'][^>]*>/i);
+if (!homepageLoadsCatalog && externalCatalogScript) {
+  const scriptPath = path.join(root, externalCatalogScript[1].replace(/[?#].*$/, '').replace(/^\/+/, ''));
+  homepageLoadsCatalog = fs.existsSync(scriptPath) && fs.readFileSync(scriptPath, 'utf8').includes("fetch('/games-imported.json'");
+}
+assert(homepageLoadsCatalog, 'Homepage não tem carregador do catálogo instalado.');
 assert(fs.readFileSync(path.join(root, 'local-game.html'), 'utf8').includes("fetch('/games-imported.json'"), 'Player não carrega o catálogo instalado.');
 assert(fs.existsSync(path.join(root, '.github/workflows/import-open-games.yml')), 'Workflow de importação ausente.');
 assert(fs.existsSync(path.join(root, 'scripts/download-github-archive.cjs')), 'Validador seguro de archives ausente.');
