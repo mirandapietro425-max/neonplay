@@ -39,10 +39,13 @@ const server = http.createServer((req,res) => {
   catch { return send(res,400,'Bad request'); }
   if (url.pathname === '/api/health') return send(res,200,JSON.stringify({ok:true,service:'neonplay-local-arcade',time:new Date().toISOString()}),'application/json; charset=utf-8');
   if (url.pathname === '/api/games') {
-    fs.readFile(path.join(ROOT,'games.json'), (err,data) => {
+    const catalogs = ['games-imported.json', 'games.json'];
+    const readCatalog = (index) => fs.readFile(path.join(ROOT, catalogs[index]), (err,data) => {
+      if (err && index + 1 < catalogs.length) return readCatalog(index + 1);
       if (err) return send(res,500,'Game catalog unavailable');
       send(res,200,data.toString('utf8'),'application/json; charset=utf-8');
     });
+    readCatalog(0);
     return;
   }
   const file = safePath(url.pathname);
