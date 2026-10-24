@@ -5,7 +5,7 @@ Disallow: /?debug=
 Disallow: /debug.html
 Disallow: /test-iframes.html
 
-Sitemap: https://neonplay-nu.vercel.app/sitemap.xml
+Sitemap: https://www.zapgame.com.br/sitemap.xml
 
 # Crawl-delay para bots menos relevantes
 User-agent: AhrefsBot
