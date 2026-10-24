@@ -3,14 +3,14 @@ import type { Metadata, Viewport } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'NeonPlay — Jogos Flash clássicos',
-  description: 'Uma biblioteca de jogos Flash preservados para jogar direto no navegador.',
-  generator: 'NeonPlay',
+  title: 'Zap Game — Arquivo de jogos clássicos',
+  description: 'Um memorial vivo dos jogos que marcaram época. Reviva clássicos do navegador no Zap Game.',
+  generator: 'Zap Game',
 }
 
 export const viewport: Viewport = {
   colorScheme: 'dark',
-  themeColor: '#070711',
+  themeColor: '#0b0d18',
 }
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
