@@ -2,53 +2,145 @@
 
 import useSWR from 'swr'
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { ArrowDown, ArrowUpRight, Play, Search, X } from 'lucide-react'
-import { flashArchiveEntries } from '@/lib/flash-archive-games'
+import { ArrowDown, ArrowUpRight, Search } from 'lucide-react'
+import {
+  catalogGames,
+  categoryLabels,
+  compareCatalogPopularity,
+  type CatalogGame,
+} from '@/lib/game-catalog'
 
-type Game = { id: string; title: string; category: string; kind: 'game' | 'collection'; launchUrl: string; imageUrl?: string; browser?: boolean; source?: string }
-const fetcher = (url: string) => fetch(url, { cache: 'no-store' }).then((r) => r.json())
-const browserGames: Game[] = [
-  { id: 'snake', title: 'Snake', category: 'arcade', kind: 'game', launchUrl: 'https://emjay045.github.io/browser-games/snake/', browser: true },
-  { id: 'pong', title: 'Pong', category: 'arcade', kind: 'game', launchUrl: 'https://emjay045.github.io/browser-games/pong/', browser: true },
-  { id: '2048', title: '2048', category: 'puzzle', kind: 'game', launchUrl: 'https://emjay045.github.io/browser-games/2048/', browser: true },
-  { id: 'tetris', title: 'Tetris', category: 'puzzle', kind: 'game', launchUrl: 'https://emjay045.github.io/browser-games/tetris/', browser: true },
-  { id: 'breakout', title: 'Breakout', category: 'arcade', kind: 'game', launchUrl: 'https://emjay045.github.io/browser-games/breakout/', browser: true },
-  { id: 'minesweeper', title: 'Campo Minado', category: 'puzzle', kind: 'game', launchUrl: 'https://emjay045.github.io/browser-games/minesweeper/', browser: true },
-  { id: 'wordle', title: 'Wordle', category: 'quiz', kind: 'game', launchUrl: 'https://emjay045.github.io/browser-games/wordle/', browser: true },
-  { id: 'flappy-bird', title: 'Flappy Bird', category: 'arcade', kind: 'game', launchUrl: 'https://emjay045.github.io/browser-games/flappy-bird/', browser: true },
-]
-const names: Record<string, string> = { todos: 'Todos', acao: 'Ação', arcade: 'Arcade', aventura: 'Aventura', casual: 'Casual', corrida: 'Corrida', esporte: 'Esporte', estrategia: 'Estratégia', gamepix: 'GamePix', plataforma: 'Plataforma', puzzle: 'Quebra-cabeça', quiz: 'Quiz' }
-const archiveGames: Game[] = flashArchiveEntries.map((game) => ({ ...game, source: 'internet-archive', launchUrl: `https://archive.org/embed/${encodeURIComponent(game.id)}`, imageUrl: `https://archive.org/services/img/${encodeURIComponent(game.id)}` }))
-const browserArtwork: Record<string, string> = {
-  'snake': '/brand/games/snake.webp',
-  'pong': '/brand/games/pong.webp',
-  '2048': '/brand/games/2048.webp',
-  'breakout': '/brand/games/breakout.webp',
-  'minesweeper': '/brand/games/minesweeper.webp',
-  'flappy-bird': '/brand/games/flappy-bird.webp',
-  'tetris': '/brand/games/tetris.webp',
-  'wordle': '/brand/games/wordle.webp',
+type GamePixGame = {
+  id: string
+  title: string
+  category: string
+  kind: 'game'
+  launchUrl: string
+  imageUrl: string
+  slug: string
+  source: 'gamepix'
+  providerRank: number
 }
-function categoryArt(category: string) { return `/brand/category-${category === 'gamepix' ? 'arcade' : category}.webp` }
-function imageFor(game: Game) { if (game.browser) return browserArtwork[game.id] ?? categoryArt(game.category); return game.imageUrl ? `/api/image?url=${encodeURIComponent(game.imageUrl)}` : categoryArt(game.category) }
+type Game = CatalogGame | GamePixGame
+const fetcher = (url: string) => fetch(url, { cache: 'no-store' }).then((r) => r.json())
+const names: Record<string, string> = { todos: 'Todos', gamepix: 'GamePix', ...categoryLabels }
+
+function categoryArt(category: string) {
+  return `/brand/category-${category === 'gamepix' ? 'arcade' : category}.webp`
+}
+
+function imageFor(game: Game) {
+  return game.source === 'gamepix' ? game.imageUrl : game.imagePath
+}
+
+function isGamePix(game: Game): game is GamePixGame {
+  return game.source === 'gamepix'
+}
 
 export default function Page() {
-  const [search, setSearch] = useState(''); const [category, setCategory] = useState('todos'); const [source, setSource] = useState<'todos' | 'internet-archive' | 'gamepix' | 'browser-games'>('todos'); const [sort, setSort] = useState<'featured' | 'az'>('featured'); const [visibleCount, setVisibleCount] = useState(36); const [activeGame, setActiveGame] = useState<Game | null>(null)
-  const searchRef = useRef<HTMLInputElement>(null); const closeRef = useRef<HTMLButtonElement>(null)
-  const { data, isLoading, error, mutate } = useSWR<{ games?: Game[] }>('/api/games', fetcher, { revalidateOnFocus: false })
-  const allGames = useMemo(() => [...browserGames, ...archiveGames, ...(data?.games ?? []).filter((game) => game.source === 'gamepix' || game.category === 'gamepix')], [data])
-  const categories = useMemo(() => Array.from(new Set(allGames.map((game) => game.category))).map((id) => ({ id, count: allGames.filter((game) => game.category === id).length })), [allGames])
-  const filtered = useMemo(() => { const q = search.trim().toLocaleLowerCase('pt-BR'); const games = allGames.filter((game) => (category === 'todos' || game.category === category) && (source === 'todos' || game.source === source) && (!q || game.title.toLocaleLowerCase('pt-BR').includes(q))); return [...games].sort((a, b) => sort === 'az' ? a.title.localeCompare(b.title, 'pt-BR') : Number(Boolean(b.source === 'gamepix')) - Number(Boolean(a.source === 'gamepix')) || Number(Boolean(b.browser)) - Number(Boolean(a.browser)) || a.title.localeCompare(b.title, 'pt-BR')) }, [allGames, category, search, sort, source])
+  const [search, setSearch] = useState('')
+  const [category, setCategory] = useState('todos')
+  const [source, setSource] = useState<'todos' | 'internet-archive' | 'gamepix' | 'browser-games'>('todos')
+  const [sort, setSort] = useState<'featured' | 'az'>('featured')
+  const [visibleCount, setVisibleCount] = useState(90)
+  const searchRef = useRef<HTMLInputElement>(null)
+  useEffect(() => { setVisibleCount(90) }, [search, category, source, sort])
+  const { data, isLoading, error, mutate } = useSWR<{ games?: Game[] }>('/api/games?source=gamepix', fetcher, { revalidateOnFocus: false })
+
+  const allGames = useMemo(() => [
+    ...catalogGames,
+    ...(data?.games ?? []).filter(isGamePix),
+  ], [data])
+  const categories = useMemo(() => Array.from(new Set(allGames.map((game) => game.category)))
+    .filter((id) => id !== 'gamepix')
+    .map((id) => ({ id, count: allGames.filter((game) => game.category === id).length })), [allGames])
+
+  const filtered = useMemo(() => {
+    const query = search.trim().toLocaleLowerCase('pt-BR')
+    const matching = allGames.filter((game) =>
+      (category === 'todos' || game.category === category) &&
+      (source === 'todos' || game.source === source) &&
+      (!query || game.title.toLocaleLowerCase('pt-BR').includes(query)),
+    )
+    return [...matching].sort((a, b) => {
+      if (sort === 'az') return a.title.localeCompare(b.title, 'pt-BR')
+      if (isGamePix(a) && isGamePix(b)) return a.providerRank - b.providerRank
+      if (isGamePix(a)) return 1
+      if (isGamePix(b)) return -1
+      return compareCatalogPopularity(a, b)
+    })
+  }, [allGames, category, search, sort, source])
+
   const visibleGames = useMemo(() => filtered.slice(0, visibleCount), [filtered, visibleCount])
-  const featuredGames = useMemo(() => filtered.filter((game) => game.source === 'gamepix').slice(0, 6), [filtered])
-  const quickPicks = useMemo(() => filtered.filter((game) => game.browser || game.source === 'internet-archive').slice(0, 6), [filtered])
-  useEffect(() => { setVisibleCount(36) }, [search, category, source, sort])
-  useEffect(() => { if (!activeGame) return; document.body.style.overflow = 'hidden'; const onKey = (event: KeyboardEvent) => event.key === 'Escape' && setActiveGame(null); window.addEventListener('keydown', onKey); setTimeout(() => closeRef.current?.focus(), 0); return () => { document.body.style.overflow = ''; window.removeEventListener('keydown', onKey) } }, [activeGame])
+  const featuredGames = useMemo(() => filtered.filter(isGamePix).slice(0, 6), [filtered])
+  const quickPicks = useMemo(() => filtered.filter((game) => !isGamePix(game)).slice(0, 6), [filtered])
+
   return <main className="zg-shell"><div className="zg-wrap">
-    <header className="zg-topbar"><a href="#top" aria-label="ZapGame início"><img className="zg-logo" src="/brand/zapgame-logo.svg" alt="ZapGame" /></a><nav className="zg-nav" aria-label="Navegação principal"><a href="#catalogo">Jogos</a><a href="#categorias">Categorias</a><a href="#sobre">Sobre</a></nav><button className="zg-top-cta" onClick={() => searchRef.current?.focus()}><Search size={15} /> Buscar jogo</button></header>
-    <section id="top" className="zg-hero"><div className="zg-hero-art" aria-hidden="true" /><div className="zg-hero-copy"><div className="zg-eyebrow">Um arquivo vivo de nostalgia</div><h1>Aperta o play.<br /><span>Volta no tempo.</span></h1><p>Um memorial vivo dos jogos que marcaram época. Reviva clássicos do navegador e descubra novas memórias.</p><button className="zg-primary-btn" onClick={() => document.getElementById('catalogo')?.scrollIntoView({ behavior: 'smooth' })}>Explorar o acervo <ArrowDown size={16} /></button></div><div className="zg-hero-aside"><i /> Clássicos guardados. Diversão viva.</div></section>
-    <section className="zg-section" id="catalogo"><div className="zg-section-head"><div><p className="zg-kicker">Um passeio pela memória</p><h2>Os clássicos ainda chamam.</h2></div><label className="zg-searchbox"><Search size={17} /><input ref={searchRef} type="search" value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Buscar pelo nome do jogo" aria-label="Buscar jogo pelo título" /></label></div><div className="zg-category-row" id="categorias"><button className={`zg-filter ${category === 'todos' && source === 'todos' ? 'active' : ''}`} onClick={() => { setCategory('todos'); setSource('todos') }}>Todos <span>{allGames.length}</span></button><button className={`zg-filter ${source === 'internet-archive' ? 'active' : ''}`} onClick={() => { setSource('internet-archive'); setCategory('todos') }}>Arquivo Flash <span>{allGames.filter((game) => game.source === 'internet-archive').length}</span></button><button className={`zg-filter ${source === 'gamepix' ? 'active' : ''}`} onClick={() => { setSource('gamepix'); setCategory('todos') }}>GamePix <span>{allGames.filter((game) => game.source === 'gamepix').length}</span></button>{categories.map((item) => <button key={item.id} className={`zg-filter ${category === item.id && source === 'todos' ? 'active' : ''}`} onClick={() => setCategory(item.id)}>{names[item.id] ?? item.id} <span>{item.count}</span></button>)}</div>{isLoading && <div className="zg-source-status">Carregando o catálogo GamePix…</div>}{error && <div className="zg-source-error">Não foi possível atualizar o GamePix. <button onClick={() => void mutate()}>Tentar novamente</button></div>}{!search && category === 'todos' && source === 'todos' && featuredGames.length > 0 && <div className="zg-discovery"><div className="zg-discovery-head"><div><p className="zg-kicker">Descobertas da semana</p><h3>Em alta agora</h3></div><span>Seleção GamePix</span></div><div className="zg-mini-grid">{featuredGames.map((game) => <button className="zg-mini-card" key={`featured-${game.id}`} onClick={() => setActiveGame(game)}><img src={imageFor(game)} alt="" loading="lazy" /><span>{game.title}</span></button>)}</div></div>}{!search && category === 'todos' && source === 'todos' && <div className="zg-discovery zg-discovery-secondary"><div className="zg-discovery-head"><div><p className="zg-kicker">Pequenos clássicos, grandes lembranças</p><h3>Escolha uma memória</h3></div><span>Sem cadastro</span></div><div className="zg-mini-grid">{quickPicks.map((game) => <button className="zg-mini-card" key={`quick-${game.id}`} onClick={() => setActiveGame(game)}><img src={imageFor(game)} alt="" loading="lazy" /><span>{game.title}</span></button>)}</div></div>}<div className="zg-catalog-toolbar"><div className="zg-result-line"><span>{filtered.length} {filtered.length === 1 ? 'jogo encontrado' : 'jogos encontrados'}</span><span>{names[category] ?? 'Todos'}</span></div><label className="zg-sort">Ordenar por<select value={sort} onChange={(event) => setSort(event.target.value as 'featured' | 'az')} aria-label="Ordenar catálogo"><option value="featured">Destaques primeiro</option><option value="az">Nome: A–Z</option></select></label></div>{filtered.length ? <div className="zg-game-grid">{visibleGames.map((game) => <button className="zg-game-card" key={game.id} onClick={() => setActiveGame(game)} aria-label={`Jogar ${game.title}`}>{game.browser && <b className="zg-browser-tag">Jogue agora</b>}{game.source === 'gamepix' && <b className="zg-gamepix-tag">GamePix</b>}<div className="zg-game-thumb"><img src={imageFor(game)} alt={`Capa de ${game.title}`} loading="lazy" onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = categoryArt(game.category) }} /><span className="zg-play-mark"><Play size={14} fill="currentColor" /></span></div><div className="zg-game-info"><strong>{game.title}</strong><small>{names[game.category] ?? game.category}</small></div></button>)}</div> : <div className="zg-empty"><img src="/brand/brand-empty-library.svg" alt="" /><h3>Nenhum jogo por aqui.</h3><p>Tente outro título ou limpe os filtros.</p><button className="zg-reset" onClick={() => { setSearch(''); setCategory('todos') }}>Limpar filtros</button></div>}</section>
+    <header className="zg-topbar">
+      <a href="#top" aria-label="Zap Game início"><img className="zg-logo" src="/brand/zapgame-logo.svg" alt="Zap Game" /></a>
+      <nav className="zg-nav" aria-label="Navegação principal"><a href="#catalogo">Jogos</a><a href="#categorias">Categorias</a><a href="#sobre">Sobre</a></nav>
+      <button className="zg-top-cta" onClick={() => searchRef.current?.focus()}><Search size={15} /> Buscar jogo</button>
+    </header>
+
+    <section id="top" className="zg-hero">
+      <div className="zg-hero-art" aria-hidden="true" />
+      <div className="zg-hero-copy">
+        <div className="zg-eyebrow">Um arquivo vivo de nostalgia</div>
+        <h1>Aperta o play.<br /><span>Volta no tempo.</span></h1>
+        <p>Um memorial vivo dos jogos que marcaram época. Reviva clássicos do navegador e descubra novas memórias.</p>
+        <button className="zg-primary-btn" onClick={() => document.getElementById('catalogo')?.scrollIntoView({ behavior: 'smooth' })}>Explorar o acervo <ArrowDown size={16} /></button>
+      </div>
+      <div className="zg-hero-aside"><i /> Clássicos guardados. Diversão viva.</div>
+    </section>
+
+    <section className="zg-section" id="catalogo">
+      <div className="zg-section-head">
+        <div><p className="zg-kicker">Um passeio pela memória</p><h2>Jogos clássicos para jogar de novo.</h2></div>
+        <label className="zg-searchbox"><Search size={17} /><input ref={searchRef} type="search" value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Buscar pelo nome do jogo" aria-label="Buscar jogo pelo título" /></label>
+      </div>
+
+      <div className="zg-category-row" id="categorias">
+        <button className={`zg-filter ${category === 'todos' && source === 'todos' ? 'active' : ''}`} onClick={() => { setCategory('todos'); setSource('todos') }}>Todos <span>{allGames.length}</span></button>
+        <button className={`zg-filter ${source === 'internet-archive' ? 'active' : ''}`} onClick={() => { setSource('internet-archive'); setCategory('todos') }}>Arquivo Flash <span>{allGames.filter((game) => game.source === 'internet-archive').length}</span></button>
+        <button className={`zg-filter ${source === 'gamepix' ? 'active' : ''}`} onClick={() => { setSource('gamepix'); setCategory('todos') }}>GamePix <span>{allGames.filter((game) => game.source === 'gamepix').length}</span></button>
+        {categories.map((item) => <button key={item.id} className={`zg-filter ${category === item.id && source === 'todos' ? 'active' : ''}`} onClick={() => setCategory(item.id)}>{names[item.id] ?? item.id} <span>{item.count}</span></button>)}
+      </div>
+
+      <nav className="zg-category-links" aria-label="Páginas de categorias de jogos">
+        {categories.map((item) => <a key={`seo-${item.id}`} href={`/jogos/categoria/${item.id}`}>{names[item.id] ?? item.id}</a>)}
+      </nav>
+
+      {isLoading && <div className="zg-source-status">Carregando o catálogo GamePix…</div>}
+      {error && <div className="zg-source-error">Não foi possível atualizar o GamePix. <button onClick={() => void mutate()}>Tentar novamente</button></div>}
+
+      {!search && category === 'todos' && source === 'todos' && featuredGames.length > 0 && <div className="zg-discovery">
+        <div className="zg-discovery-head"><div><p className="zg-kicker">Descobertas da semana</p><h3>Em alta agora</h3></div><span>Seleção GamePix</span></div>
+        <div className="zg-mini-grid">{featuredGames.map((game) => <a className="zg-mini-card" key={`featured-${game.id}`} href={`/jogos/${game.slug}`}><img src={imageFor(game)} alt={`Capa de ${game.title}`} loading="lazy" onError={(event) => { event.currentTarget.onerror = null; event.currentTarget.src = categoryArt(game.category) }} /><span>{game.title}</span></a>)}</div>
+      </div>}
+
+      {!search && category === 'todos' && source === 'todos' && <div className="zg-discovery zg-discovery-secondary">
+        <div className="zg-discovery-head"><div><p className="zg-kicker">Interesse de busca e editorial</p><h3>Clássicos em destaque</h3></div><span>Autocomplete + editorial</span></div>
+        <div className="zg-mini-grid">{quickPicks.map((game) => <a className="zg-mini-card" key={`quick-${game.id}`} href={`/jogos/${game.slug}`}><img src={imageFor(game)} alt={`Capa de ${game.title}`} loading="lazy" onError={(event) => { event.currentTarget.onerror = null; event.currentTarget.src = categoryArt(game.category) }} /><span>{game.title}</span></a>)}</div>
+      </div>}
+
+      <div className="zg-catalog-toolbar">
+        <div className="zg-result-line"><span>{filtered.length} {filtered.length === 1 ? 'jogo encontrado' : 'jogos encontrados'}</span><span>{names[category] ?? 'Todos'}</span></div>
+        <label className="zg-sort">Ordenar por<select value={sort} onChange={(event) => setSort(event.target.value as 'featured' | 'az')} aria-label="Ordenar catálogo"><option value="featured">Sinais qualitativos (BR)</option><option value="az">Nome: A–Z</option></select></label>
+      </div>
+
+      {filtered.length ? <>
+        <div className="zg-game-grid">{visibleGames.map((game) => <a className="zg-game-card" key={game.id} href={`/jogos/${game.slug}`} aria-label={`Ver ficha de ${game.title}`}>
+          {game.source === 'browser-games' && <b className="zg-browser-tag">Jogue agora</b>}
+          {game.source === 'gamepix' && <b className="zg-gamepix-tag">GamePix</b>}
+          <div className="zg-game-thumb"><img src={imageFor(game)} alt={`Capa de ${game.title}`} loading="lazy" onError={(event) => { event.currentTarget.onerror = null; event.currentTarget.src = categoryArt(game.category) }} /><span className="zg-play-mark"><ArrowUpRight size={14} /></span></div>
+          <div className="zg-game-info"><strong>{game.title}</strong><small>{names[game.category] ?? game.category}</small></div>
+        </a>)}</div>
+        {visibleGames.length < filtered.length && <div className="zg-load-more"><button className="zg-load-more-btn" onClick={() => setVisibleCount((current) => Math.min(current + 24, filtered.length))}>Carregar mais jogos <span>({filtered.length - visibleGames.length} restantes)</span></button></div>}
+      </> : <div className="zg-empty"><img src="/brand/brand-empty-library.svg" alt="" /><h3>Nenhum jogo por aqui.</h3><p>Tente outro título ou limpe os filtros.</p><button className="zg-reset" onClick={() => { setSearch(''); setCategory('todos'); setSource('todos') }}>Limpar filtros</button></div>}
+    </section>
+
     <section className="zg-promo" id="sobre"><div><p className="zg-kicker">MEMÓRIA INTERATIVA · DESDE O PRIMEIRO CLIQUE</p><h2>Tem jogo que<br />fica pra sempre.</h2><p>Um espaço para celebrar os jogos que fizeram parte da infância — e deixar a próxima geração descobrir por que eles nunca saem de moda.</p><button className="zg-primary-btn" onClick={() => { setCategory('arcade'); document.getElementById('catalogo')?.scrollIntoView({ behavior: 'smooth' }) }}>Revisitar os arcades <ArrowUpRight size={16} /></button></div><div className="zg-promo-visual" /></section>
-    <footer className="zg-footer"><img src="/brand/zapgame-logo.svg" alt="ZapGame" /><span>Um memorial vivo dos jogos que marcaram época. © Zap Game</span></footer>
-  </div>{activeGame && <div className="zg-modal-backdrop" onMouseDown={(e) => e.target === e.currentTarget && setActiveGame(null)}><section className="zg-modal" role="dialog" aria-modal="true" aria-label={`Jogar ${activeGame.title}`}><div className="zg-modal-head"><div className="zg-modal-title"><img src="/brand/zapgame-mark.svg" alt="" /><strong>{activeGame.title}</strong><span>{names[activeGame.category] ?? activeGame.category}</span></div><button ref={closeRef} className="zg-close" onClick={() => setActiveGame(null)} aria-label="Fechar jogo"><X size={18} /></button></div><iframe className="zg-game-frame" src={activeGame.launchUrl} title={`Jogar ${activeGame.title}`} allow="fullscreen; autoplay; gamepad" allowFullScreen /></section></div>}</main>
+
+    <footer className="zg-footer"><img src="/brand/zapgame-logo.svg" alt="Zap Game" /><span>Um memorial vivo dos jogos que marcaram época. © Zap Game</span></footer>
+  </div></main>
 }

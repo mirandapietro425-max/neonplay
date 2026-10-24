@@ -1,0 +1,7 @@
+{
+  "routes": [
+    { "path": "/", "title": "Zap Game — catálogo de jogos clássicos" },
+    { "path": "/jogos/:slug", "title": "Ficha individual de jogo" },
+    { "path": "/jogos/categoria/:category", "title": "Categoria de jogos" }
+  ]
+}
