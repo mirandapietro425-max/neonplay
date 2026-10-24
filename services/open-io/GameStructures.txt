@@ -1,0 +1,96 @@
+This files describes the structures used to represent the games state. Use as a reference when writing code.
+
+//Latest version of game object 
+//sample declaration
+var game = {
+    players: {},            //maps socket.id to individual player objects
+    foods: [],              //list of food objects
+    board: {x: 640, y: 640} //board object, only has x and y fields
+};
+
+//sample initialization of individual player objects via game object from server.js
+game.players[socket.id] = {
+      pos_list: snakeLocs,      //list of lists (inner list is [x, y, wutever else we need..])
+      playerId: socket.id,      //copy of socket.id which is the key that gets the player obj
+      name: 'Guest',            //string: name of player
+      direction: snakeDir,      //string: 'up', 'left', 'right', 'down'
+      length: snakeLen,         //int: number of body segments for player
+      score: 0,                 //int: player score
+      velocity: 1,              //int: for adjusting speed (will have to tinker with this)
+      color: //random num       //int: in range 0-number of snake skins in sprite sheet (for selecting snakes appearance)
+      alive: true               //bool: true/false ... this was a string but bool will be faster
+      path: [[x,y]]             //list of lists of coords, a pixel by pixel path which segments must 
+                                //travel along as they move
+      paht_len: (length*6)+6    //max number of coords we need to store in path...increase by 12 whenever 
+                                //the snake grows
+      boost_level: 100          //int , level of boost a player has... at 0 they cant boost, its capped 
+                                //at boost_cap
+      boost_cap: 100            //max boost level allowed
+      boosting: false           //bool says if boost is in use or not, default is false
+    };
+
+//sample food object...may add more fields later for time or type of food
+var food = {
+    x : 250,
+    y : 250
+}
+//NOTE: food and snake position coords represent the CENTER of the object
+
+//USAGE:
+//some samples of how to use the game obj
+
+//check if player is alive:
+if(game.players[socket.id].alive)
+
+//get x coord of third food in food list
+game.foods[2].x
+
+//check snake direction
+if(game.players[socket.id].direction == 'up')
+
+//get x coord of a snakes 2nd body segment
+game.players[socket.id].pos_list[1].x
+
+
+PSEUDOCODES
+initFood()
+//return (by any means necesary) a list of 10 foods to start with..
+//so use random number generators to produce coordinates for initial food
+//(examples can be found in proto_frontend_scripts.js)
+//This is intended to be called BEFORE anything is on the game board, so
+//dont worry about collisions with snakes
+//DO worry about collisions with the edge. So valid coords have to be at least
+//5px away from any edge of the gameboard.
+//remember food_list is a simple array, but the food objects are similar to the player
+//objects so something like food {x : value, y : value}; ... this is in case
+//we find we want to store more data associated with foods (which is likely)
+
+
+physics_update(inputs_queue, game_object) FRONT END VERSION
+//function to be called every 15ms with setinterval function
+Psuedocode:
+	1. call checkInputs() //handle all inputs in input queue, then clear it
+		--if they are direction changes, then change direction of associated player
+		--if they are are spawning/death/disconnect notices then change status of associated players
+	2. call moveSnakes() //move all snakes forward based on velocity using delta time
+	(2 1/2. incorporate authoritative update?)
+	3. call checkGameEvents() //checks for events as a result of movement
+		--run all check collision funcitons for all snakes
+		--adjust player states based on results of check collisions
+	4. call redraw function
+		--clear canvas
+		--call each individual drawing function in order
+			--draw bg
+			--draw food
+			--draw snakes
+
+physics_update(inputs_queue, game_object) BACK END VERSION
+//function to be called every 15ms with setinterval function
+Psuedocode:
+	1. handle all inputs in input queue, then clear it
+		--if they are direction changes, then change direction of associated player
+		--if they are are spawning/death notices then change status of associated players
+
+      
+
+      
