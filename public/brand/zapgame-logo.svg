@@ -1,0 +1,10 @@
+<svg width="760" height="220" viewBox="0 0 760 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="220" height="220" rx="56" fill="#10121F"/>
+  <circle cx="110" cy="110" r="82" fill="#49E5A2"/>
+  <path d="M67 89H153C164 89 173.4 96.9 175.7 107.6L181.6 135.7C183.8 145.9 172.4 153 163.9 147L142.1 131.6H77.9L56.1 147C47.6 153 36.2 145.9 38.4 135.7L44.3 107.6C46.6 96.9 56 89 67 89Z" fill="#10121F"/>
+  <path d="M75 102V122M65 112H85" stroke="#49E5A2" stroke-width="8" stroke-linecap="round"/>
+  <circle cx="135" cy="107" r="5.5" fill="#49E5A2"/>
+  <circle cx="152" cy="121" r="5.5" fill="#49E5A2"/>
+  <path d="M110 37V51M103 44H117" stroke="#F4C963" stroke-width="6" stroke-linecap="round"/>
+  <text x="260" y="139" fill="#FFF7E8" font-family="Outfit, Arial, sans-serif" font-size="92" font-weight="800" letter-spacing="-5">zap<tspan fill="#49E5A2">game</tspan></text>
+</svg>

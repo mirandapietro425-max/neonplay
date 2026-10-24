@@ -1,1 +1,0 @@
-This directory hosts the files for our Open IO website. Unless making changes to the website, please leave as is.
