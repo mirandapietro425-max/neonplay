@@ -1,7 +1,7 @@
 # Zap Game — SEO e descoberta de jogos
 
 **Data da análise:** 24 de outubro de 2026  
-**Domínio canônico planejado:** `https://www.zapgame.com.br/`
+**Domínio canônico em produção:** `https://www.zapgame.com.br/`
 
 ## O que foi pesquisado
 
@@ -22,8 +22,10 @@ O Google Trends Brasil também foi consultado, mas a comparação direta por tí
 - Uma ficha indexável em `/jogos/{slug}` para cada título individual fora do GamePix, com conteúdo e metadados próprios, URL canônica, prévias Open Graph/Twitter, imagem com texto alternativo, dados estruturados `VideoGame` e breadcrumbs.
 - Dez hubs em `/jogos/categoria/{categoria}`, com introdução própria, links rastreáveis para jogos, `CollectionPage`/`ItemList` e breadcrumbs.
 - Cards do catálogo que levam a cada ficha, caminhos para categorias e jogos relacionados. O GamePix mantém a própria origem e suas capas não foram incluídas no trabalho de arte.
-- `robots.txt` público permitindo o rastreamento das páginas e bloqueando apenas `/api/`, além de `sitemap.xml` com home, categorias, fichas estáticas e as imagens de capa. O sitemap, fichas e hubs são revalidados em intervalos de dez minutos; jogos GamePix dependem do feed e das variáveis já configuradas no projeto.
+- `robots.txt` público permitindo o rastreamento das páginas e bloqueando apenas `/api/`, além de `sitemap.xml` com home, categorias, fichas estáticas e as imagens de capa. O sitemap, fichas e hubs são revalidados em intervalos de dez minutos. O feed GamePix exige `GAMEPIX_API_KEY`; a Vercel não tem variáveis de ambiente configuradas e retornou zero jogos GamePix nesta verificação. Essa integração foi mantida sem alteração.
 - Títulos e descrições globais em pt-BR, favicon e imagem social do Zap Game. As sinopses disponíveis do Internet Archive foram traduzidas para pt-BR; notas pessoais, placeholders e textos curtos sem utilidade são substituídos por uma descrição editorial neutra, sem inventar fatos.
+
+O build e a verificação pública confirmaram 88 fichas estáticas e dez hubs de categoria, com 99 URLs no sitemap e 88 referências de imagem.
 
 O Google pode reescrever títulos e snippets e decide por conta própria se e quando indexa cada URL. Sitemap e metadados facilitam descoberta e entendimento, mas não garantem inclusão nem ranking.
 
