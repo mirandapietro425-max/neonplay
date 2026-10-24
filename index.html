@@ -64,11 +64,12 @@ footer{border-top:1px solid var(--b);margin-top:30px;padding:26px 0 40px;color:v
 <link rel="stylesheet" href="neonplay-portal.css?v=20261023">
 <link rel="stylesheet" href="/np-r23-portal.css?v=r23">
 <link rel="stylesheet" href="/np-r24-local-catalog.css?v=r24">
+<link rel="stylesheet" href="/np-r25-api.css?v=r25">
 </head><body>
 <header><div class="w hb">
 <a class="lg" href="/" aria-label="NeonPlay — início"><svg viewBox="0 0 32 32" width="30" height="30" aria-hidden="true"><path d="M9 8 6 3M23 8l3-5" stroke="#6de031" stroke-width="2" stroke-linecap="round"/><ellipse cx="16" cy="17" rx="12" ry="10" fill="#6de031" stroke="#1a102b" stroke-width="2"/><ellipse cx="11" cy="16" rx="3.4" ry="4.4" fill="#161026" transform="rotate(-15 11 16)"/><ellipse cx="21" cy="16" rx="3.4" ry="4.4" fill="#161026" transform="rotate(15 21 16)"/><circle cx="10" cy="14.5" r="1.2" fill="#fff"/><circle cx="20" cy="14.5" r="1.2" fill="#fff"/><path d="M12 23q4 2.5 8 0" stroke="#1a102b" stroke-width="1.6" fill="none" stroke-linecap="round"/></svg><span>Neon</span><em>Play</em></a>
 <form class="sf" action="#grid" role="search"><input id="q" name="q" type="search" placeholder="Buscar jogos…" autocomplete="off" aria-label="Buscar jogos"></form>
-<nav class="nv" aria-label="Principal"><a href="#np-r24-featured">Destaques</a><a href="#grid">Jogos instalados</a><a href="#local-filters">Categorias</a></nav>
+<nav class="nv" aria-label="Principal"><a href="#np-r24-featured">Destaques</a><a href="#grid">Jogos instalados</a><a href="#np-local-games">Mais jogos</a><a href="#local-filters">Categorias</a></nav>
 </div></header>
 <main class="w">
 <!-- NP R24 LOCAL CATALOG: destaque de jogo instalado no servidor -->
@@ -99,6 +100,14 @@ footer{border-top:1px solid var(--b);margin-top:30px;padding:26px 0 40px;color:v
 <section class="hotw np-r24-feature-section" id="np-r24-featured-section" aria-labelledby="ht"><h2 id="ht">Comece por aqui <small>Uma seleção dos jogos instalados</small></h2><div class="hot" id="np-r24-featured" aria-label="Jogos em destaque"></div></section>
 <!-- NP R24: catálogo local consolidado no grid principal; a seção secundária foi removida. -->
 <section class="np-r24-catalog np-r23-catalog" aria-labelledby="gt"><div class="np-catalog-heading"><div><span class="np-section-kicker">BIBLIOTECA DE JOGOS</span><h2><span id="gt">Jogos disponíveis no NeonPlay</span></h2></div><span class="np-count"><strong id="cnt">0</strong><span id="np-r24-count-label">experiências</span></span></div><div class="grid" id="grid" aria-live="polite"><div class="np-r24-loading">Carregando jogos instalados…</div></div><div id="empty" hidden>Nenhum jogo corresponde à busca ou categoria escolhida. Ajuste o filtro para ver a biblioteca.</div></section>
+<section id="np-local-games" class="np-r25-external-catalog" aria-labelledby="np-r25-heading">
+  <div class="np-r25-external-head">
+    <div><span class="np-section-kicker">CATÁLOGO EXPANDIDO</span><h2 id="np-r25-heading">Mais jogos para explorar</h2><p>Jogos HTML5 de repositórios abertos e parceiros, em uma biblioteca separada dos jogos instalados no NeonPlay.</p></div>
+    <div class="np-r25-external-meta"><span class="np-count"><strong id="np-local-count">0</strong></span><span id="np-local-status" class="np-local-status" role="status" aria-live="polite">Carregando fontes externas…</span></div>
+  </div>
+  <div class="np-local-grid" id="np-local-grid" aria-live="polite"></div>
+  <p id="np-local-empty" class="np-r25-empty-note" hidden>Nenhum jogo corresponde aos filtros selecionados. Ajuste a busca ou escolha outra origem/categoria.</p>
+</section>
 <section class="seo"><h2>Jogos Online Grátis no Brasil</h2><p>O NeonPlay é um portal de jogos online grátis feito para o Brasil. Jogue ação, corrida, puzzle, arcade, esporte, aventura, tiro e estratégia direto no navegador, no computador, no tablet ou no celular, sem baixar nada e sem criar conta. Novos jogos são adicionados toda semana.</p></section>
 </main>
 <footer><div class="w"><div class="fc">
@@ -110,5 +119,6 @@ footer{border-top:1px solid var(--b);margin-top:30px;padding:26px 0 40px;color:v
 
 
 <script src="/np-r24-local-catalog.js?v=r24" defer></script>
+<script src="/np-r25-catalog.js?v=r25" defer></script>
 <script src="/np-r23-portal.js?v=r23"></script>
 </body></html>
