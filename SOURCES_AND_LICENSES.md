@@ -1,21 +1,49 @@
-# Fontes e licenças — NeonPlay
+# Fontes, commits e licenças dos jogos do primeiro lote
 
-Este documento acompanha o catálogo das referências reunidas pelo usuário no arquivo `LISTA-COMPLETA-FINAL-jogos-emuladores-archive.pdf`. O catálogo registra 135 entradas da lista, agrupando URLs repetidas para exibir 132 fontes distintas. Os nomes e links vêm da lista enviada; os tags são uma classificação editorial para navegação, não uma auditoria jurídica nem atestado de que o jogo está executando no NeonPlay.
+## Jogos HTML5 locais
+| Título | Fonte | Commit fixado | Licença indicada |
+|---|---|---|---|
+| 2048 | https://github.com/gabrielecirulli/2048 | `478b6ec346e3787f589e4af751378d06ded4cbbc` | MIT |
+| HTML5 Asteroids | https://github.com/dmcinnes/HTML5-Asteroids | `930301cbda83ed3b120f64b801d937d077ee2da0` | MIT |
+| Pac-Man Lite | https://github.com/attogram/pacman-lite | `bcab1cfa3d3250654fa7247f24e2bf0800559c46` | GPL-3.0 |
+| Clumsy Bird | https://github.com/ellisonleao/clumsy-bird | `fae3d487d5102af29fb3f78431cbd45e9b83aed3` | GPL-3.0 |
+| Missile Game | https://github.com/bwhmather/missile-game | `a11582cdb97f7b72123d974cf8f3bf14e3f4afee` | AGPL-3.0 |
+| HexGL | https://github.com/BKcore/HexGL | `6addc95a2fce3bf05f4d751823cc054c61a16d68` | MIT |
+| Particle Clicker | https://github.com/particle-clicker/particle-clicker | `d6762d54eced10cca613262072fe5b44d157aa38` | MIT |
+| NS-Shaft | https://github.com/iPel/NS-SHAFT | `03a2b16660d328516fa8ff80d0428a56a1396f46` | Apache-2.0 |
+| Tap Tap Tap | https://github.com/MahdiF/taptaptap | `da4b06a051c8ad1ddeb429232e56478f02811fb7` | MIT |
+| The House | https://github.com/arturkot/the-house-game | `5b255969cbc5751a3d2768a2c708097c1b8d704c` | MIT |
 
-## Regras de integração
+## Jogos com backend incluído
+| Jogo | Fonte | Commit fixado | Licença indicada | Execução |
+|---|---|---|---|---|
+| Jogos para 2 pessoas | https://github.com/tridpt/TwoPlayerGames | `c96b802232d87d58408ed653dcbe43c0a68611f6` | MIT | Serviço Node.js + WebSocket independente |
+| Open IO — Snake Multiplayer | https://github.com/gibboa/Open_IO | `5d6390cf3ddc5eb20f0cc7f7d542c87e1b8c0f42` | MIT | Serviço Node.js + Express + Socket.IO independente |
 
-- Repositório público não significa permissão automática para republicar todos os arquivos, imagens, músicas, fontes ou marcas nele presentes.
-- Inspecionar sempre o arquivo `LICENSE`, avisos de terceiros e termos de assets; se não há licença clara, não importar para hospedagem pública.
-- Licenças como MIT exigem conservar avisos pertinentes; copyleft como GPL pode impor obrigações na distribuição de obras derivadas. Conferir a versão exata da licença e o conteúdo copiado.
-- Jogos multiplayer podem precisar de WebSocket/backend persistente, banco de dados e configuração antiabuso. A homepage estática não os transforma em multiplayer funcional.
-- Emuladores são software; BIOS, ROMs e jogos comerciais são conteúdo separado e devem ser licenciados ou claramente autorizados. Use apenas homebrew autorizado, domínio público, freeware redistribuível ou incorporações oficiais do arquivo de origem.
-- Para serviços externos (Poki, CrazyGames, itch.io etc.), abrir o site de origem é diferente de copiar o jogo para o NeonPlay. Não tente extrair arquivos de seus players nem contornar suas proteções.
-- Franchises e marcas famosas podem envolver direitos autorais/marcas; nomes no catálogo identificam a referência apresentada pelo usuário, não uma afirmação de afiliação.
+Os repositórios devem manter seus arquivos de licença e avisos de copyright em suas próprias pastas. `Missile Game` informa condições diferentes para alguns arquivos em `lib`; esses avisos são preservados e devem ser revistos antes de redistribuição pública. O importador não inclui `node_modules` nem pastas `.git` dos projetos.
 
-## UX aplicada com base em pesquisa pública
+A lista original do PDF contém outras opções com backends; o primeiro lote não as remove do plano. `BrowserQuest` depende de Redis e de uma stack histórica Node; `Blobl.io` usa vários serviços; `AirMash` é um componente de servidor e depende de outros pacotes do projeto; WorldGuessr, Swordbattle.io, Kaetram e Freeciv-web têm repositórios grandes e requisitos próprios. Cada um deve receber implantação isolada, confirmar licença e ser testado antes de aparecer como jogável.
 
-A página usa padrões vistos em documentação pública dos portais de jogos: entrar rapidamente no jogo, controles claramente apresentados, suporte a teclado/toque quando o jogo tiver suporte, opção de tela cheia quando apropriada, thumbnails e recomendações. A documentação de Poki descreve o player e requisitos de UI responsiva e entrada rápida; a documentação de qualidade da CrazyGames destaca objetivos claros, controles intuitivos, layout confortável e full-screen gerido pela plataforma. Referências: https://developers.poki.com/guide/your-game-page ; https://developers.poki.com/guide/requirements-quality ; https://docs.crazygames.com/requirements/quality/ .
 
-## Auditoria futura recomendada
+## Backlog de servidores da lista original
 
-Adicionar a cada jogo importado: URL do upstream, commit SHA, licença exata, créditos, arquivos modificados, dependências de build, necessidade de backend, se foi testado no desktop e no celular, data da última verificação e plano de remoção caso upstream revogue a permissão.
+Consulte `server-games-backlog.json` para os candidatos restantes do PDF, incluindo engines e fontes de catálogo, com estado de importação e pendências explícitas. Esses projetos não são considerados jogáveis ainda, mas tampouco são excluídos por precisarem de servidor. Requisitos de banco de dados, autenticação, build, tamanho do repositório, licença e múltiplos serviços são registrados para uma importação separada.
+
+
+### Custom Tetris
+- Fonte: https://github.com/ondras/custom-tetris
+- Commit: `0e7101ab2c80a872c64152e5b60b949e7b0c978b`
+- Licença declarada: BSD-3-Clause; o arquivo `license.txt` é preservado na importação.
+- Nota funcional: README do projeto informa que as partidas em rede usam Firebase. O modo local/IA pode ser servido localmente; a configuração de rede externa não é provisionada pelo NeonPlay.
+
+
+### Arashi (Tempest)
+- Fonte: https://github.com/stephank/arashi-js
+- Commit: `cb8c908591e8c73cd23508d177c9803325b7d12b`
+- Licença: GPL-2.0, arquivo `COPYING` preservado.
+- Compatibilidade: o arquivo de entrada referencia uma cópia de jQuery por HTTP; o importador ajusta a URL para HTTPS para evitar mixed content.
+
+
+## Reprodutibilidade da importação
+
+Os commits-fonte ficam fixados no manifesto. Cada diretório instalado recebe `NEONPLAY-SOURCE.md` ou `NEONPLAY-INTEGRATION.md` com o commit e a revisão de integração; o workflow só reimporta arquivos estáticos quando o commit ou a revisão muda. Para atualizar uma transformação, incremente a constante `IMPORTER_REVISION` no script correspondente.

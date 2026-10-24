@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#080914"><title>Jogar — NeonPlay</title><style>
+:root{color-scheme:dark;--bg:#080914;--panel:#111428;--line:#292c46;--text:#f4f6ff;--muted:#a0a8c4;--cyan:#62ecff;--violet:#a49aff}*{box-sizing:border-box}body{margin:0;background:radial-gradient(800px 400px at 50% -150px,#2a1a63 0,transparent 65%),var(--bg);color:var(--text);font:14px/1.5 Inter,system-ui,-apple-system,Segoe UI,sans-serif}.wrap{max-width:1450px;margin:auto;padding:18px clamp(12px,2.5vw,30px) 44px}.top{display:flex;align-items:center;gap:12px;margin-bottom:18px}.brand{font-weight:950;letter-spacing:.04em;color:var(--text);text-decoration:none;font-size:18px}.brand span{color:var(--cyan)}.crumb{color:var(--muted);font-size:12px;margin-left:auto}.head{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;margin-bottom:14px}.eyebrow{color:var(--cyan);font-size:10px;letter-spacing:.2em;font-weight:900;margin:0 0 5px}.title{font-size:clamp(24px,4vw,38px);line-height:1.1;margin:0;letter-spacing:-.04em}.description{color:var(--muted);margin:7px 0 0;max-width:700px}.actions{display:flex;flex-wrap:wrap;gap:8px}.btn{color:var(--text);text-decoration:none;cursor:pointer;border:1px solid var(--line);border-radius:10px;background:#171a30;padding:10px 13px;font-weight:750;font-size:12px}.btn.primary{background:linear-gradient(115deg,#147e98,#5650b9);border-color:transparent}.frame{background:#05060c;border:1px solid #353852;border-radius:18px;overflow:hidden;box-shadow:0 22px 65px #0008}.framebar{height:42px;border-bottom:1px solid #272a42;background:#111426;display:flex;align-items:center;gap:8px;padding:0 14px}.dot{width:8px;height:8px;border-radius:50%;background:#5e637e}.frame-label{margin-left:7px;color:#9ea8c7;font-size:11px}.frame-status{margin-left:auto;color:#73edbc;font-size:10px;font-weight:800}.screen{width:100%;height:min(72vh,760px);min-height:420px;display:block;border:0;background:#090b15}.helper{display:flex;gap:10px;align-items:center;color:var(--muted);font-size:12px;margin:12px 2px 26px}.helper b{color:var(--text)}.sectiontitle{font-size:18px;margin:20px 0 12px}.related{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px}.related a{display:flex;gap:12px;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:12px;color:var(--text);text-decoration:none;padding:13px}.glyph{width:38px;height:38px;display:grid;place-items:center;border-radius:10px;background:linear-gradient(135deg,#453d8f,#113b59);font-size:23px}.related small{display:block;color:var(--muted);font-size:10px}.error{padding:28px;border:1px solid #503243;background:#21151f;border-radius:12px;color:#ffd4df}@media(max-width:700px){.head{align-items:flex-start;flex-direction:column}.actions{width:100%}.btn{flex:1;text-align:center}.screen{height:68vh;min-height:350px}.crumb{display:none}.wrap{padding-top:12px}.related{grid-template-columns:repeat(2,minmax(0,1fr))}}
+</style></head><body><div class="wrap"><div class="top"><a class="brand" href="/">NEON<span>PLAY</span></a><span class="crumb">/ Jogos instalados</span></div><div class="head"><div><p class="eyebrow">RODANDO NO SERVIDOR DO NEONPLAY</p><h1 class="title" id="title">Carregando jogo…</h1><p class="description" id="description"></p></div><div class="actions"><a class="btn" href="/">← Todos os jogos</a><button class="btn" id="restart" type="button">↻ Reiniciar</button><button class="btn primary" id="fullscreen" type="button">⛶ Tela cheia</button></div></div><section class="frame" aria-label="Área do jogo"><div class="framebar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="frame-label" id="frame-label">Jogo HTML5 local</span><span class="frame-status" id="frame-status">● PREPARANDO JOGO</span></div><div id="mount"><div class="error">Buscando os arquivos locais do jogo…</div></div></section><div class="helper"><span>⌨</span><span><b>Dica:</b> clique dentro da área do jogo para ativar teclado e controles. No celular, use os controles do próprio jogo.</span></div><h2 class="sectiontitle">Continuar jogando</h2><div class="related" id="related"></div></div><script>
+(function () {
+  'use strict';
+  var params = new URLSearchParams(location.search);
+  var id = params.get('game');
+  var frame = null;
+  var current = null;
+  var healthTimer = null;
+  var $ = function (selector) { return document.querySelector(selector); };
+  function el(tag, cls, text) {
+    var node = document.createElement(tag);
+    if (cls) node.className = cls;
+    if (text !== undefined) node.textContent = text;
+    return node;
+  }
+  function showMessage(title, message, retry) {
+    var box = el('div', 'error');
+    box.appendChild(el('strong', '', title));
+    box.appendChild(el('p', '', message));
+    if (retry) {
+      var button = el('button', 'btn primary', 'Tentar novamente');
+      button.type = 'button';
+      button.addEventListener('click', retry);
+      box.appendChild(button);
+    }
+    $('#mount').replaceChildren(box);
+  }
+  function setStatus(text, color) {
+    var status = $('#frame-status');
+    status.textContent = text;
+    if (color) status.style.color = color;
+  }
+  function mountFrame(src, mode) {
+    frame = el('iframe', 'screen');
+    frame.title = current.title;
+    frame.loading = 'eager';
+    frame.referrerPolicy = 'strict-origin-when-cross-origin';
+    frame.allow = 'fullscreen; autoplay; gamepad; pointer-lock';
+    frame.allowFullscreen = true;
+    frame.addEventListener('load', function () {
+      if (healthTimer) clearTimeout(healthTimer);
+      setStatus(mode === 'server' ? '● SERVIÇO ABERTO · INICIE A PARTIDA' : '● DOCUMENTO CARREGADO', mode === 'server' ? '#ffe08a' : '#73edbc');
+    });
+    frame.addEventListener('error', function () {
+      setStatus('● FALHA AO ABRIR', '#ff9cae');
+    });
+    frame.src = src;
+    $('#mount').replaceChildren(frame);
+  }
+  async function startServerGame() {
+    setStatus('● CONECTANDO AO SERVIDOR…', '#ffe08a');
+    $('#frame-label').textContent = 'Verificando serviço · ' + current.title;
+    showMessage('Conectando ao servidor', 'O NeonPlay está verificando se o serviço multiplayer responde. Um servidor gratuito pode levar um tempo para acordar.');
+    var controller = new AbortController();
+    if (healthTimer) clearTimeout(healthTimer);
+    healthTimer = setTimeout(function () { controller.abort(); }, 60000);
+    try {
+      if (!current.healthUrl) throw new Error('O catálogo ainda não tem endpoint de saúde para este serviço.');
+      var response = await fetch(current.healthUrl, { cache: 'no-store', mode: 'cors', signal: controller.signal });
+      if (!response.ok) throw new Error('O endpoint de saúde respondeu HTTP ' + response.status + '.');
+      var health = await response.json();
+      if (!health || health.ok !== true) throw new Error('O serviço ainda não confirmou que está pronto.');
+      if (healthTimer) clearTimeout(healthTimer);
+      healthTimer = null;
+      $('#frame-label').textContent = 'Multiplayer · ' + current.title;
+      setStatus('● SERVIDOR RESPONDEU · ABRINDO JOGO', '#73edbc');
+      mountFrame(current.launchUrl, 'server');
+    } catch (error) {
+      if (healthTimer) clearTimeout(healthTimer);
+      healthTimer = null;
+      setStatus('● SERVIDOR NÃO CONFIRMADO', '#ffb4a2');
+      showMessage('O servidor ainda não está disponível', (error && error.name === 'AbortError')
+        ? 'A verificação passou de 60 segundos. O serviço pode estar iniciando ou ainda não ter sido publicado no Render.'
+        : 'Não foi possível confirmar o serviço. Ele pode estar acordando, ainda não ter sido publicado ou precisar que a URL seja atualizada. Detalhe: ' + String(error.message || error), startServerGame);
+    }
+  }
+  function renderRelated(games) {
+    games.filter(function (game) { return game.id !== current.id; }).slice(0, 6).forEach(function (game) {
+      var link = el('a');
+      link.href = game.route;
+      var glyph = el('span', 'glyph', game.icon || '🎮');
+      var text = el('span', '', game.title);
+      text.appendChild(el('small', '', game.label || 'HTML5'));
+      link.appendChild(glyph);
+      link.appendChild(text);
+      $('#related').appendChild(link);
+    });
+  }
+  fetch('/games-imported.json', { cache: 'no-store' })
+    .then(function (response) { if (!response.ok) throw new Error('O catálogo de jogos importados não foi publicado.'); return response.json(); })
+    .then(function (data) {
+      var games = Array.isArray(data.games) ? data.games : [];
+      current = games.find(function (game) { return game.id === id; });
+      if (!current) {
+        $('#title').textContent = 'Jogo ainda não instalado';
+        $('#description').textContent = 'Este jogo não consta nos arquivos instalados no servidor.';
+        showMessage('Instalação pendente', 'Este título só poderá abrir depois que os arquivos reais forem importados para o NeonPlay.');
+        return;
+      }
+      document.title = current.title + ' — NeonPlay';
+      $('#title').textContent = current.title;
+      $('#description').textContent = current.description || 'Jogo HTML5 hospedado no NeonPlay.';
+      $('#frame-label').textContent = current.title;
+      renderRelated(games);
+      if (current.mode === 'server' && current.launchUrl) {
+        startServerGame();
+      } else if (current.localPath) {
+        setStatus('● ARQUIVOS LOCAIS', '#73edbc');
+        mountFrame(current.localPath, 'local');
+      } else {
+        showMessage('Jogo sem arquivo de entrada', 'O catálogo foi criado, mas ainda não aponta para os arquivos instalados deste jogo.');
+      }
+    })
+    .catch(function (error) {
+      $('#title').textContent = 'Catálogo indisponível';
+      $('#description').textContent = 'Não foi possível carregar os jogos instalados.';
+      showMessage('A biblioteca não carregou', String(error.message || error));
+    });
+  $('#restart').addEventListener('click', function () {
+    if (frame) {
+      var src = frame.src;
+      frame.src = 'about:blank';
+      requestAnimationFrame(function () { frame.src = src; });
+    } else if (current && current.mode === 'server') {
+      startServerGame();
+    }
+  });
+  $('#fullscreen').addEventListener('click', function () {
+    if (!frame) return;
+    if (frame.requestFullscreen) frame.requestFullscreen();
+    else if (frame.webkitRequestFullscreen) frame.webkitRequestFullscreen();
+  });
+})();
+</script></body></html>

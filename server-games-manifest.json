@@ -1,0 +1,32 @@
+[
+  {
+    "id": "two-player-games",
+    "title": "Jogos para 2 pessoas",
+    "repo": "tridpt/TwoPlayerGames",
+    "commit": "c96b802232d87d58408ed653dcbe43c0a68611f6",
+    "license": "MIT",
+    "kind": "websocket",
+    "url": "https://neonplay-two-player-games.onrender.com/?embed=1",
+    "category": "multiplayer",
+    "label": "76 jogos · Online",
+    "icon": "👥",
+    "accent": "#58e3ff",
+    "description": "Coleção de jogos para dois jogadores, com jogo local, IA e partidas online por sala.",
+    "healthUrl": "https://neonplay-two-player-games.onrender.com/health"
+  },
+  {
+    "id": "open-io",
+    "title": "Open IO — Snake Multiplayer",
+    "repo": "gibboa/Open_IO",
+    "commit": "5d6390cf3ddc5eb20f0cc7f7d542c87e1b8c0f42",
+    "license": "MIT",
+    "kind": "socket.io",
+    "url": "https://neonplay-open-io.onrender.com/",
+    "category": "multiplayer",
+    "label": "Arena .IO · Online",
+    "icon": "🐍",
+    "accent": "#72ec91",
+    "description": "Arena multiplayer em tempo real com servidor Node.js e Socket.IO.",
+    "healthUrl": "https://neonplay-open-io.onrender.com/health"
+  }
+]

@@ -1,0 +1,163 @@
+{
+  "version": 1,
+  "description": "Fila de integração dos jogos dependentes de backend, engines e referências de multiplayer que vieram dos PDFs do usuário. Nenhum item aparece como instalado sem importação e teste.",
+  "games": [
+    {
+      "id": "worldguessr",
+      "title": "WorldGuessr",
+      "repo": "codergautam/worldguessr",
+      "source": "PDF do usuário",
+      "status": "planejado-segundo-lote",
+      "reason": "Repositório muito grande e licença não reconhecida automaticamente pelo GitHub; auditar LICENSE, ambiente de dados, APIs e variáveis antes de importar.",
+      "backend": "serviço web com dependências próprias",
+      "publishable": false
+    },
+    {
+      "id": "swordbattle-io",
+      "title": "Swordbattle.io",
+      "repo": "codergautam/swordbattle.io",
+      "source": "PDF do usuário",
+      "status": "planejado-segundo-lote",
+      "reason": "Repositório TypeScript grande; confirmar comandos de build, variáveis e recursos para produção antes de publicar.",
+      "license": "GPL-3.0",
+      "backend": "serviço Node/TypeScript separado",
+      "publishable": false
+    },
+    {
+      "id": "airmash",
+      "title": "AirMash / AirBattle server",
+      "repo": "wight-airmash/ab-server",
+      "source": "PDF do usuário",
+      "status": "planejado-segundo-lote",
+      "reason": "O repositório é o servidor, depende de outros pacotes GitHub e menciona um login server separado; precisa juntar e configurar a arquitetura toda.",
+      "license": "MIT",
+      "backend": "servidor dedicado + protocolo + serviço de autenticação",
+      "publishable": false
+    },
+    {
+      "id": "blobl-io",
+      "title": "Blobl.io",
+      "repo": "io-eric/blobl.io",
+      "source": "PDF do usuário",
+      "status": "planejado-segundo-lote",
+      "reason": "Arquitetura distribuída com cliente, servidor, autenticação e balanceador. Exige deploy de múltiplos componentes e revisão de segredos/origens.",
+      "license": "AGPL-3.0",
+      "backend": "cliente + servidor + auth + load balancer",
+      "publishable": false
+    },
+    {
+      "id": "browserquest",
+      "title": "BrowserQuest",
+      "repo": "browserquest/BrowserQuest",
+      "source": "PDF do usuário",
+      "status": "planejado-com-revisão",
+      "reason": "Stack histórica de Node e dependência de Redis; precisa avaliação de segurança/dependências e confirmar licença/avisos antes de exposição pública.",
+      "backend": "Node + Socket.IO + Redis",
+      "publishable": false
+    },
+    {
+      "id": "kaetram",
+      "title": "Kaetram Open",
+      "repo": "Kaetram/Kaetram-Open",
+      "source": "PDF do usuário",
+      "status": "planejado-segundo-lote",
+      "reason": "Monorepo muito grande e build próprio; requer planejamento de armazenamento, assets e serviços antes de entrar no catálogo.",
+      "license": "MPL-2.0",
+      "backend": "serviço de jogo dedicado",
+      "publishable": false
+    },
+    {
+      "id": "freeciv-web",
+      "title": "Freeciv-web",
+      "repo": "freeciv/freeciv-web",
+      "source": "PDF do usuário",
+      "status": "planejado-com-revisão",
+      "reason": "Projeto grande com componentes de servidor e build; confirmar licença de todos os subcomponentes, configuração, dados e persistência.",
+      "backend": "stack dedicada e dependências próprias",
+      "publishable": false
+    },
+    {
+      "id": "tosios",
+      "title": "TOSIOS",
+      "repo": "LukeWood/tosios",
+      "source": "PDF do usuário",
+      "status": "bloqueado-fonte-a-confirmar",
+      "reason": "O repositório retornou 404 na consulta. Confirmar se foi renomeado, movido ou removido antes de automatizar o download.",
+      "backend": "multiplayer .io",
+      "publishable": false
+    },
+    {
+      "id": "raging-gardens",
+      "title": "Raging Gardens",
+      "repo": "alunix/RagingGardensFB",
+      "source": "PDF do usuário",
+      "status": "planejado-com-revisao-de-assets-e-PHP",
+      "reason": "O repositório tem index.php e channel.php; precisa de runtime PHP/Apache e rota de saúde. O README diz que o código do jogo sem a arte é MIT, mas os assets de arte e sons têm créditos/licenças separados; não copiar/publicar esses recursos até auditar e preservar cada licença.",
+      "license": "MIT para código do jogo sem arte; assets de arte/áudio separados a verificar",
+      "backend": "serviço PHP isolado (Apache/PHP) e auditoria de assets",
+      "publishable": false
+    },
+    {
+      "id": "phasocketonline",
+      "title": "Phasocketonline",
+      "repo": "vezwork/phasocketonline",
+      "source": "PDF do usuário",
+      "status": "planejado-com-revisao",
+      "reason": "Base multiplayer Phaser. Antes de importar, confirmar o cliente jogável, o protocolo e a licença no commit a fixar; não exibir como jogo instalado até haver build e endpoint validados.",
+      "backend": "Node/Socket.IO ou protocolo definido pelo projeto",
+      "publishable": false
+    },
+    {
+      "id": "taro-moddio",
+      "title": "Taro / Moddio",
+      "repo": "moddio/taro",
+      "source": "PDF do usuário",
+      "status": "motor-nao-jogo",
+      "reason": "Engine para criar jogos multiplayer, não um título pronto para adicionar ao catálogo. Só instalar quando houver um jogo específico criado com esta engine e as respectivas licenças/assets.",
+      "backend": "engine/framework multiplayer",
+      "publishable": false
+    },
+    {
+      "id": "lan-games",
+      "title": "LAN Games",
+      "repo": "kbennett2000/lan-games",
+      "source": "PDF do usuário",
+      "status": "planejado-com-revisao",
+      "reason": "Coleção de jogos de tabuleiro multiplayer; identificar quais modos funcionam localmente e quais dependem do backend, testar a persistência de salas e conservar a licença MIT.",
+      "license": "MIT",
+      "backend": "Node.js e funcionalidades multiplayer conforme o projeto",
+      "publishable": false
+    },
+    {
+      "id": "chessmata-catalog",
+      "title": "Chessmata (referência de catálogo)",
+      "repo": "michelpereira/awesome-open-source-games",
+      "source": "PDF do usuário",
+      "status": "fonte-nao-e-repositorio-do-jogo",
+      "reason": "O link enviado aponta para uma lista Awesome, não diretamente para o repositório do Chessmata. Encontrar e verificar a origem específica antes de importar qualquer código.",
+      "backend": "a confirmar",
+      "publishable": false
+    },
+    {
+      "id": "lichess-lila",
+      "title": "Lichess / Lila",
+      "repo": "lichess-org/lila",
+      "source": "PDF do usuário",
+      "status": "planejado-com-revisao",
+      "reason": "Aplicação completa e de grande porte, não apenas uma página HTML. Precisa avaliar a stack, os serviços de apoio, a licença AGPL, recursos operacionais e a distinção de marca antes de considerar uma instância NeonPlay.",
+      "license": "AGPL-3.0",
+      "backend": "aplicação web e serviços de apoio",
+      "publishable": false
+    },
+    {
+      "id": "zombies-multiplayer",
+      "title": "Zombies Multiplayer",
+      "repo": "P3ntest/zombies-multiplayer",
+      "source": "PDF do usuário",
+      "status": "bloqueado-licenca-a-confirmar",
+      "reason": "O repositório não expôs uma licença reconhecida na verificação inicial. Não redistribuir os arquivos até localizar e confirmar os termos de licença, depois testar cliente e servidor isolados.",
+      "backend": "cliente e servidor próprios",
+      "publishable": false
+    }
+  ]
+}
