@@ -9,6 +9,7 @@ import {
   type CatalogGame,
 } from '@/lib/game-catalog'
 import { getGamePixGames, getGamePixGameBySlug, type GamePixCatalogGame } from '@/lib/gamepix-catalog'
+import { hasDistinctiveGameSummary } from '@/lib/game-seo'
 
 const siteOrigin = 'https://www.zapgame.com.br'
 type Props = { params: Promise<{ slug: string }> }
@@ -52,17 +53,20 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const game = await getGame(slug)
   if (!game) return { title: 'Jogo não encontrado | Zap Game', robots: { index: false, follow: true } }
 
-  const title = `${game.title} | Zap Game`
+  const baseTitle = `${game.title} | Zap Game`
+  const descriptiveTitle = `${game.title}: jogo de ${gameCategory(game)} | Zap Game`
+  const title = baseTitle.length < 30 && descriptiveTitle.length <= 60 ? descriptiveTitle : baseTitle
   const description = metaDescription(game)
   const canonical = `/jogos/${game.slug}`
   const image = gameImage(game)
+  const indexable = hasDistinctiveGameSummary(game.summary)
 
   return {
     title,
     description,
     applicationName: 'Zap Game',
     alternates: { canonical },
-    robots: { index: true, follow: true, googleBot: { index: true, follow: true, 'max-image-preview': 'large' } },
+    robots: { index: indexable, follow: true, googleBot: { index: indexable, follow: true, 'max-image-preview': 'large' } },
     openGraph: {
       type: 'article',
       locale: 'pt_BR',
@@ -88,6 +92,13 @@ export default async function GamePage({ params }: Props) {
   const canonical = `${siteOrigin}/jogos/${game.slug}`
   const sourceName = game.source === 'internet-archive' ? 'Internet Archive' : game.source === 'gamepix' ? 'GamePix' : 'GitHub Pages'
   const playLabel = game.source === 'internet-archive' ? 'Abrir versão arquivada' : game.source === 'gamepix' ? 'Jogar no GamePix' : 'Abrir jogo no navegador'
+  const summaryAttribution = game.source === 'internet-archive'
+    ? game.summaryOrigin === 'internet-archive-translation'
+      ? 'Descrição traduzida do registro do Internet Archive'
+      : game.summaryOrigin === 'archive-placeholder'
+        ? 'Descrição específica ainda não disponível no registro consultado'
+        : 'Descrição do registro do Internet Archive'
+    : game.source === 'gamepix' ? 'Descrição fornecida pelo GamePix' : 'Descrição editorial do Zap Game'
   const relatedGames = catalogGames
     .filter((item) => item.category === game.category && item.slug !== game.slug)
     .sort(compareCatalogPopularity)
@@ -137,6 +148,7 @@ export default async function GamePage({ params }: Props) {
             <p className="zg-kicker">Memorial de jogos · {category}</p>
             <h1>{game.title}</h1>
             <p className="zg-detail-summary">{description}</p>
+            <p className="zg-kicker">{summaryAttribution}</p>
             <div className="zg-detail-tags">{categoryHref ? <Link href={categoryHref}>{category}</Link> : <span>{category}</span>}<span>Fonte: {sourceName}</span></div>
             <div className="zg-detail-actions">
               <a className="zg-primary-btn zg-detail-primary" href={game.launchUrl} target="_blank" rel="noopener noreferrer">{playLabel}<span aria-hidden="true">↗</span></a>
@@ -150,14 +162,14 @@ export default async function GamePage({ params }: Props) {
           <div>
             <p className="zg-kicker">Sobre o jogo</p>
             <h2>{game.title} no acervo Zap Game</h2>
-            <p>Esta ficha de referência organiza a capa, a categoria e os metadados públicos disponíveis para o título.</p>
-            <p>O link de abertura direciona para {sourceName}. A disponibilidade e a compatibilidade dependem do serviço externo.</p>
+            <p>Esta ficha reúne a descrição e os dados que estão disponíveis na fonte indicada. Crédito, data e assuntos abaixo reproduzem o que informa o serviço de origem; não confirmam, por si só, autoria ou data de lançamento.</p>
+            <p>O botão abre a versão disponível em {sourceName}. A disponibilidade e a compatibilidade dependem do serviço externo.</p>
           </div>
           <dl className="zg-game-facts">
             <div><dt>Categoria</dt><dd>{categoryHref ? <Link href={categoryHref}>{category}</Link> : category}</dd></div>
             <div><dt>Fonte</dt><dd>{sourceName}</dd></div>
-            {'creator' in game && game.creator && <div><dt>Autor informado no arquivo</dt><dd>{game.creator}</dd></div>}
-            {'archiveDate' in game && game.archiveDate && <div><dt>Data informada no arquivo</dt><dd>{game.archiveDate}</dd></div>}
+            {'creator' in game && game.creator && <div><dt>Crédito informado na fonte</dt><dd>{game.creator}</dd></div>}
+            {'archiveDate' in game && game.archiveDate && <div><dt>Data informada na fonte</dt><dd>{game.archiveDate}</dd></div>}
             {'archiveSubjects' in game && game.archiveSubjects.length > 0 && <div><dt>Assuntos do registro</dt><dd>{game.archiveSubjects.join(' · ')}</dd></div>}
           </dl>
         </section>
@@ -170,7 +182,7 @@ export default async function GamePage({ params }: Props) {
         <div className="zg-detail-back"><Link href="/">← Voltar para todos os jogos</Link>{categoryHref && <Link href={categoryHref}>Explorar categoria {category} →</Link>}</div>
       </article>
 
-      <footer className="zg-footer"><img src="/brand/zapgame-logo.svg" alt="Zap Game" /><span>Um memorial vivo dos jogos que marcaram época. © Zap Game</span></footer>
+      <footer className="zg-footer"><img src="/brand/zapgame-logo.svg" alt="Zap Game" /><span>Um memorial vivo dos jogos que marcaram época. © Zap Game · <Link href="/sobre">Sobre</Link> · <Link href="/privacidade">Privacidade</Link></span></footer>
     </div>
   </main>
 }

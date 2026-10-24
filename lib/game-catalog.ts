@@ -16,6 +16,7 @@ export type CatalogGame = {
   imagePath: string
   browser: boolean
   summary: string
+  summaryOrigin: 'zapgame' | 'internet-archive' | 'internet-archive-translation' | 'archive-placeholder'
   creator: string
   archiveDate: string
   archiveSubjects: string[]
@@ -64,11 +65,23 @@ const browserDescriptions: Record<string, string> = {
 function archiveSummary(id: string, title: string, categoryName: string) {
   const raw = archiveGameTranslations[id] ?? archiveGameMetadata[id]?.summary ?? ''
   const summary = raw.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim()
-  const words = summary.match(/[\p{L}\p{N}]+/gu) ?? []
-  const personalNote = /\b(?:eu|meu|minha|meus|minhas|acho|espero|estou|estava|fiquei|tenho|tive|joguei|jogado|encontrei|não sei|não encontrei|posso estar|obrigado|flashpoint|assisti|gravei|baixei|gostei|i was|i am|i have|i think|i hope|i found|i played|my game|i'm)\b/i.test(summary)
-  const lowQuality = summary.length < 48 || words.length < 8 || /^[\s\p{P}\p{S}\d]+$/u.test(summary) || personalNote
-  if (!lowQuality) return summary
-  return `${title} integra o acervo de jogos de ${categoryName.toLocaleLowerCase('pt-BR')} preservados para consulta e nostalgia. Esta ficha reúne a capa, os dados disponíveis e o link para a versão arquivada.`
+  const normalized = summary.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLocaleLowerCase('pt-BR').replace(/[^\p{L}\p{N}]+/gu, ' ').trim()
+  const normalizedTitle = title.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLocaleLowerCase('pt-BR').replace(/[^\p{L}\p{N}]+/gu, ' ').trim()
+  const titleTokens = new Set(normalizedTitle.split(/\s+/).filter(Boolean))
+  const genericTokens = new Set(['a', 'as', 'de', 'do', 'da', 'em', 'flash', 'game', 'jogo', 'o', 'os', 'swf', 'um', 'uma', 'versao'])
+  const titleOnlyOrGeneric = normalized.split(/\s+/).filter(Boolean).every((token) => titleTokens.has(token) || genericTokens.has(token))
+  const knownNoise = new Set(['', '--', 'asdsad', 'despjbuvtyrtezrextrcytvyb', 'jogo', 'jogo em flash', 'que legal', 'retro boo', 'verificando se isto funciona'])
+  const noUsefulDescription = knownNoise.has(normalized) || /^[\s\p{P}\p{S}\d]+$/u.test(summary) || titleOnlyOrGeneric
+  if (!noUsefulDescription) {
+    return {
+      summary,
+      summaryOrigin: archiveGameTranslations[id] ? 'internet-archive-translation' as const : 'internet-archive' as const,
+    }
+  }
+  return {
+    summary: `${title} integra o acervo de jogos de ${categoryName.toLocaleLowerCase('pt-BR')} preservados para consulta e nostalgia. Esta ficha reúne a capa, os dados disponíveis e o link para a versão arquivada.`,
+    summaryOrigin: 'archive-placeholder' as const,
+  }
 }
 
 const browserRecords = [
@@ -106,6 +119,7 @@ const rawCatalog: Omit<CatalogGame, 'slug' | 'searchScore' | 'platformFeatured'>
     imagePath: browserArtwork[game.id] ?? '/brand/category-arcade.webp',
     browser: true,
     summary: browserDescriptions[game.id] ?? `${game.title} é um clássico de ${categoryLabels[game.category] ?? game.category} em versão de navegador. Esta ficha reúne sua capa, categoria e link para a versão hospedada.`,
+    summaryOrigin: 'zapgame' as const,
     creator: '',
     archiveDate: '',
     archiveSubjects: [],
@@ -115,6 +129,7 @@ const rawCatalog: Omit<CatalogGame, 'slug' | 'searchScore' | 'platformFeatured'>
     .map((game) => {
       const metadata = archiveGameMetadata[game.id]
       const categoryName = categoryLabels[game.category] ?? game.category
+      const archiveDescription = archiveSummary(game.id, game.title, categoryName)
       return {
         id: game.id,
         title: game.title,
@@ -125,7 +140,8 @@ const rawCatalog: Omit<CatalogGame, 'slug' | 'searchScore' | 'platformFeatured'>
         sourceUrl: `https://archive.org/details/${encodeURIComponent(game.id)}`,
         imagePath: `/brand/games/archive/${encodeURIComponent(game.id)}.webp`,
         browser: false,
-        summary: archiveSummary(game.id, game.title, categoryName),
+        summary: archiveDescription.summary,
+        summaryOrigin: archiveDescription.summaryOrigin,
         creator: metadata?.creator ?? '',
         archiveDate: metadata?.date ?? '',
         archiveSubjects: metadata?.subject ? metadata.subject.split(';').map((tag) => tag.trim()).filter(Boolean).slice(0, 8) : [],

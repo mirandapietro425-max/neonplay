@@ -54,13 +54,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const title = `Jogos de ${label} online | Zap Game`
   const description = `${categoryIntros[category]} Explore ${games.length} ${games.length === 1 ? 'jogo' : 'jogos'} de ${label.toLocaleLowerCase('pt-BR')} no Zap Game.`
   const canonical = `/jogos/categoria/${category}`
+  const image = `/brand/category-${category}.webp`
   return {
     title,
     description: description.length > 158 ? `${description.slice(0, 155).trimEnd()}…` : description,
     alternates: { canonical },
     robots: { index: true, follow: true },
-    openGraph: { type: 'website', locale: 'pt_BR', siteName: 'Zap Game', url: canonical, title, description },
-    twitter: { card: 'summary', title, description },
+    openGraph: { type: 'website', locale: 'pt_BR', siteName: 'Zap Game', url: canonical, title, description, images: [{ url: image, alt: `Jogos de ${label} no Zap Game` }] },
+    twitter: { card: 'summary_large_image', title, description, images: [image] },
   }
 }
 
@@ -125,7 +126,7 @@ export default async function CategoryPage({ params }: Props) {
       </Link>)}</div> : <div className="zg-empty"><h2>Esta categoria ainda não tem jogos publicados.</h2><p>Volte ao catálogo para descobrir outros clássicos.</p></div>}
 
       <div className="zg-detail-back"><Link href="/">← Voltar para todos os jogos</Link><Link href="/#categorias">Explorar outras categorias →</Link></div>
-      <footer className="zg-footer"><img src="/brand/zapgame-logo.svg" alt="Zap Game" /><span>Um memorial vivo dos jogos que marcaram época. © Zap Game</span></footer>
+      <footer className="zg-footer"><img src="/brand/zapgame-logo.svg" alt="Zap Game" /><span>Um memorial vivo dos jogos que marcaram época. © Zap Game · <Link href="/sobre">Sobre</Link> · <Link href="/privacidade">Privacidade</Link></span></footer>
     </div>
   </main>
 }
