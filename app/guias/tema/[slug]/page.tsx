@@ -22,8 +22,17 @@ export default async function IntentGuidePage({ params }: Props) {
   const { slug } = await params
   const guide = intentGuideBySlug.get(slug)
   if (!guide) notFound()
+  const canonical = `https://www.zapgame.com.br/guias/tema/${guide.slug}`
+  const schema = [
+    { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Início', item: 'https://www.zapgame.com.br/' },
+      { '@type': 'ListItem', position: 2, name: 'Guias', item: 'https://www.zapgame.com.br/guias' },
+      { '@type': 'ListItem', position: 3, name: guide.title, item: canonical },
+    ] },
+    { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: guide.faqs.map((faq) => ({ '@type': 'Question', name: faq.question, acceptedAnswer: { '@type': 'Answer', text: faq.answer } })) },
+  ]
 
-  return <main className="zg-shell"><div className="zg-wrap" style={{ maxWidth: 900, paddingBlock: '3rem' }}>
+  return <main className="zg-shell"><script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema).replace(/</g, '\\u003c') }} /><div className="zg-wrap" style={{ maxWidth: 900, paddingBlock: '3rem' }}>
     <nav aria-label="Navegação estrutural"><Link href="/">Início</Link><span aria-hidden="true"> / </span><Link href="/guias">Guias</Link><span aria-hidden="true"> / </span><span>{guide.title}</span></nav>
     <article style={{ marginTop: '2rem', lineHeight: 1.8 }}>
       <p className="zg-kicker">{guide.kicker}</p>
@@ -32,6 +41,7 @@ export default async function IntentGuidePage({ params }: Props) {
       {guide.sections.map((section) => <section key={section.heading}><h2>{section.heading}</h2>{section.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</section>)}
       <h2>Jogos relacionados no Zap Game</h2>
       <div className="zg-related-grid">{guide.games.map((game) => <Link className="zg-related-card" key={game.href} href={game.href}><span>{game.title}</span><small>{game.reason}</small></Link>)}</div>
+      <section><h2>Perguntas frequentes</h2>{guide.faqs.map((faq) => <div key={faq.question}><h3>{faq.question}</h3><p>{faq.answer}</p></div>)}</section>
       <p style={{ marginTop: '2rem' }}><Link href="/contato">Encontrou uma informação desatualizada? Fale com o Zap Game.</Link></p>
     </article>
   </div></main>

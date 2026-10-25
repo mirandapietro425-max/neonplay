@@ -5,6 +5,7 @@ export type IntentGuide = {
   kicker: string
   intro: string
   sections: Array<{ heading: string; paragraphs: string[] }>
+  faqs: Array<{ question: string; answer: string }>
   games: Array<{ title: string; href: string; reason: string }>
 }
 
@@ -18,6 +19,11 @@ export const intentGuides: IntentGuide[] = [
     sections: [
       { heading: 'O que observar antes de jogar', paragraphs: ['O Zap Game não promete compatibilidade universal porque cada jogo pode ser entregue pelo parceiro de uma forma diferente. Abra a ficha, confira a versão disponível e observe se a tela inicial oferece controles adequados ao seu dispositivo.', 'Para uma primeira tentativa, prefira propostas simples de entender, como esporte, puzzle, arcade e experiências casuais. Isso não garante desempenho, mas reduz o tempo necessário para descobrir como começar.'] },
       { heading: 'Escolhas para começar', paragraphs: ['Basketball Stars apresenta uma proposta esportiva direta. Baby Hazel Bed Time segue uma sequência casual de tarefas. Body Drop 3D aposta em física e observação. As três fichas possuem curadoria editorial própria no Zap Game, mas a compatibilidade final depende da plataforma que abre o jogo.'] },
+    ],
+    faqs: [
+      { question: 'Quais jogos de navegador funcionam no celular?', answer: 'A compatibilidade varia por jogo e dispositivo. Comece por propostas simples, abra a ficha e confirme o comportamento da versão GamePix no seu celular.' },
+      { question: 'Dá para jogar online no celular sem baixar aplicativo?', answer: 'O Zap Game abre jogos pelo navegador, mas os recursos e a compatibilidade dependem do parceiro que entrega cada título.' },
+      { question: 'Qual jogo de navegador é bom para uma pausa no celular?', answer: 'Jogos de esporte, arcade, puzzle e experiências casuais costumam ser bons pontos de partida para sessões rápidas.' },
     ],
     games: [
       { title: 'Basketball Stars', href: '/jogos/gamepix-basketball-stars-35lbe', reason: 'Esporte e confronto direto.' },
@@ -35,6 +41,11 @@ export const intentGuides: IntentGuide[] = [
       { heading: 'Como reduzir problemas', paragraphs: ['Feche abas que não estão sendo usadas, mantenha o navegador atualizado e teste primeiro jogos com proposta visual mais simples. Se houver travamentos, reduza outras atividades do computador antes de concluir que o jogo não funciona.', 'A ficha do Zap Game identifica a origem e a proposta, mas não substitui um teste no seu equipamento. Configurações do parceiro e atualizações podem alterar o desempenho.'] },
       { heading: 'Boas categorias para começar', paragraphs: ['Arcade, puzzle, esporte e gerenciamento costumam ser boas categorias para uma primeira tentativa porque têm objetivos claros. Ainda assim, a qualidade técnica varia entre títulos e deve ser observada caso a caso.'] },
     ],
+    faqs: [
+      { question: 'Quais jogos rodam em PC fraco?', answer: 'Não existe garantia para todos os computadores. Teste primeiro jogos de navegador com proposta simples e feche abas e programas que não estiver usando.' },
+      { question: 'Existem jogos online leves para computador antigo?', answer: 'Sim, há experiências de navegador que podem exigir menos recursos, mas o resultado depende do navegador, da conexão e da versão do jogo.' },
+      { question: 'Como evitar travamentos em jogos de navegador?', answer: 'Mantenha o navegador atualizado, feche outras abas, teste a conexão e observe se o problema acontece em mais de um título.' },
+    ],
     games: [
       { title: 'Babel Tower', href: '/jogos/gamepix-babel-tower-45tbr', reason: 'Construção e gerenciamento.' },
       { title: 'Basket Champs', href: '/jogos/gamepix-basket-champs-40307', reason: 'Esporte em formato de campeonato.' },
@@ -51,6 +62,11 @@ export const intentGuides: IntentGuide[] = [
       { heading: 'Confirme o modo antes de combinar', paragraphs: ['Leia a descrição e confira a tela inicial do jogo. Veja se cada participante precisa de um dispositivo, se existe uma opção local ou se a conexão depende do serviço parceiro. O Zap Game não transforma uma descrição de multiplayer em garantia de funcionamento.', 'Também combine quem vai abrir a partida e evite inserir dados pessoais em telas externas que não sejam necessárias para jogar.'] },
       { heading: 'Títulos para investigar', paragraphs: ['Basketball Stars é descrito pelo parceiro como uma experiência para dois jogadores. Among at Easter apresenta uma proposta de tarefas e dedução social. Bomber Friends aposta em arena e explosões. Confira os recursos disponíveis no momento do acesso.'] },
     ],
+    faqs: [
+      { question: 'Quais são bons jogos multiplayer de navegador?', answer: 'Basketball Stars, Among at Easter e Bomber Friends são opções do catálogo com propostas de confronto ou interação descritas pelo parceiro.' },
+      { question: 'É possível jogar jogos de navegador com amigos?', answer: 'Alguns títulos oferecem recursos multiplayer, mas é necessário confirmar na tela inicial se o modo é online, local ou para dois jogadores.' },
+      { question: 'Existem jogos para dois jogadores sem instalar?', answer: 'O catálogo abre os títulos pelo navegador, mas o número de jogadores e a necessidade de conexão dependem de cada jogo.' },
+    ],
     games: [
       { title: 'Basketball Stars', href: '/jogos/gamepix-basketball-stars-35lbe', reason: 'Basquete e confronto direto.' },
       { title: 'Among at Easter', href: '/jogos/gamepix-among-at-easter-ng7tt', reason: 'Tarefas e dedução social.' },
@@ -66,6 +82,11 @@ export const intentGuides: IntentGuide[] = [
     sections: [
       { heading: 'Partidas rápidas ou campeonato', paragraphs: ['Basketball Stars concentra a proposta em confrontos de basquete. Basket Champs apresenta uma ideia de campeonato. Leia a ficha antes de jogar para entender qual formato combina mais com o tempo que você tem.', 'Os textos editoriais do Zap Game explicam a proposta sem atribuir notas ou estatísticas inventadas. Recursos e modos podem mudar conforme a versão GamePix.'] },
       { heading: 'Como escolher', paragraphs: ['Prefira uma partida rápida quando quiser testar o jogo sem compromisso. Escolha um formato de campeonato quando estiver procurando uma progressão em etapas. Para jogar com amigos, confirme se o modo multiplayer informado pelo parceiro está disponível.'] },
+    ],
+    faqs: [
+      { question: 'Quais jogos de esporte posso jogar no navegador?', answer: 'O catálogo tem opções de basquete como Basketball Stars e Basket Champs, com propostas de confronto e campeonato.' },
+      { question: 'Existe jogo de basquete online para jogar com outra pessoa?', answer: 'Basketball Stars é descrito pelo parceiro como uma experiência para dois jogadores; confirme o modo disponível ao abrir o jogo.' },
+      { question: 'Há jogos de esporte sem instalar?', answer: 'As fichas do Zap Game abrem a versão disponibilizada pelo GamePix no navegador, sem afirmar que todos os dispositivos terão a mesma experiência.' },
     ],
     games: [
       { title: 'Basketball Stars', href: '/jogos/gamepix-basketball-stars-35lbe', reason: 'Confronto de basquete.' },
