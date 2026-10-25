@@ -49,14 +49,14 @@ export default function AboutPage() {
 
           <h2>Como o catálogo funciona</h2>
           <p>Uma ficha pode apresentar uma descrição, uma capa, dados do registro de origem e links para serviços externos. A disponibilidade, os requisitos e a compatibilidade do jogo dependem do serviço indicado na própria ficha; o Zap Game não controla plataformas de terceiros.</p>
-          <p>O catálogo reúne títulos de diferentes origens, incluindo registros do Internet Archive, jogos identificados como GamePix e experiências acessadas por outros endereços externos. A origem de cada título é indicada na página do jogo quando essa informação está disponível.</p>
+          <p>O catálogo atual prioriza jogos próprios do Zap Game e jogos disponibilizados por parceiro identificado, como o GamePix. Registros arquivados de terceiros não são publicados enquanto a autorização de distribuição e uso comercial não estiver documentada.</p>
 
           <h2>Fontes, créditos e direitos</h2>
           <p>Os jogos, personagens, marcas e materiais de terceiros pertencem aos respectivos titulares. Uma ficha ou um link para um registro externo não significa que o Zap Game seja proprietário do jogo, que tenha uma licença de distribuição ou que exista aprovação oficial do titular.</p>
           <p>As fontes apresentadas servem para identificar a origem conhecida de cada item. A presença de um arquivo em um catálogo público, serviço de preservação ou plataforma de jogos, por si só, não comprova autorização para reutilização ou monetização. A disponibilidade e as permissões podem variar conforme o título e o provedor.</p>
 
           <h2>Como fazemos a curadoria</h2>
-          <p>O catálogo é organizado por categoria, origem e disponibilidade. Antes de manter uma ficha, procuramos preservar o nome correto, indicar a fonte, remover descrições sem informação útil e evitar apresentar como próprio aquilo que pertence a outra plataforma. Fichas podem ser corrigidas, desindexadas ou removidas quando a fonte mudar ou quando houver dúvida legítima sobre direitos.</p>
+          <p>O catálogo é organizado por categoria, origem e disponibilidade. Antes de manter uma ficha, procuramos preservar o nome correto, indicar a fonte, remover descrições sem informação útil e evitar apresentar como próprio aquilo que pertence a outra plataforma. Registros antigos ficam fora da publicação até passar por revisão de direitos; fichas podem ser corrigidas, desindexadas ou removidas quando a fonte mudar ou quando houver dúvida legítima sobre autorização.</p>
 
           <h2>Publicidade e privacidade</h2>
           <p>O site pode exibir publicidade. Para saber como o site trata dados técnicos, cookies e preferências de anúncios, consulte a <a href="/privacidade">Política de privacidade</a>. Os serviços externos acessados a partir das fichas podem ter regras próprias.</p>

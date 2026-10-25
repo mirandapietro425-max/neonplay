@@ -5,7 +5,7 @@ export type FlashArchiveEntry = {
   kind: "game" | "collection";
 };
 
-export const flashArchiveEntries: FlashArchiveEntry[] = [
+const archivedFlashCandidates: FlashArchiveEntry[] = [
   { id: "supersmashflash_swf", title: "Super Smash Flash", category: "acao", kind: "game" },
   { id: "super-smash-flash-2_202304", title: "Super Smash Flash 2", category: "acao", kind: "game" },
   { id: "ssf2-2007_20210626", title: "Super Smash Flash 2 (Classic Edition)", category: "acao", kind: "game" },
@@ -112,6 +112,10 @@ export const flashArchiveEntries: FlashArchiveEntry[] = [
   { id: "ultimate-flash-sonic-revised", title: "Ultimate Flash Sonic Revised", category: "plataforma", kind: "game" },
   { id: "ultimate-flash-sonic-widescreen", title: "Ultimate Flash Sonic Widescreen", category: "plataforma", kind: "game" },
  ];
+
+// Não publicar nem monetizar registros arquivados enquanto a autorização de
+// distribuição e uso comercial de cada título não estiver documentada.
+export const flashArchiveEntries: FlashArchiveEntry[] = [];
 
 // Only expose Archive entries whose metadata was checked for an SWF file.
 // The original source list stays above so unverified records are not lost.
