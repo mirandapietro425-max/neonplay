@@ -122,7 +122,7 @@ export const getGamePixGames = cache(async function getGamePixGames(): Promise<G
   if (!sid) return []
 
   try {
-    const response = await fetch(`https://games.gamepix.com/games?sid=${encodeURIComponent(sid)}&limit=${GAMEPIX_CATALOG_LIMIT}&offset=0`, {
+    const response = await fetch(`https://games.gamepix.com/games?sid=${encodeURIComponent(sid)}&limit=1000&offset=0`, {
       next: { revalidate: 3600 },
     })
     if (!response.ok) return []
