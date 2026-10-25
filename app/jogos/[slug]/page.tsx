@@ -190,11 +190,15 @@ export default async function GamePage({ params }: Props) {
           <div>
             <p className="zg-kicker">Curadoria Zap Game</p>
             <h2>Por que conhecer {game.title}?</h2>
+            {game.editorial.headline && <p className="zg-kicker">{game.editorial.headline}</p>}
             <p>{game.editorial.whyPlay}</p>
             <p>{game.editorial.editorialNote}</p>
           </div>
           <dl className="zg-game-facts">
             <div><dt>Indicado para</dt><dd>{game.editorial.audience}</dd></div>
+            {game.editorial.session && <div><dt>Sessão</dt><dd>{game.editorial.session}</dd></div>}
+            {game.editorial.controls && <div><dt>Controles</dt><dd>{game.editorial.controls}</dd></div>}
+            {game.editorial.tags && <div><dt>Temas</dt><dd>{game.editorial.tags.join(' · ')}</dd></div>}
             <div><dt>Tipo de conteúdo</dt><dd>Análise editorial independente da descrição do parceiro</dd></div>
           </dl>
         </section>}
