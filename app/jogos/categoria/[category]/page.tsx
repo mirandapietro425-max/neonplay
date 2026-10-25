@@ -13,7 +13,7 @@ const categoryIntros: Record<string, string> = {
   acao: 'Reviva combates, desafios e aventuras de ação preservados em diferentes gerações de jogos de navegador.',
   arcade: 'Partidas rápidas, reflexos e clássicos de arcade para explorar direto pelo navegador.',
   aventura: 'Explore histórias, escolhas e mundos de aventura que marcaram a memória dos jogos online.',
-  casual: 'Jogos casuais para uma pausa rápida, com experiências simples e clássicos do acervo Flash.',
+  casual: 'Jogos casuais para uma pausa rápida, com experiências simples e partidas fáceis de começar no navegador.',
   corrida: 'Acelere por pistas e desafios de corrida preservados no acervo de jogos de navegador.',
   esporte: 'Reviva jogos de esporte e partidas clássicas disponíveis no acervo do Zap Game.',
   estrategia: 'Planeje cada movimento em jogos de estratégia, defesa e gestão de recursos.',
@@ -71,6 +71,7 @@ export default async function CategoryPage({ params }: Props) {
   if (!label) notFound()
   const games = await gamesForCategory(category)
   const description = categoryIntros[category]
+  const editorialGames = games.filter((game) => 'editorial' in game && Boolean(game.editorial)).slice(0, 3)
   const canonical = `${siteOrigin}/jogos/categoria/${category}`
   const schema = [
     {
@@ -117,6 +118,11 @@ export default async function CategoryPage({ params }: Props) {
         <p>{description}</p>
         <span className="zg-category-count">{games.length} {games.length === 1 ? 'jogo nesta categoria' : 'jogos nesta categoria'}</span>
       </section>
+
+      {editorialGames.length > 0 && <section className="zg-category-editorial" aria-labelledby="category-editorial-title">
+        <div className="zg-category-editorial-head"><div><p className="zg-kicker">Seleção do Zap Game</p><h2 id="category-editorial-title">Comece por estas fichas</h2></div><span>Curadoria original</span></div>
+        <div className="zg-category-editorial-grid">{editorialGames.map((game) => <Link key={`editorial-${game.id}`} href={`/jogos/${game.slug}`} className="zg-category-editorial-card"><div><b>{game.title}</b><p>{'editorial' in game && game.editorial ? game.editorial.description : game.summary}</p></div><span aria-hidden="true">↗</span></Link>)}</div>
+      </section>}
 
       {games.length > 0 ? <div className="zg-game-grid zg-category-grid">{games.map((game) => <Link className="zg-game-card" key={game.id} href={`/jogos/${game.slug}`}>
         {game.source === 'browser-games' && <b className="zg-browser-tag">Jogue agora</b>}

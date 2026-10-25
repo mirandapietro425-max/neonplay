@@ -4,18 +4,18 @@ import { GoogleAnalytics } from '@/components/google-analytics'
 import './globals.css'
 
 const siteOrigin = 'https://www.zapgame.com.br'
-const siteDescription = 'Encontre jogos de navegador no Zap Game. Explore arcade, ação, aventura, esporte e puzzles em um catálogo curado com guias editoriais e fontes identificadas.'
+const siteDescription = 'Encontre jogos de navegador no Zap Game. Explore arcade, ação, aventura, esporte e puzzles em um catálogo amplo, com curadoria editorial e fontes identificadas.'
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteOrigin),
-  title: 'Zap Game — jogos clássicos online e jogos retrô',
+  title: 'Zap Game — jogos de navegador para jogar online',
   description: siteDescription,
   applicationName: 'Zap Game',
   keywords: [
     'jogos clássicos',
-    'jogos retrô',
+    'jogos para jogar online',
     'jogos de navegador',
-    'jogos Flash',
+    'jogos de arcade',
     'jogos online',
     'Zap Game',
   ],
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     locale: 'pt_BR',
     siteName: 'Zap Game',
     url: '/',
-    title: 'Zap Game — jogos clássicos online e jogos retrô',
+    title: 'Zap Game — jogos de navegador para jogar online',
     description: siteDescription,
     images: [{
       url: '/brand/zapgame-og.webp',
@@ -45,7 +45,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Zap Game — jogos clássicos online e jogos retrô',
+    title: 'Zap Game — jogos de navegador para jogar online',
     description: siteDescription,
     images: ['/brand/zapgame-og.webp'],
   },
