@@ -229,6 +229,16 @@ async function main() {
     slugs: groupDuplicates(candidates, (game) => game.slug.toLocaleLowerCase('en-US')),
     titles: groupDuplicates(candidates, (game) => normalize(game.title)),
   }
+  const queueFor = (categoryName) => selected.filter((game) => game.category === categoryName && !editorialIds.has(game.providerId)).slice(0, 15).map((game) => ({
+    providerId: game.providerId,
+    title: game.title,
+    slug: game.slug,
+    category: game.category,
+    summary: game.summary,
+    imageUrl: game.imageUrl,
+    sourceUrl: game.launchUrl,
+    providerRank: game.providerRank,
+  }))
 
   const report = {
     generatedAt: new Date().toISOString(),
@@ -241,6 +251,7 @@ async function main() {
       editorialProfilesInSource: editorialIds.size,
       selectedGamesWithEditorial: selected.filter((game) => editorialIds.has(game.providerId)).length,
       selectedGamesWithoutEditorial: selected.filter((game) => !editorialIds.has(game.providerId)).length,
+      selectedGamesWithoutSummary: selected.filter((game) => !game.summary).length,
       malformedSuppliedLaunchUrls: originalLaunchUrlMalformed.length,
     },
     categoryCounts: categoryCounts(selected),
@@ -250,16 +261,10 @@ async function main() {
     invalidRecords,
     malformedSuppliedLaunchUrls: originalLaunchUrlMalformed,
     editorialIdsNotFoundInFeed: [...editorialIds].filter((id) => !allFeedIds.has(id) && !allFeedIdsUpper.has(id.toLocaleUpperCase('en-US'))),
-    puzzleEditorialQueue: selected.filter((game) => game.category === 'puzzle' && !editorialIds.has(game.providerId)).slice(0, 15).map((game) => ({
-      providerId: game.providerId,
-      title: game.title,
-      slug: game.slug,
-      category: game.category,
-      summary: game.summary,
-      imageUrl: game.imageUrl,
-      sourceUrl: game.launchUrl,
-      providerRank: game.providerRank,
-    })),
+    gamesWithoutSummary: selected.filter((game) => !game.summary).map((game) => ({ providerId: game.providerId, title: game.title, slug: game.slug, category: game.category, providerRank: game.providerRank })),
+    puzzleEditorialQueue: queueFor('puzzle'),
+    adventureEditorialQueue: queueFor('aventura'),
+    sportEditorialQueue: queueFor('esporte'),
     linkChecks: [],
   }
 
@@ -276,10 +281,13 @@ async function main() {
   console.log(`Duplicatas: ${duplicates.providerIds.length} grupo(s) de providerId; ${duplicates.slugs.length} de slug; ${duplicates.titles.length} de título (aviso, não remoção automática).`)
   console.log(`Fichas editoriais: ${report.totals.selectedGamesWithEditorial}/${report.totals.selectedUniqueCatalogGames} jogos selecionados.`)
   console.log('Categorias:', JSON.stringify(report.categoryCounts))
-  console.log('\nPróxima fila de puzzle (máximo 15, sem ficha editorial):')
-  for (const game of report.puzzleEditorialQueue) {
-    console.log(`rank ${String(game.providerRank).padStart(3, ' ')} | ${game.providerId} | ${game.title} | ${game.slug}`)
+  for (const [label, queue] of [['puzzle', report.puzzleEditorialQueue], ['aventura', report.adventureEditorialQueue], ['esporte', report.sportEditorialQueue]]) {
+    console.log(`\nPróxima fila de ${label} (máximo 15, sem ficha editorial):`)
+    for (const game of queue) {
+      console.log(`rank ${String(game.providerRank).padStart(3, ' ')} | ${game.providerId} | ${game.title} | ${game.slug}`)
+    }
   }
+  console.log(`Jogos selecionados sem resumo: ${report.totals.selectedGamesWithoutSummary}`)
   if (process.argv.includes('--check-links')) {
     const broken = report.linkChecks.filter((item) => item.result === 'broken-confirmed')
     const inconclusive = report.linkChecks.filter((item) => item.result === 'inconclusive')

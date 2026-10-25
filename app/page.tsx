@@ -131,7 +131,7 @@ export default function Page() {
       {error && <div className="zg-source-error">Não foi possível atualizar o GamePix. <button onClick={() => void mutate()}>Tentar novamente</button></div>}
 
       {!search && category === 'todos' && source === 'todos' && featuredGames.length > 0 && <div className="zg-discovery">
-        <div className="zg-discovery-head"><div><p className="zg-kicker">Descobertas da semana</p><h3>Em alta agora</h3></div><span>Seleção GamePix</span></div>
+        <div className="zg-discovery-head"><div><p className="zg-kicker">Destaques do catálogo</p><h3>Escolhas para começar</h3></div><span>Seleção GamePix</span></div>
         <div className="zg-mini-grid">{featuredGames.map((game) => <a className="zg-mini-card" key={`featured-${game.id}`} href={`/jogos/${game.slug}`} onClick={() => trackGameOpen(game, 'featured')}><img src={imageFor(game)} alt={`Capa de ${game.title}`} loading="lazy" onError={(event) => { event.currentTarget.onerror = null; event.currentTarget.src = categoryArt(game.category) }} /><span>{game.title}</span></a>)}</div>
       </div>}
 
