@@ -50,11 +50,8 @@ export const metadata: Metadata = {
     images: ['/brand/zapgame-og.webp'],
   },
   icons: {
-    icon: [
-      { url: '/icon.svg', type: 'image/svg+xml' },
-      { url: '/icon-dark-32x32.png', type: 'image/png', sizes: '32x32' },
-    ],
-    apple: '/apple-icon.png',
+    icon: [{ url: '/icon.png', type: 'image/png', sizes: '512x512' }],
+    apple: [{ url: '/icon.png', type: 'image/png', sizes: '512x512' }],
   },
 }
 
@@ -72,6 +69,7 @@ const structuredData = [
     url: `${siteOrigin}/`,
     inLanguage: 'pt-BR',
     description: siteDescription,
+    image: `${siteOrigin}/icon.png`,
   },
   {
     '@context': 'https://schema.org',
@@ -82,6 +80,7 @@ const structuredData = [
     applicationCategory: 'GameApplication',
     operatingSystem: 'Web browser',
     description: siteDescription,
+    image: `${siteOrigin}/icon.png`,
   },
 ]
 
