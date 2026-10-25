@@ -27,7 +27,7 @@ export async function GET(request: Request) {
     .filter((game) => !query || game.title.toLocaleLowerCase('pt-BR').includes(query))
 
   return NextResponse.json(
-    { games, total: games.length, sources: ['Zap Game', 'Internet Archive', 'GamePix'] },
+    { games, total: games.length, sources: ['GamePix'] },
     { headers: { 'Cache-Control': 'public, s-maxage=600, stale-while-revalidate=3600' } },
   )
 }

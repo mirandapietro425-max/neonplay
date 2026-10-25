@@ -84,7 +84,7 @@ function archiveSummary(id: string, title: string, categoryName: string) {
   }
 }
 
-const browserRecords = [
+const browserCandidates = [
   { id: 'snake', title: 'Snake', category: 'arcade', launchUrl: 'https://emjay045.github.io/browser-games/snake/' },
   { id: 'pong', title: 'Pong', category: 'arcade', launchUrl: 'https://emjay045.github.io/browser-games/pong/' },
   { id: '2048', title: '2048', category: 'puzzle', launchUrl: 'https://emjay045.github.io/browser-games/2048/' },
@@ -95,6 +95,10 @@ const browserRecords = [
   { id: 'flappy-bird', title: 'Flappy Bird', category: 'arcade', launchUrl: 'https://emjay045.github.io/browser-games/flappy-bird/' },
   { id: 'dino-dash', title: 'Dino Dash', category: 'arcade', launchUrl: 'https://emjay045.github.io/browser-games/dino-dash/' },
 ] as const
+
+// Não publicar jogos hospedados por terceiros enquanto a autorização de
+// distribuição e monetização para o Zap Game não estiver documentada.
+const browserRecords: typeof browserCandidates[number][] = []
 
 function slugify(value: string) {
   return value

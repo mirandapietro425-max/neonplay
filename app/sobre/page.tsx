@@ -49,7 +49,7 @@ export default function AboutPage() {
 
           <h2>Como o catálogo funciona</h2>
           <p>Uma ficha pode apresentar uma descrição, uma capa, dados do registro de origem e links para serviços externos. A disponibilidade, os requisitos e a compatibilidade do jogo dependem do serviço indicado na própria ficha; o Zap Game não controla plataformas de terceiros.</p>
-          <p>O catálogo atual prioriza jogos próprios do Zap Game e jogos disponibilizados por parceiro identificado, como o GamePix. Registros arquivados de terceiros não são publicados enquanto a autorização de distribuição e uso comercial não estiver documentada.</p>
+          <p>O catálogo público atual mantém jogos disponibilizados por parceiro identificado, como o GamePix. Registros arquivados e jogos hospedados por terceiros sem autorização documentada não são publicados nem monetizados pelo Zap Game.</p>
 
           <h2>Fontes, créditos e direitos</h2>
           <p>Os jogos, personagens, marcas e materiais de terceiros pertencem aos respectivos titulares. Uma ficha ou um link para um registro externo não significa que o Zap Game seja proprietário do jogo, que tenha uma licença de distribuição ou que exista aprovação oficial do titular.</p>
@@ -57,6 +57,10 @@ export default function AboutPage() {
 
           <h2>Como fazemos a curadoria</h2>
           <p>O catálogo é organizado por categoria, origem e disponibilidade. Antes de manter uma ficha, procuramos preservar o nome correto, indicar a fonte, remover descrições sem informação útil e evitar apresentar como próprio aquilo que pertence a outra plataforma. Registros antigos ficam fora da publicação até passar por revisão de direitos; fichas podem ser corrigidas, desindexadas ou removidas quando a fonte mudar ou quando houver dúvida legítima sobre autorização.</p>
+
+          <h2>Critérios editoriais</h2>
+          <p>Além da origem, avaliamos se a ficha ajuda o visitante a decidir o que jogar. A curadoria considera a categoria, a clareza da descrição, a compatibilidade indicada pela fonte, a facilidade de encontrar informações essenciais e a qualidade da experiência de navegação. O Zap Game não inventa notas, avaliações ou números de popularidade que não estejam disponíveis em uma fonte identificada.</p>
+          <p>O objetivo é acrescentar contexto e organização ao catálogo, não substituir o titular do jogo nem copiar a página do parceiro. Quando uma página não oferece valor editorial suficiente ou não tem origem verificável, ela fica fora do índice até ser revisada.</p>
 
           <h2>Publicidade e privacidade</h2>
           <p>O site pode exibir publicidade. Para saber como o site trata dados técnicos, cookies e preferências de anúncios, consulte a <a href="/privacidade">Política de privacidade</a>. Os serviços externos acessados a partir das fichas podem ter regras próprias.</p>
