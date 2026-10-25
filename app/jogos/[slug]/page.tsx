@@ -102,7 +102,7 @@ export default async function GamePage({ params }: Props) {
   const canonical = `${siteOrigin}/jogos/${game.slug}`
   const gamePixGames = await getGamePixGames()
   const sourceName = game.source === 'internet-archive' ? 'Internet Archive' : game.source === 'gamepix' ? 'GamePix' : 'GitHub Pages'
-  const playLabel = game.source === 'internet-archive' ? 'Abrir versão arquivada' : game.source === 'gamepix' ? 'Jogar no GamePix' : 'Abrir jogo no navegador'
+  const playHint = game.source === 'internet-archive' ? 'A versão arquivada abre em uma nova aba.' : game.source === 'gamepix' ? 'A versão disponível pelo GamePix abre em uma nova aba.' : 'A versão do navegador abre em uma nova aba.'
   const hasDistinctSource = game.sourceUrl !== game.launchUrl
   const summaryAttribution = 'editorial' in game && game.editorial
     ? 'Texto editorial do Zap Game, baseado na proposta informada pelo parceiro'
@@ -173,9 +173,10 @@ export default async function GamePage({ params }: Props) {
             <p className="zg-kicker">{summaryAttribution}</p>
             <div className="zg-detail-tags">{categoryHref ? <Link href={categoryHref}>{category}</Link> : <span>{category}</span>}<span>Fonte: {sourceName}</span></div>
             <div className="zg-detail-actions">
-              <TrackedPlayLink className="zg-primary-btn zg-detail-primary" href={game.launchUrl} target="_blank" rel="noopener noreferrer" gameSlug={game.slug} gameSource={game.source} gameTitle={game.title}>{playLabel}<span aria-hidden="true">↗</span></TrackedPlayLink>
+              <TrackedPlayLink className="zg-primary-btn zg-detail-primary" href={game.launchUrl} target="_blank" rel="noopener noreferrer" aria-label={`Jogar agora: ${game.title}. Abre em uma nova aba no ${sourceName}.`} gameSlug={game.slug} gameSource={game.source} gameTitle={game.title}>Jogar agora<span aria-hidden="true">↗</span></TrackedPlayLink>
               {hasDistinctSource ? <a className="zg-secondary-btn" href={game.sourceUrl} target="_blank" rel="noopener noreferrer">Ver registro da fonte</a> : <span className="zg-secondary-btn" aria-label={`Fonte: ${sourceName}`}>Fonte: {sourceName}</span>}
             </div>
+            <p className="zg-play-reassurance"><span aria-hidden="true">↗</span>{playHint}</p>
           </div>
           <figure className="zg-detail-cover"><img src={image} alt={`Capa de ${game.title}`} /><figcaption>Imagem de referência de {game.title}</figcaption></figure>
         </section>
@@ -224,6 +225,11 @@ export default async function GamePage({ params }: Props) {
           <div><p className="zg-kicker">Continue a descoberta</p><h2>Escolha o próximo jogo</h2><p>Use o <Link href="/guias/qual-jogo-escolher">quiz de recomendação</Link> ou consulte o <Link href="/guias/comparativo-jogos-de-navegador">comparativo editorial</Link> para encontrar outra experiência.</p></div>
           <dl className="zg-game-facts"><div><dt>Mais guias</dt><dd><Link href="/guias">Ver a central de guias</Link></dd></div><div><dt>Correções</dt><dd><Link href="/contato">Falar com o Zap Game</Link></dd></div></dl>
         </section>
+
+        <div className="zg-mobile-playbar" aria-label="Ação principal do jogo">
+          <div><strong>Pronto para jogar?</strong><small>{game.title}</small></div>
+          <TrackedPlayLink className="zg-primary-btn" href={game.launchUrl} target="_blank" rel="noopener noreferrer" aria-label={`Jogar agora: ${game.title}. Abre em uma nova aba no ${sourceName}.`} gameSlug={game.slug} gameSource={game.source} gameTitle={game.title} ctaPosition="mobile_sticky">Jogar agora<span aria-hidden="true">↗</span></TrackedPlayLink>
+        </div>
 
         <div className="zg-detail-back"><Link href="/">← Voltar para todos os jogos</Link>{categoryHref && <Link href={categoryHref}>Explorar categoria {category} →</Link>}</div>
       </article>

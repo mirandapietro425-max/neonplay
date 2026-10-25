@@ -160,6 +160,9 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .zg-game-info { min-height: 72px; padding: 13px 14px 14px; display: flex; flex-direction: column; gap: 5px; background: linear-gradient(180deg, rgba(255,255,255,.018), transparent); }
 .zg-game-info strong { font-size: 14px; letter-spacing: -.015em; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .zg-game-info small { color: #979db2; font: 10px var(--mono); text-transform: uppercase; letter-spacing: .09em; }
+.zg-card-cta { display: inline-flex; align-items: center; gap: 4px; margin-top: 2px; color: var(--green); font: 600 10px var(--mono); letter-spacing: .02em; }
+.zg-card-cta span { font-size: 13px; transition: transform .2s; }
+.zg-game-card:hover .zg-card-cta span { transform: translate(2px, -2px); }
 .zg-browser-tag, .zg-gamepix-tag { position: absolute; top: 10px; left: 10px; z-index: 2; border-radius: 999px; padding: 5px 8px; font: 9px var(--mono); text-transform: uppercase; letter-spacing: .045em; backdrop-filter: blur(8px); }
 .zg-browser-tag { background: rgba(248,204,97,.96); color: #191920; }
 .zg-gamepix-tag { background: rgba(101,240,180,.95); color: #10151a; }
@@ -266,6 +269,8 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .zg-detail-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 25px; }
 .zg-detail-primary { text-decoration: none; }
 .zg-detail-primary span { margin-left: 3px; font-size: 17px; line-height: 1; }
+.zg-play-reassurance { display: flex; align-items: center; gap: 7px; margin: 11px 0 0; color: #8f97af; font: 10px var(--mono); }
+.zg-play-reassurance span { color: var(--green); font-size: 14px; }
 .zg-secondary-btn { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 17px; border: 1px solid rgba(176,190,255,.18); border-radius: 12px; background: rgba(9,12,23,.36); color: #d4d8e5; font-size: 13px; font-weight: 700; text-decoration: none; transition: border-color .18s, color .18s, background .18s; }
 .zg-secondary-btn:hover { border-color: rgba(101,240,180,.5); color: var(--green); background: rgba(101,240,180,.06); }
 .zg-detail-cover { position: relative; margin: 0; overflow: hidden; aspect-ratio: 1.48; border: 1px solid rgba(255,255,255,.16); border-radius: 20px; background: #20243b; box-shadow: 0 20px 42px rgba(0,0,0,.35); }
@@ -293,6 +298,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .zg-detail-back { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 13px; padding: 19px 0 26px; border-top: 1px solid rgba(255,255,255,.08); }
 .zg-detail-back a { color: #afb6ca; font-size: 12px; text-decoration: none; }
 .zg-detail-back a:hover { color: var(--green); }
+.zg-mobile-playbar { display: none; }
 
 .zg-category-hero { margin: 23px 0 26px; padding: clamp(24px, 4vw, 44px); border: 1px solid rgba(255,255,255,.12); border-radius: 25px; background: radial-gradient(ellipse at 92% 0%, rgba(142,157,255,.15), transparent 34%), linear-gradient(120deg, rgba(23,28,48,.98), rgba(21,20,39,.95)); }
 .zg-category-hero .zg-breadcrumbs { margin-bottom: 26px; }
@@ -316,6 +322,13 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   .zg-detail-summary { font-size: 14px; }
   .zg-detail-actions { align-items: stretch; flex-direction: column; }
   .zg-detail-actions > a { width: 100%; }
+  .zg-play-reassurance { margin-bottom: 2px; }
+  .zg-detail-shell { padding-bottom: 88px; }
+  .zg-mobile-playbar { position: fixed; z-index: 30; right: 0; bottom: 0; left: 0; display: flex; align-items: center; justify-content: space-between; gap: 13px; padding: 11px max(17px, env(safe-area-inset-right)) calc(11px + env(safe-area-inset-bottom)) max(17px, env(safe-area-inset-left)); border-top: 1px solid rgba(101,240,180,.25); background: rgba(11,13,24,.94); box-shadow: 0 -12px 32px rgba(0,0,0,.28); backdrop-filter: blur(16px); }
+  .zg-mobile-playbar > div { min-width: 0; display: grid; gap: 2px; }
+  .zg-mobile-playbar strong { font-size: 12px; }
+  .zg-mobile-playbar small { overflow: hidden; color: #a9afc3; font: 10px var(--mono); text-overflow: ellipsis; white-space: nowrap; }
+  .zg-mobile-playbar .zg-primary-btn { flex: 0 0 auto; min-height: 43px; padding: 0 15px; font-size: 13px; }
   .zg-detail-information { grid-template-columns: 1fr; gap: 15px; padding: 22px 0 28px; }
   .zg-game-facts div { grid-template-columns: minmax(112px,.7fr) 1.3fr; }
   .zg-related-section { padding-top: 29px; }

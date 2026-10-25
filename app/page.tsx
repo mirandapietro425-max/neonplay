@@ -146,11 +146,11 @@ export default function Page() {
       </div>
 
       {filtered.length ? <>
-        <div className="zg-game-grid">{visibleGames.map((game) => <a className="zg-game-card" key={game.id} href={`/jogos/${game.slug}`} aria-label={`Ver ficha de ${game.title}`} onClick={() => trackGameOpen(game, 'catalog')}>
+        <div className="zg-game-grid">{visibleGames.map((game) => <a className="zg-game-card" key={game.id} href={`/jogos/${game.slug}`} aria-label={`Ver ficha de ${game.title} e jogar agora`} onClick={() => trackGameOpen(game, 'catalog')}>
           {game.source === 'browser-games' && <b className="zg-browser-tag">Jogue agora</b>}
           {game.source === 'gamepix' && <b className="zg-gamepix-tag">GamePix</b>}
           <div className="zg-game-thumb"><img src={imageFor(game)} alt={`Capa de ${game.title}`} loading="lazy" onError={(event) => { event.currentTarget.onerror = null; event.currentTarget.src = categoryArt(game.category) }} /><span className="zg-play-mark"><ArrowUpRight size={14} /></span></div>
-          <div className="zg-game-info"><strong>{game.title}</strong><small>{names[game.category] ?? game.category}</small></div>
+          <div className="zg-game-info"><strong>{game.title}</strong><small>{names[game.category] ?? game.category}</small><span className="zg-card-cta">Ver ficha e jogar <span aria-hidden="true">↗</span></span></div>
         </a>)}</div>
         {visibleGames.length < filtered.length && <div className="zg-load-more"><button className="zg-load-more-btn" onClick={() => setVisibleCount((current) => Math.min(current + 24, filtered.length))}>Carregar mais jogos <span>({filtered.length - visibleGames.length} restantes)</span></button></div>}
       </> : <div className="zg-empty"><img src="/brand/brand-empty-library.svg" alt="" /><h3>Nenhum jogo por aqui.</h3><p>Tente outro título ou limpe os filtros.</p><button className="zg-reset" onClick={() => { setSearch(''); setCategory('todos'); setSource('todos') }}>Limpar filtros</button></div>}
