@@ -11,6 +11,7 @@ import {
 import { getGamePixGames, getGamePixGameBySlug, type GamePixCatalogGame } from '@/lib/gamepix-catalog'
 import { hasDistinctiveGameSummary } from '@/lib/game-seo'
 import { TrackedPlayLink } from '@/components/tracked-play-link'
+import { GameDiscoveryProgress } from '@/components/game-discovery-progress'
 
 const siteOrigin = 'https://www.zapgame.com.br'
 type Props = { params: Promise<{ slug: string }> }
@@ -157,6 +158,7 @@ export default async function GamePage({ params }: Props) {
 
         <section className="zg-detail-hero">
           <div className="zg-detail-copy">
+            <div className="zg-detail-badges"><span>CURADORIA ZAP GAME</span><span>{category}</span><span>FONTE {sourceName.toUpperCase()}</span></div>
             <p className="zg-kicker">Memorial de jogos · {category}</p>
             <h1>{game.title}</h1>
             <p className="zg-detail-summary">{description}</p>
@@ -185,6 +187,8 @@ export default async function GamePage({ params }: Props) {
             {'archiveSubjects' in game && game.archiveSubjects.length > 0 && <div><dt>Assuntos do registro</dt><dd>{game.archiveSubjects.join(' · ')}</dd></div>}
           </dl>
         </section>
+
+        <GameDiscoveryProgress gameSlug={game.slug} gameTitle={game.title} category={category} categoryHref={categoryHref ?? '/'} />
 
         {'editorial' in game && game.editorial && <section className="zg-detail-information">
           <div>

@@ -489,3 +489,31 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .zg-cro-card-cta { display: inline-block; margin-top: 14px; color: var(--green); font: 11px var(--mono); }
 .zg-cro-card-cta b { font-size: 15px; }
 @media (max-width: 700px) { .zg-cro-recommendations { padding: 17px; border-radius: 18px; } .zg-cro-heading { align-items: flex-start; flex-direction: column; gap: 8px; } .zg-cro-grid { grid-template-columns: 1fr; } .zg-cro-card { display: grid; grid-template-columns: 105px 1fr; } .zg-cro-card-media { height: 100%; min-height: 145px; } .zg-cro-card-body { padding: 13px; } .zg-cro-card h3 { font-size: 16px; } }
+
+/* Gamificação e acabamento das fichas */
+.zg-detail-badges { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 15px; }
+.zg-detail-badges span { padding: 7px 9px; border: 1px solid rgba(101,240,180,.24); border-radius: 999px; background: rgba(8,12,27,.5); color: var(--green); font: 9px var(--mono); letter-spacing: .07em; text-transform: uppercase; }
+.zg-detail-badges span:nth-child(2) { border-color: rgba(255,105,184,.25); color: var(--pink); }
+.zg-detail-badges span:nth-child(3) { border-color: rgba(142,157,255,.25); color: #aeb8ff; }
+.zg-discovery-progress { display: grid; grid-template-columns: 1.15fr .85fr auto; align-items: center; gap: 23px; margin: 26px 0 34px; padding: 21px 23px; position: relative; overflow: hidden; border: 1px solid rgba(101,240,180,.2); border-radius: 20px; background: radial-gradient(circle at 8% 50%, rgba(101,240,180,.13), transparent 23%), linear-gradient(120deg, rgba(22,36,48,.98), rgba(25,21,45,.98)); box-shadow: inset 0 1px 0 rgba(255,255,255,.05); }
+.zg-discovery-progress:after { content: ''; position: absolute; right: -80px; bottom: -110px; width: 230px; height: 230px; border-radius: 50%; background: rgba(255,105,184,.08); filter: blur(34px); pointer-events: none; }
+.zg-discovery-progress-main { display: flex; align-items: center; gap: 13px; position: relative; z-index: 1; }
+.zg-discovery-emblem { flex: 0 0 49px; width: 49px; height: 49px; display: grid; place-items: center; border: 1px solid rgba(101,240,180,.4); border-radius: 15px; background: rgba(101,240,180,.1); color: var(--green); font-size: 25px; box-shadow: 0 0 24px rgba(101,240,180,.16); }
+.zg-discovery-progress h2 { margin: 3px 0 4px; color: #f2f5ff; font-size: 20px; letter-spacing: -.045em; }
+.zg-discovery-progress p:not(.zg-kicker) { margin: 0; color: #aeb8ca; font-size: 11px; }
+.zg-discovery-progress p strong { color: var(--green); }
+.zg-discovery-progress-side { min-width: 190px; position: relative; z-index: 1; }
+.zg-discovery-progress-label { display: flex; justify-content: space-between; gap: 10px; margin-bottom: 8px; color: #8f99b3; font: 9px var(--mono); text-transform: uppercase; }
+.zg-discovery-progress-label b { color: var(--pink); font-weight: 500; }
+.zg-discovery-progress-track { height: 7px; overflow: hidden; border-radius: 999px; background: rgba(255,255,255,.1); }
+.zg-discovery-progress-track span { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--pink), var(--blue), var(--green)); box-shadow: 0 0 14px rgba(101,240,180,.45); transition: width .5s ease; }
+.zg-discovery-progress-side small { display: block; margin-top: 7px; color: #8791aa; font: 9px var(--mono); }
+.zg-discovery-toast { min-width: 145px; display: grid; gap: 3px; padding: 11px 12px; position: relative; z-index: 1; border: 1px solid rgba(255,105,184,.35); border-radius: 12px; background: rgba(78,28,73,.42); }
+.zg-discovery-toast span { color: var(--pink); font: 8px var(--mono); letter-spacing: .08em; }
+.zg-discovery-toast b { color: #fff; font-size: 12px; }
+.zg-discovery-toast small { color: #c3bed0; font-size: 10px; }
+.zg-discovery-next { align-self: center; position: relative; z-index: 1; color: var(--green); font: 10px var(--mono); text-decoration: none; white-space: nowrap; }
+.zg-discovery-next span { font-size: 15px; }
+.zg-discovery-next:hover { color: #fff; }
+@media (max-width: 900px) { .zg-discovery-progress { grid-template-columns: 1fr 1fr; } .zg-discovery-toast { grid-column: 1 / 2; } .zg-discovery-next { grid-column: 2 / 3; justify-self: end; } }
+@media (max-width: 600px) { .zg-detail-badges { gap: 5px; } .zg-detail-badges span { font-size: 8px; padding: 6px 7px; } .zg-discovery-progress { grid-template-columns: 1fr; gap: 17px; padding: 18px; } .zg-discovery-toast, .zg-discovery-next { grid-column: auto; } .zg-discovery-next { justify-self: start; } .zg-discovery-progress-side { min-width: 0; } }
