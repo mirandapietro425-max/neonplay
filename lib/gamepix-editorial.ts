@@ -7,6 +7,18 @@ export type GamePixEditorial = {
   session?: string
   controls?: string
   tags?: string[]
+  objective?: string
+  playerMode?: {
+    label: string
+    modes: Array<'CoOp' | 'MultiPlayer' | 'SinglePlayer'>
+    source: 'zapgame-tested' | 'partner-stated'
+  }
+  compatibility?: Array<{
+    device: 'desktop' | 'mobile' | 'tablet'
+    source: 'zapgame-tested' | 'partner-stated'
+  }>
+  difficulty?: string
+  verifiedAt?: string
 }
 
 export const gamePixEditorial: Record<string, GamePixEditorial> = {

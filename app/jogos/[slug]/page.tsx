@@ -39,6 +39,33 @@ function metaDescription(game: DetailGame) {
   return summary.length > 158 ? `${summary.slice(0, 155).trimEnd()}…` : summary
 }
 
+function confirmedEditorialText(value?: string) {
+  const text = value?.replace(/\s+/g, ' ').trim()
+  if (!text) return null
+  const normalized = text.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLocaleLowerCase('pt-BR')
+  if (/\b(?:a confirmar|nao (?:(?:foi|foram) )?informad[oa]s?|nao (?:foi )?descrit[oa]s?|nao confirmado)\b/.test(normalized)) return null
+  return text
+}
+
+function validEditorialDate(value?: string) {
+  if (!value || !/^\d{4}-\d{2}-\d{2}$/.test(value)) return null
+  const date = new Date(`${value}T00:00:00.000Z`)
+  return !Number.isNaN(date.getTime()) && date.toISOString().slice(0, 10) === value ? value : null
+}
+
+function displayEditorialDate(value: string) {
+  const [year, month, day] = value.split('-')
+  return `${day}/${month}/${year}`
+}
+
+function editorialSourceLabel(source: 'zapgame-tested' | 'partner-stated') {
+  return source === 'zapgame-tested' ? 'testado pelo Zap Game' : 'informado pelo parceiro'
+}
+
+function editorialDeviceLabel(device: 'desktop' | 'mobile' | 'tablet') {
+  return { desktop: 'computador', mobile: 'celular', tablet: 'tablet' }[device]
+}
+
 async function getGame(slug: string): Promise<DetailGame | null> {
   return catalogGameBySlug.get(slug) ?? getGamePixGameBySlug(slug)
 }
@@ -124,9 +151,34 @@ export default async function GamePage({ params }: Props) {
       return compareCatalogPopularity(a, b)
     })
     .slice(0, 6)
+  const editorial = 'editorial' in game ? game.editorial : undefined
+  const objective = confirmedEditorialText(editorial?.objective)
+  const controls = confirmedEditorialText(editorial?.controls)
+  const session = confirmedEditorialText(editorial?.session)
+  const difficulty = confirmedEditorialText(editorial?.difficulty)
+  const verifiedAt = validEditorialDate(editorial?.verifiedAt)
+  const playerModeLabel = confirmedEditorialText(editorial?.playerMode?.label)
+  const compatibility = editorial?.compatibility ?? []
+  const keywords = (editorial?.tags ?? []).map((tag) => tag.trim()).filter(Boolean)
+  const gameId = `${canonical}#game`
+  const webPageId = `${canonical}#webpage`
+  const editorialId = `${canonical}#editorial`
+  const breadcrumbId = `${canonical}#breadcrumb`
+  const editorialText = editorial ? [
+    objective ? `Objetivo: ${objective}` : null,
+    playerModeLabel && editorial.playerMode ? `Modo de jogo: ${playerModeLabel} (${editorialSourceLabel(editorial.playerMode.source)})` : null,
+    ...compatibility.map((item) => `Compatibilidade: ${editorialDeviceLabel(item.device)} (${editorialSourceLabel(item.source)})`),
+    controls ? `Controles: ${controls}` : null,
+    session ? `Sessão: ${session}` : null,
+    difficulty ? `Dificuldade: ${difficulty}` : null,
+    verifiedAt ? `Verificado pelo Zap Game em ${displayEditorialDate(verifiedAt)}` : null,
+    `Indicado para: ${editorial.audience}`,
+    editorial.whyPlay,
+    editorial.editorialNote,
+  ].filter((value): value is string => Boolean(value)).join(' ') : ''
   const breadcrumbSchema = {
-    '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
+    '@id': breadcrumbId,
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'Início', item: `${siteOrigin}/` },
       ...(categoryHref ? [{ '@type': 'ListItem', position: 2, name: category, item: `${siteOrigin}${categoryHref}` }] : []),
@@ -134,22 +186,58 @@ export default async function GamePage({ params }: Props) {
     ],
   }
   const gameSchema = {
-    '@context': 'https://schema.org',
     '@type': 'VideoGame',
+    '@id': gameId,
     name: game.title,
     description,
     url: canonical,
     image: image.startsWith('http') ? image : `${siteOrigin}${image}`,
     genre: category,
-    gamePlatform: 'Navegador web',
+    gamePlatform: [...new Set(['Navegador web', ...compatibility.map((item) => `Navegador web em ${editorialDeviceLabel(item.device)}`)])],
     applicationCategory: 'GameApplication',
     inLanguage: 'pt-BR',
+    mainEntityOfPage: { '@id': webPageId },
+    ...(playerModeLabel && editorial?.playerMode?.modes.length ? { playMode: editorial.playerMode.modes.map((mode) => `https://schema.org/${mode}`) } : {}),
+    ...(editorial?.audience.trim() ? { audience: { '@type': 'Audience', audienceType: editorial.audience.trim() } } : {}),
+    ...(keywords.length ? { keywords } : {}),
     ...(hasDistinctSource ? { sameAs: game.sourceUrl } : {}),
+  }
+  const editorialSchema = editorial ? {
+    '@type': 'CreativeWork',
+    '@id': editorialId,
+    name: editorial.headline?.trim() || `Por que conhecer ${game.title}?`,
+    description: editorial.whyPlay,
+    text: editorialText,
+    inLanguage: 'pt-BR',
+    about: { '@id': gameId },
+    author: { '@id': `${siteOrigin}#organization` },
+    ...(keywords.length ? { keywords } : {}),
+  } : null
+  const organizationSchema = {
+    '@type': 'Organization',
+    '@id': `${siteOrigin}#organization`,
+    name: 'Zap Game',
+    url: siteOrigin,
+  }
+  const webPageSchema = {
+    '@type': 'WebPage',
+    '@id': webPageId,
+    url: canonical,
+    name: game.title,
+    description,
+    inLanguage: 'pt-BR',
+    mainEntity: { '@id': gameId },
+    breadcrumb: { '@id': breadcrumbId },
+    ...(editorialSchema ? { hasPart: { '@id': editorialId } } : {}),
+  }
+  const structuredData = {
+    '@context': 'https://schema.org',
+    '@graph': [webPageSchema, gameSchema, ...(editorialSchema ? [editorialSchema, organizationSchema] : []), breadcrumbSchema],
   }
   const safeJsonLd = (value: unknown) => JSON.stringify(value).replace(/</g, '\\u003c')
 
   return <main className="zg-shell zg-detail-shell">
-    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd([gameSchema, breadcrumbSchema]) }} />
+    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd(structuredData) }} />
     <div className="zg-wrap">
       <header className="zg-topbar">
         <Link href="/" aria-label="Zap Game início"><img className="zg-logo" src="/brand/zapgame-logo.svg" alt="Zap Game" /></Link>
@@ -209,8 +297,13 @@ export default async function GamePage({ params }: Props) {
           </div>
           <dl className="zg-game-facts">
             <div><dt>Indicado para</dt><dd>{game.editorial.audience}</dd></div>
-            {game.editorial.session && <div><dt>Sessão</dt><dd>{game.editorial.session}</dd></div>}
-            {game.editorial.controls && <div><dt>Controles</dt><dd>{game.editorial.controls}</dd></div>}
+            {objective && <div><dt>Objetivo</dt><dd>{objective}</dd></div>}
+            {playerModeLabel && game.editorial.playerMode && <div><dt>Modo de jogo</dt><dd>{playerModeLabel} — {editorialSourceLabel(game.editorial.playerMode.source)}</dd></div>}
+            {compatibility.length > 0 && <div><dt>Compatibilidade</dt><dd>{compatibility.map((item) => `${editorialDeviceLabel(item.device)} — ${editorialSourceLabel(item.source)}`).join(' · ')}</dd></div>}
+            {session && <div><dt>Sessão</dt><dd>{session}</dd></div>}
+            {controls && <div><dt>Controles</dt><dd>{controls}</dd></div>}
+            {difficulty && <div><dt>Dificuldade (curadoria)</dt><dd>{difficulty}</dd></div>}
+            {verifiedAt && <div><dt>Verificado pelo Zap Game</dt><dd>{displayEditorialDate(verifiedAt)}</dd></div>}
             {game.editorial.tags && <div><dt>Temas</dt><dd>{game.editorial.tags.join(' · ')}</dd></div>}
             <div><dt>Tipo de conteúdo</dt><dd>Comentário editorial baseado na descrição informada pelo parceiro</dd></div>
           </dl>
