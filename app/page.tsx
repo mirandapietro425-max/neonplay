@@ -151,6 +151,6 @@ export default function Page() {
 
     <section className="zg-promo" id="sobre"><div><p className="zg-kicker">MEMÓRIA INTERATIVA · DESDE O PRIMEIRO CLIQUE</p><h2>Tem jogo que<br />fica pra sempre.</h2><p>Um espaço para celebrar os jogos que fizeram parte da infância — e deixar a próxima geração descobrir por que eles nunca saem de moda.</p><button className="zg-primary-btn" onClick={() => { setCategory('arcade'); document.getElementById('catalogo')?.scrollIntoView({ behavior: 'smooth' }) }}>Revisitar os arcades <ArrowUpRight size={16} /></button></div><div className="zg-promo-visual" /></section>
 
-    <footer className="zg-footer"><img src="/brand/zapgame-logo.svg" alt="Zap Game" /><span>Um memorial vivo dos jogos que marcaram época. © Zap Game · <a href="/sobre">Sobre</a> · <a href="/privacidade">Privacidade</a></span></footer>
+    <footer className="zg-footer"><img src="/brand/zapgame-logo.svg" alt="Zap Game" /><span>Um memorial vivo dos jogos que marcaram época. © Zap Game · <a href="/sobre">Sobre</a> · <a href="/privacidade">Privacidade</a> · <a href="/termos">Termos</a> · <a href="/direitos-autorais">Direitos autorais</a></span></footer>
   </div></main>
 }

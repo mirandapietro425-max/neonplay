@@ -27,10 +27,12 @@ export default function PrivacyPage() {
           <p>A hospedagem e a entrega do site podem registrar dados técnicos, como endereço IP, navegador, dispositivo e páginas acessadas, para segurança, funcionamento e métricas agregadas. O Zap Game não solicita cadastro para navegar no catálogo.</p>
 
           <h2>4. Seus direitos</h2>
-          <p>Você pode limpar dados locais do navegador e gerenciar preferências de anúncios pelos controles oferecidos pelo Google e pelo próprio navegador. Para dúvidas ou solicitações sobre privacidade, entre em contato pelo canal disponibilizado no site.</p>
+          <p>Você pode limpar dados locais do navegador e gerenciar preferências de anúncios pelos controles oferecidos pelo Google e pelo próprio navegador. Para dúvidas sobre privacidade, use o canal de contato disponibilizado pelo administrador do site ou o canal de remoção descrito na <a href="/direitos-autorais">política de direitos autorais</a>.</p>
 
           <h2>5. Atualizações</h2>
           <p>Esta política pode ser atualizada quando novos recursos, parceiros ou requisitos legais forem incorporados ao serviço.</p>
+
+          <p><a href="/termos">Leia também os Termos de uso do Zap Game.</a></p>
         </article>
       </div>
     </main>

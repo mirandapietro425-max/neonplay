@@ -30,6 +30,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${siteOrigin}/`, changeFrequency: 'weekly', priority: 1 },
     { url: `${siteOrigin}/sobre`, changeFrequency: 'yearly', priority: 0.5 },
     { url: `${siteOrigin}/privacidade`, changeFrequency: 'yearly', priority: 0.3 },
+    { url: `${siteOrigin}/termos`, changeFrequency: 'yearly', priority: 0.3 },
+    { url: `${siteOrigin}/direitos-autorais`, changeFrequency: 'yearly', priority: 0.3 },
     ...categoryPages,
     ...staticGamePages,
     ...gamePixPages,
