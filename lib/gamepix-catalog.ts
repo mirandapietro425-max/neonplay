@@ -49,24 +49,60 @@ function gamePixLaunchUrl(game: Record<string, unknown>, id: string) {
   return gamePixUrl(game) || (id ? `https://games.gamepix.com/games/${encodeURIComponent(id)}/index.html` : '')
 }
 
-function gamePixCategory(game: Record<string, unknown>) {
-  const values = [game.category, game.genre, game.genres, game.categories, game.tags]
-    .flatMap((value) => Array.isArray(value) ? value : [value])
-    .filter((value): value is string => typeof value === 'string' && Boolean(value.trim()))
-    .map((value) => value.toLocaleLowerCase('pt-BR'))
-  const value = values.join(' ')
-  if (/action|acao|shooter|fighting/.test(value)) return 'acao'
-  if (/adventure|aventura|rpg/.test(value)) return 'aventura'
-  if (/racing|race|corrida|driving/.test(value)) return 'corrida'
-  if (/sport|esporte|football|soccer/.test(value)) return 'esporte'
-  if (/strategy|estrategia|tower defense/.test(value)) return 'estrategia'
-  if (/puzzle|quebra|match|mahjong|junior/.test(value)) return 'puzzle'
-  if (/platform|plataforma/.test(value)) return 'plataforma'
-  if (/arcade|io|clicker/.test(value)) return 'arcade'
-  if (/casual|hypercasual/.test(value)) return 'casual'
-  return 'gamepix'
+const GAMEPIX_CATEGORY_IDS: Record<string, string> = {
+  'a46f6ba4-0fe9-419e-945c-12d4ab0cf582': 'puzzle',
+  '5690a2a7-24a5-4ad5-80d0-289a7e53fd37': 'estrategia',
+  '1f9c4256-9f5c-4463-b072-c4d2f266719e': 'esporte',
+  'e6e804fa-d074-4418-9b1c-a8db99364e3a': 'arcade',
+  '13faf451-da07-432b-b7da-73bdbbe03a8b': 'aventura',
 }
 
+function normalizeGamePixCategory(value: string) {
+  return value
+    .normalize('NFKD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLocaleLowerCase('en-US')
+    .replace(/[_-]+/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+}
+
+function gamePixValues(value: unknown): string[] {
+  if (Array.isArray(value)) return value.flatMap(gamePixValues)
+  return typeof value === 'string' && value.trim() ? [value.trim()] : []
+}
+
+function categoryFromValue(value: string): string | null {
+  const normalized = normalizeGamePixCategory(value)
+  if (GAMEPIX_CATEGORY_IDS[normalized]) return GAMEPIX_CATEGORY_IDS[normalized]
+  if (/\b(?:puzzles?|quebra cabeca|logic|mahjong|match|jigsaw|sudoku|solitaire|word search|brain teaser|block puzzle)\b/.test(normalized)) return 'puzzle'
+  if (/\b(?:adventure|aventura|rpg)\b/.test(normalized)) return 'aventura'
+  if (/\b(?:racing|race|corrida|driving)\b/.test(normalized)) return 'corrida'
+  if (/\b(?:sports?|esporte|football|soccer|basketball|tennis)\b/.test(normalized)) return 'esporte'
+  if (/\b(?:strategy|estrategia|tower defense)\b/.test(normalized)) return 'estrategia'
+  if (/\b(?:action|acao|shooter|fighting)\b/.test(normalized)) return 'acao'
+  if (/\b(?:platform|platformer|plataforma)\b/.test(normalized)) return 'plataforma'
+  if (/\b(?:arcade|io|clicker)\b/.test(normalized)) return 'arcade'
+  if (/\b(?:casual|hypercasual|hyper casual)\b/.test(normalized)) return 'casual'
+  if (/\b(?:quiz|trivia|wordle)\b/.test(normalized)) return 'quiz'
+  return null
+}
+
+function gamePixCategory(game: Record<string, unknown>) {
+  const primaryValues = [...gamePixValues(game.category), ...gamePixValues(game.genre)]
+  for (const value of primaryValues) {
+    const category = categoryFromValue(value)
+    if (category) return category
+  }
+
+  const secondaryValues = [...gamePixValues(game.categories), ...gamePixValues(game.genres), ...gamePixValues(game.tags)]
+  for (const value of secondaryValues) {
+    const category = categoryFromValue(value)
+    if (category) return category
+  }
+
+  return 'gamepix'
+}
 function gamePixQuality(game: Record<string, unknown>) {
   const score = typeof game.rkScore === 'number' ? game.rkScore : typeof game.rks === 'number' ? game.rks : 0
   const featured = game.featured === true ? 1 : 0
@@ -90,7 +126,7 @@ export async function getGamePixGames(): Promise<GamePixCatalogGame[]> {
     if (!response.ok) return []
     const payload = await response.json() as { data?: Record<string, unknown>[]; games?: Record<string, unknown>[] } | Record<string, unknown>[]
     const records = Array.isArray(payload) ? payload : payload.data ?? payload.games ?? []
-    const ranked = records.flatMap((game) => {
+    const candidates = records.flatMap((game) => {
       const providerId = typeof game.id === 'string' ? game.id : typeof game.gid === 'string' ? game.gid : ''
       const title = (typeof game.title === 'string' ? game.title : typeof game.name === 'string' ? game.name : '').trim()
       const launchUrl = gamePixLaunchUrl(game, providerId)
@@ -112,7 +148,16 @@ export async function getGamePixGames(): Promise<GamePixCatalogGame[]> {
         editorial: gamePixEditorial[providerId],
         quality: gamePixQuality(game),
       }]
-    }).sort((a, b) => b.quality - a.quality).slice(0, GAMEPIX_CATALOG_LIMIT)
+    }).sort((a, b) => b.quality - a.quality)
+
+    const seenProviderIds = new Set<string>()
+    const seenSlugs = new Set<string>()
+    const ranked = candidates.filter((game) => {
+      if (seenProviderIds.has(game.providerId) || seenSlugs.has(game.slug)) return false
+      seenProviderIds.add(game.providerId)
+      seenSlugs.add(game.slug)
+      return true
+    }).slice(0, GAMEPIX_CATALOG_LIMIT)
 
     return ranked.map((game, index) => ({
       ...game,
