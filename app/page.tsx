@@ -41,7 +41,7 @@ function isGamePix(game: Game): game is GamePixGame {
 export default function Page() {
   const [search, setSearch] = useState('')
   const [category, setCategory] = useState('todos')
-  const [source, setSource] = useState<'todos' | 'internet-archive' | 'gamepix' | 'browser-games'>('todos')
+  const [source, setSource] = useState<'todos' | 'gamepix'>('todos')
   const [sort, setSort] = useState<'featured' | 'az'>('featured')
   const [visibleCount, setVisibleCount] = useState(90)
   const searchRef = useRef<HTMLInputElement>(null)
@@ -74,7 +74,6 @@ export default function Page() {
 
   const visibleGames = useMemo(() => filtered.slice(0, visibleCount), [filtered, visibleCount])
   const featuredGames = useMemo(() => filtered.filter(isGamePix).slice(0, 6), [filtered])
-  const quickPicks = useMemo(() => filtered.filter((game) => !isGamePix(game)).slice(0, 6), [filtered])
 
   const trackGameOpen = (game: Game, placement: string) => {
     trackGameEvent('game_open', {
@@ -88,7 +87,7 @@ export default function Page() {
   return <main className="zg-shell"><div className="zg-wrap">
     <header className="zg-topbar">
       <a href="#top" aria-label="Zap Game início"><img className="zg-logo" src="/brand/zapgame-logo.svg" alt="Zap Game" /></a>
-      <nav className="zg-nav" aria-label="Navegação principal"><a href="#catalogo">Jogos</a><a href="#categorias">Categorias</a><a href="#sobre">Sobre</a></nav>
+        <nav className="zg-nav" aria-label="Navegação principal"><a href="#catalogo">Jogos</a><a href="#categorias">Categorias</a><a href="/guias">Guias</a><a href="#sobre">Sobre</a></nav>
       <button className="zg-top-cta" onClick={() => searchRef.current?.focus()}><Search size={15} /> Buscar jogo</button>
     </header>
 
@@ -97,7 +96,7 @@ export default function Page() {
       <div className="zg-hero-copy">
         <div className="zg-eyebrow">Um arquivo vivo de nostalgia</div>
         <h1>Aperta o play.<br /><span>Volta no tempo.</span></h1>
-        <p>Um memorial vivo dos jogos que marcaram época. Reviva clássicos do navegador e descubra novas memórias.</p>
+        <p>Um catálogo curado de jogos de navegador. Encontre uma experiência para sua próxima pausa e descubra novas memórias online.</p>
         <button className="zg-primary-btn" onClick={() => document.getElementById('catalogo')?.scrollIntoView({ behavior: 'smooth' })}>Explorar o acervo <ArrowDown size={16} /></button>
       </div>
       <div className="zg-hero-aside"><i /> Clássicos guardados. Diversão viva.</div>
@@ -111,7 +110,6 @@ export default function Page() {
 
       <div className="zg-category-row" id="categorias">
         <button className={`zg-filter ${category === 'todos' && source === 'todos' ? 'active' : ''}`} onClick={() => { setCategory('todos'); setSource('todos') }}>Todos <span>{allGames.length}</span></button>
-        <button className={`zg-filter ${source === 'internet-archive' ? 'active' : ''}`} onClick={() => { setSource('internet-archive'); setCategory('todos') }}>Arquivo Flash <span>{allGames.filter((game) => game.source === 'internet-archive').length}</span></button>
         <button className={`zg-filter ${source === 'gamepix' ? 'active' : ''}`} onClick={() => { setSource('gamepix'); setCategory('todos') }}>GamePix <span>{allGames.filter((game) => game.source === 'gamepix').length}</span></button>
         {categories.map((item) => <button key={item.id} className={`zg-filter ${category === item.id && source === 'todos' ? 'active' : ''}`} onClick={() => setCategory(item.id)}>{names[item.id] ?? item.id} <span>{item.count}</span></button>)}
       </div>
@@ -129,8 +127,8 @@ export default function Page() {
       </div>}
 
       {!search && category === 'todos' && source === 'todos' && <div className="zg-discovery zg-discovery-secondary">
-        <div className="zg-discovery-head"><div><p className="zg-kicker">Interesse de busca e editorial</p><h3>Clássicos em destaque</h3></div><span>Autocomplete + editorial</span></div>
-        <div className="zg-mini-grid">{quickPicks.map((game) => <a className="zg-mini-card" key={`quick-${game.id}`} href={`/jogos/${game.slug}`} onClick={() => trackGameOpen(game, 'editorial')}><img src={imageFor(game)} alt={`Capa de ${game.title}`} loading="lazy" onError={(event) => { event.currentTarget.onerror = null; event.currentTarget.src = categoryArt(game.category) }} /><span>{game.title}</span></a>)}</div>
+        <div className="zg-discovery-head"><div><p className="zg-kicker">Escolha melhor</p><h3>Guias para encontrar seu próximo jogo</h3></div><a href="/guias">Ver todos os guias ↗</a></div>
+        <div className="zg-mini-grid"><a className="zg-mini-card" href="/guias/jogos-para-partidas-curtas"><span>Jogos para partidas curtas</span><small>Para pausas rápidas</small></a><a className="zg-mini-card" href="/guias/jogos-para-jogar-com-amigos"><span>Jogos para jogar com amigos</span><small>Competição e cooperação</small></a><a className="zg-mini-card" href="/guias/como-escolher-jogos-de-navegador"><span>Como escolher um jogo</span><small>Critérios da curadoria</small></a></div>
       </div>}
 
       <div className="zg-catalog-toolbar">

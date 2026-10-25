@@ -4,7 +4,7 @@ import { GoogleAnalytics } from '@/components/google-analytics'
 import './globals.css'
 
 const siteOrigin = 'https://www.zapgame.com.br'
-const siteDescription = 'Reviva jogos clássicos de navegador no Zap Game. Explore arcade, ação, aventura e puzzles em um arquivo vivo de jogos Flash e memórias da web.'
+const siteDescription = 'Encontre jogos de navegador no Zap Game. Explore arcade, ação, aventura, esporte e puzzles em um catálogo curado com guias editoriais e fontes identificadas.'
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteOrigin),
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     description: siteDescription,
     images: [{
       url: '/brand/zapgame-og.webp',
-      alt: 'Zap Game: um acervo vivo de jogos clássicos do navegador',
+      alt: 'Zap Game: catálogo curado de jogos de navegador e guias editoriais',
     }],
   },
   twitter: {
