@@ -3,6 +3,7 @@
     { "path": "/", "title": "Zap Game — catálogo de jogos clássicos" },
     { "path": "/sobre", "title": "Sobre o Zap Game" },
     { "path": "/privacidade", "title": "Política de privacidade" },
+    { "path": "/contato", "title": "Contato" },
     { "path": "/termos", "title": "Termos de uso" },
     { "path": "/direitos-autorais", "title": "Direitos autorais e remoção de conteúdo" },
     { "path": "/jogos/:slug", "title": "Ficha individual de jogo" },

@@ -65,6 +65,9 @@ export default function AboutPage() {
           <h2>Publicidade e privacidade</h2>
           <p>O site pode exibir publicidade. Para saber como o site trata dados técnicos, cookies e preferências de anúncios, consulte a <a href="/privacidade">Política de privacidade</a>. Os serviços externos acessados a partir das fichas podem ter regras próprias.</p>
 
+          <h2>Contato</h2>
+          <p>Para correções, dúvidas ou solicitações sobre direitos autorais, use a <a href="/contato">página de Contato</a>.</p>
+
           <h2>Políticas do site</h2>
           <p>Leia os <a href="/termos">Termos de uso</a> e a <a href="/direitos-autorais">política de direitos autorais e remoção de conteúdo</a> para entender os limites do catálogo.</p>
 
