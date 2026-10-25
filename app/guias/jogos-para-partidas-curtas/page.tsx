@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 
 export default async function ShortSessionsGuide() {
   const games = await getGamePixGames()
-  const recommendations = ['gamepix-basketball-stars-35lbe', 'gamepix-bomber-friends-40344', 'gamepix-alpha-guns-40450'].map((slug) => { const game = games.find((item) => item.slug === slug); return { title: game?.title ?? slug, href: `/jogos/${slug}`, reason: game?.editorial?.summary ?? 'Uma opção editorial para uma sessão direta.', imageUrl: game?.imageUrl } })
+  const recommendations = ['gamepix-basketball-stars-35lbe', 'gamepix-bomber-friends-40344', 'gamepix-alpha-guns-40450'].map((slug) => { const game = games.find((item) => item.slug === slug); return { title: game?.title ?? slug, href: `/jogos/${slug}`, reason: game?.editorial?.description ?? 'Uma opção editorial para uma sessão direta.', imageUrl: game?.imageUrl } })
   return <main className="zg-shell"><div className="zg-wrap" style={{ maxWidth: 860, paddingBlock: '3rem' }}>
     <Link href="/guias">← Voltar aos guias</Link>
     <section className="zg-guide-article-hero" style={{ backgroundImage: "url('/brand/guide-quick-sessions.webp')" }}><div><p className="zg-eyebrow">GUIA DE RITMO</p><h1>Jogos para partidas curtas</h1><p>Escolhas para pausas rápidas, rodadas diretas e momentos em que você quer jogar sem compromisso longo.</p></div></section>

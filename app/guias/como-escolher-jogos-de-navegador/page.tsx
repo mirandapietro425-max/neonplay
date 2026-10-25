@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 
 export default async function ChoosingGuide() {
   const games = await getGamePixGames()
-  const recommendations = ['gamepix-basketball-stars-35lbe', 'gamepix-amaze-escape-am511', 'gamepix-babel-tower-45tbr'].map((slug) => { const game = games.find((item) => item.slug === slug); return { title: game?.title ?? slug, href: `/jogos/${slug}`, reason: game?.editorial?.summary ?? 'Uma opção para comparar por proposta e categoria.', imageUrl: game?.imageUrl } })
+  const recommendations = ['gamepix-basketball-stars-35lbe', 'gamepix-amaze-escape-am511', 'gamepix-babel-tower-45tbr'].map((slug) => { const game = games.find((item) => item.slug === slug); return { title: game?.title ?? slug, href: `/jogos/${slug}`, reason: game?.editorial?.description ?? 'Uma opção para comparar por proposta e categoria.', imageUrl: game?.imageUrl } })
   return <main className="zg-shell"><div className="zg-wrap" style={{ maxWidth: 860, paddingBlock: '3rem' }}>
     <Link href="/guias">← Voltar aos guias</Link>
     <section className="zg-guide-article-hero" style={{ backgroundImage: "url('/brand/guide-how-to-choose.webp')" }}><div><p className="zg-eyebrow">GUIA DE MÉTODO</p><h1>Como escolher um jogo de navegador</h1><p>Critérios práticos para comparar proposta, categoria, origem e compatibilidade.</p></div></section>

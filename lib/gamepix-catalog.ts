@@ -73,8 +73,9 @@ function gamePixValues(value: unknown): string[] {
 }
 
 function categoryFromValue(value: string): string | null {
+  const raw = value.trim().toLocaleLowerCase('en-US')
+  if (GAMEPIX_CATEGORY_IDS[raw]) return GAMEPIX_CATEGORY_IDS[raw]
   const normalized = normalizeGamePixCategory(value)
-  if (GAMEPIX_CATEGORY_IDS[normalized]) return GAMEPIX_CATEGORY_IDS[normalized]
   if (/\b(?:puzzles?|quebra cabeca|logic|mahjong|match|jigsaw|sudoku|solitaire|word search|brain teaser|block puzzle)\b/.test(normalized)) return 'puzzle'
   if (/\b(?:adventure|aventura|rpg)\b/.test(normalized)) return 'aventura'
   if (/\b(?:racing|race|corrida|driving)\b/.test(normalized)) return 'corrida'

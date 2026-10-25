@@ -96,8 +96,9 @@ export default async function GamePage({ params }: Props) {
   const gamePixGames = await getGamePixGames()
   const sourceName = game.source === 'internet-archive' ? 'Internet Archive' : game.source === 'gamepix' ? 'GamePix' : 'GitHub Pages'
   const playLabel = game.source === 'internet-archive' ? 'Abrir versão arquivada' : game.source === 'gamepix' ? 'Jogar no GamePix' : 'Abrir jogo no navegador'
+  const hasDistinctSource = game.sourceUrl !== game.launchUrl
   const summaryAttribution = 'editorial' in game && game.editorial
-    ? 'Curadoria original do Zap Game'
+    ? 'Texto editorial do Zap Game, baseado na proposta informada pelo parceiro'
     : game.source === 'internet-archive'
     ? game.summaryOrigin === 'internet-archive-translation'
       ? 'Descrição traduzida do registro do Internet Archive'
@@ -136,7 +137,7 @@ export default async function GamePage({ params }: Props) {
     gamePlatform: 'Navegador web',
     applicationCategory: 'GameApplication',
     inLanguage: 'pt-BR',
-    sameAs: game.sourceUrl,
+    ...(hasDistinctSource ? { sameAs: game.sourceUrl } : {}),
   }
   const safeJsonLd = (value: unknown) => JSON.stringify(value).replace(/</g, '\\u003c')
 
@@ -158,7 +159,7 @@ export default async function GamePage({ params }: Props) {
 
         <section className="zg-detail-hero">
           <div className="zg-detail-copy">
-            <div className="zg-detail-badges"><span>CURADORIA ZAP GAME</span><span>{category}</span><span>FONTE {sourceName.toUpperCase()}</span></div>
+            <div className="zg-detail-badges"><span>{'editorial' in game && game.editorial ? 'TEXTO EDITORIAL ZAP GAME' : 'FICHA DO CATÁLOGO'}</span><span>{category}</span><span>FONTE {sourceName.toUpperCase()}</span></div>
             <p className="zg-kicker">Memorial de jogos · {category}</p>
             <h1>{game.title}</h1>
             <p className="zg-detail-summary">{description}</p>
@@ -166,7 +167,7 @@ export default async function GamePage({ params }: Props) {
             <div className="zg-detail-tags">{categoryHref ? <Link href={categoryHref}>{category}</Link> : <span>{category}</span>}<span>Fonte: {sourceName}</span></div>
             <div className="zg-detail-actions">
               <TrackedPlayLink className="zg-primary-btn zg-detail-primary" href={game.launchUrl} target="_blank" rel="noopener noreferrer" gameSlug={game.slug} gameSource={game.source} gameTitle={game.title}>{playLabel}<span aria-hidden="true">↗</span></TrackedPlayLink>
-              <a className="zg-secondary-btn" href={game.sourceUrl} target="_blank" rel="noopener noreferrer">Ver registro original</a>
+              {hasDistinctSource ? <a className="zg-secondary-btn" href={game.sourceUrl} target="_blank" rel="noopener noreferrer">Ver registro da fonte</a> : <span className="zg-secondary-btn" aria-label={`Fonte: ${sourceName}`}>Fonte: {sourceName}</span>}
             </div>
           </div>
           <figure className="zg-detail-cover"><img src={image} alt={`Capa de ${game.title}`} /><figcaption>Imagem de referência de {game.title}</figcaption></figure>
@@ -203,7 +204,7 @@ export default async function GamePage({ params }: Props) {
             {game.editorial.session && <div><dt>Sessão</dt><dd>{game.editorial.session}</dd></div>}
             {game.editorial.controls && <div><dt>Controles</dt><dd>{game.editorial.controls}</dd></div>}
             {game.editorial.tags && <div><dt>Temas</dt><dd>{game.editorial.tags.join(' · ')}</dd></div>}
-            <div><dt>Tipo de conteúdo</dt><dd>Análise editorial independente da descrição do parceiro</dd></div>
+            <div><dt>Tipo de conteúdo</dt><dd>Comentário editorial baseado na descrição informada pelo parceiro</dd></div>
           </dl>
         </section>}
 

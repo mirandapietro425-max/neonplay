@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 
 export default async function FriendsGuide() {
   const games = await getGamePixGames()
-  const recommendations = ['gamepix-basketball-stars-35lbe', 'gamepix-among-at-easter-ng7tt', 'gamepix-bomber-friends-40344'].map((slug) => { const game = games.find((item) => item.slug === slug); return { title: game?.title ?? slug, href: `/jogos/${slug}`, reason: game?.editorial?.summary ?? 'Uma opção para investigar com amigos.', imageUrl: game?.imageUrl } })
+  const recommendations = ['gamepix-basketball-stars-35lbe', 'gamepix-among-at-easter-ng7tt', 'gamepix-bomber-friends-40344'].map((slug) => { const game = games.find((item) => item.slug === slug); return { title: game?.title ?? slug, href: `/jogos/${slug}`, reason: game?.editorial?.description ?? 'Uma opção para investigar com amigos.', imageUrl: game?.imageUrl } })
   return <main className="zg-shell"><div className="zg-wrap" style={{ maxWidth: 860, paddingBlock: '3rem' }}>
     <Link href="/guias">← Voltar aos guias</Link>
     <section className="zg-guide-article-hero" style={{ backgroundImage: "url('/brand/guide-friends.webp')" }}><div><p className="zg-eyebrow">GUIA SOCIAL</p><h1>Jogos para jogar com amigos</h1><p>Como encontrar experiências de competição ou cooperação para compartilhar uma partida.</p></div></section>
