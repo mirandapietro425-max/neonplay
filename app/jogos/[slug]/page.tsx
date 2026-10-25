@@ -10,6 +10,7 @@ import {
 } from '@/lib/game-catalog'
 import { getGamePixGames, getGamePixGameBySlug, type GamePixCatalogGame } from '@/lib/gamepix-catalog'
 import { hasDistinctiveGameSummary } from '@/lib/game-seo'
+import { TrackedPlayLink } from '@/components/tracked-play-link'
 
 const siteOrigin = 'https://www.zapgame.com.br'
 type Props = { params: Promise<{ slug: string }> }
@@ -151,7 +152,7 @@ export default async function GamePage({ params }: Props) {
             <p className="zg-kicker">{summaryAttribution}</p>
             <div className="zg-detail-tags">{categoryHref ? <Link href={categoryHref}>{category}</Link> : <span>{category}</span>}<span>Fonte: {sourceName}</span></div>
             <div className="zg-detail-actions">
-              <a className="zg-primary-btn zg-detail-primary" href={game.launchUrl} target="_blank" rel="noopener noreferrer">{playLabel}<span aria-hidden="true">↗</span></a>
+              <TrackedPlayLink className="zg-primary-btn zg-detail-primary" href={game.launchUrl} target="_blank" rel="noopener noreferrer" gameSlug={game.slug} gameSource={game.source} gameTitle={game.title}>{playLabel}<span aria-hidden="true">↗</span></TrackedPlayLink>
               <a className="zg-secondary-btn" href={game.sourceUrl} target="_blank" rel="noopener noreferrer">Ver registro original</a>
             </div>
           </div>

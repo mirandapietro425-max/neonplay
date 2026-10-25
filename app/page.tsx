@@ -3,6 +3,7 @@
 import useSWR from 'swr'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { ArrowDown, ArrowUpRight, Search } from 'lucide-react'
+import { track } from '@vercel/analytics'
 import {
   catalogGames,
   categoryLabels,
@@ -75,6 +76,15 @@ export default function Page() {
   const featuredGames = useMemo(() => filtered.filter(isGamePix).slice(0, 6), [filtered])
   const quickPicks = useMemo(() => filtered.filter((game) => !isGamePix(game)).slice(0, 6), [filtered])
 
+  const trackGameOpen = (game: Game, placement: string) => {
+    track('game_open', {
+      game_slug: game.slug,
+      game_source: game.source,
+      game_title: game.title,
+      placement,
+    })
+  }
+
   return <main className="zg-shell"><div className="zg-wrap">
     <header className="zg-topbar">
       <a href="#top" aria-label="Zap Game início"><img className="zg-logo" src="/brand/zapgame-logo.svg" alt="Zap Game" /></a>
@@ -115,12 +125,12 @@ export default function Page() {
 
       {!search && category === 'todos' && source === 'todos' && featuredGames.length > 0 && <div className="zg-discovery">
         <div className="zg-discovery-head"><div><p className="zg-kicker">Descobertas da semana</p><h3>Em alta agora</h3></div><span>Seleção GamePix</span></div>
-        <div className="zg-mini-grid">{featuredGames.map((game) => <a className="zg-mini-card" key={`featured-${game.id}`} href={`/jogos/${game.slug}`}><img src={imageFor(game)} alt={`Capa de ${game.title}`} loading="lazy" onError={(event) => { event.currentTarget.onerror = null; event.currentTarget.src = categoryArt(game.category) }} /><span>{game.title}</span></a>)}</div>
+        <div className="zg-mini-grid">{featuredGames.map((game) => <a className="zg-mini-card" key={`featured-${game.id}`} href={`/jogos/${game.slug}`} onClick={() => trackGameOpen(game, 'featured')}><img src={imageFor(game)} alt={`Capa de ${game.title}`} loading="lazy" onError={(event) => { event.currentTarget.onerror = null; event.currentTarget.src = categoryArt(game.category) }} /><span>{game.title}</span></a>)}</div>
       </div>}
 
       {!search && category === 'todos' && source === 'todos' && <div className="zg-discovery zg-discovery-secondary">
         <div className="zg-discovery-head"><div><p className="zg-kicker">Interesse de busca e editorial</p><h3>Clássicos em destaque</h3></div><span>Autocomplete + editorial</span></div>
-        <div className="zg-mini-grid">{quickPicks.map((game) => <a className="zg-mini-card" key={`quick-${game.id}`} href={`/jogos/${game.slug}`}><img src={imageFor(game)} alt={`Capa de ${game.title}`} loading="lazy" onError={(event) => { event.currentTarget.onerror = null; event.currentTarget.src = categoryArt(game.category) }} /><span>{game.title}</span></a>)}</div>
+        <div className="zg-mini-grid">{quickPicks.map((game) => <a className="zg-mini-card" key={`quick-${game.id}`} href={`/jogos/${game.slug}`} onClick={() => trackGameOpen(game, 'editorial')}><img src={imageFor(game)} alt={`Capa de ${game.title}`} loading="lazy" onError={(event) => { event.currentTarget.onerror = null; event.currentTarget.src = categoryArt(game.category) }} /><span>{game.title}</span></a>)}</div>
       </div>}
 
       <div className="zg-catalog-toolbar">
@@ -129,7 +139,7 @@ export default function Page() {
       </div>
 
       {filtered.length ? <>
-        <div className="zg-game-grid">{visibleGames.map((game) => <a className="zg-game-card" key={game.id} href={`/jogos/${game.slug}`} aria-label={`Ver ficha de ${game.title}`}>
+        <div className="zg-game-grid">{visibleGames.map((game) => <a className="zg-game-card" key={game.id} href={`/jogos/${game.slug}`} aria-label={`Ver ficha de ${game.title}`} onClick={() => trackGameOpen(game, 'catalog')}>
           {game.source === 'browser-games' && <b className="zg-browser-tag">Jogue agora</b>}
           {game.source === 'gamepix' && <b className="zg-gamepix-tag">GamePix</b>}
           <div className="zg-game-thumb"><img src={imageFor(game)} alt={`Capa de ${game.title}`} loading="lazy" onError={(event) => { event.currentTarget.onerror = null; event.currentTarget.src = categoryArt(game.category) }} /><span className="zg-play-mark"><ArrowUpRight size={14} /></span></div>
