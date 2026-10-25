@@ -3,7 +3,7 @@
 import useSWR from 'swr'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { ArrowDown, ArrowUpRight, Search } from 'lucide-react'
-import { track } from '@vercel/analytics'
+import { trackGameEvent } from '@/components/analytics-events'
 import {
   catalogGames,
   categoryLabels,
@@ -77,7 +77,7 @@ export default function Page() {
   const quickPicks = useMemo(() => filtered.filter((game) => !isGamePix(game)).slice(0, 6), [filtered])
 
   const trackGameOpen = (game: Game, placement: string) => {
-    track('game_open', {
+    trackGameEvent('game_open', {
       game_slug: game.slug,
       game_source: game.source,
       game_title: game.title,

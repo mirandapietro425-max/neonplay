@@ -1,5 +1,6 @@
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
+import { GoogleAnalytics } from '@/components/google-analytics'
 import './globals.css'
 
 const siteOrigin = 'https://www.zapgame.com.br'
@@ -101,6 +102,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
         />
+        <GoogleAnalytics />
         {children}
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
