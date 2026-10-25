@@ -72,7 +72,7 @@ export default function AboutPage() {
           <p>Leia os <a href="/termos">Termos de uso</a> e a <a href="/direitos-autorais">política de direitos autorais e remoção de conteúdo</a> para entender os limites do catálogo.</p>
 
           <h2>Explore o catálogo</h2>
-          <p>Use a <a href="/#catalogo">página inicial</a> para buscar títulos ou navegue pelas <a href="/#categorias">categorias de jogos</a>. Cada ficha contém um link para a fonte ou para a versão disponível no serviço indicado.</p>
+          <p>Use a <a href="/#catalogo">página inicial</a> para buscar títulos ou navegue pelas <a href="/#categorias">categorias de jogos</a>. Também consulte os <a href="/guias">guias de curadoria</a> para escolher uma experiência. Cada ficha contém um link para a fonte ou para a versão disponível no serviço indicado.</p>
         </article>
       </div>
     </main>
