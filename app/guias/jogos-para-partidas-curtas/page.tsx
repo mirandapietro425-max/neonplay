@@ -10,9 +10,9 @@ export const metadata: Metadata = {
 export default function ShortSessionsGuide() {
   return <main className="zg-shell"><div className="zg-wrap" style={{ maxWidth: 860, paddingBlock: '3rem' }}>
     <Link href="/guias">← Voltar aos guias</Link>
-    <article style={{ marginTop: '2rem', lineHeight: 1.8 }}>
+    <section className="zg-guide-article-hero" style={{ backgroundImage: "url('/brand/guide-quick-sessions.webp')" }}><div><p className="zg-eyebrow">GUIA DE RITMO</p><h1>Jogos para partidas curtas</h1><p>Escolhas para pausas rápidas, rodadas diretas e momentos em que você quer jogar sem compromisso longo.</p></div></section>
+    <article className="zg-guide-article" style={{ lineHeight: 1.8 }}>
       <p className="zg-kicker">GUIA DE CURADORIA</p>
-      <h1>Jogos para partidas curtas</h1>
       <p>Nem todo momento de jogo precisa de uma campanha longa. Para uma pausa rápida, a melhor escolha costuma ser uma experiência com objetivo fácil de entender, início rápido e progresso que não dependa de muitas horas seguidas.</p>
       <h2>O que observar</h2>
       <p>Procure categorias como arcade, esporte, ação e puzzle. Elas normalmente apresentam uma proposta mais direta, mas a categoria sozinha não garante a duração da partida. Por isso, o Zap Game também observa se a descrição indica rodadas, arenas, desafios individuais ou fases curtas.</p>

@@ -28,9 +28,9 @@ export default function ComparisonPage() {
 
   return <main className="zg-shell"><script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema).replace(/</g, '\\u003c') }} /><div className="zg-wrap" style={{ maxWidth: 1180, paddingBlock: '3rem' }}>
     <nav aria-label="Navegação estrutural"><Link href="/">Início</Link><span aria-hidden="true"> / </span><Link href="/guias">Guias</Link><span aria-hidden="true"> / </span><span>Comparativo</span></nav>
-    <article style={{ marginTop: '2rem', lineHeight: 1.75 }}>
+    <section className="zg-guide-article-hero" style={{ backgroundImage: "url('/brand/guide-comparison.webp')" }}><div><p className="zg-eyebrow">RECURSO DE REFERÊNCIA</p><h1>Comparativo de jogos de navegador</h1><p>Uma tabela editorial para comparar propostas, sessões, multiplayer e origem.</p></div></section>
+    <article className="zg-guide-article" style={{ lineHeight: 1.75 }}>
       <p className="zg-kicker">RECURSO EDITORIAL ZAP GAME</p>
-      <h1>Comparativo de jogos de navegador</h1>
       <p style={{ maxWidth: 800, fontSize: '1.1rem' }}>Compare jogos de navegador por proposta, categoria, tipo de sessão, multiplayer e origem. Este recurso organiza 12 títulos com curadoria editorial própria e separa informações do parceiro de classificações feitas pelo Zap Game.</p>
       <p><strong>Última revisão:</strong> {lastReviewed}. A disponibilidade e os recursos podem mudar conforme a versão oferecida pelo GamePix.</p>
 

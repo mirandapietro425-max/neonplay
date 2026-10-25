@@ -10,9 +10,9 @@ export const metadata: Metadata = {
 export default function ChoosingGuide() {
   return <main className="zg-shell"><div className="zg-wrap" style={{ maxWidth: 860, paddingBlock: '3rem' }}>
     <Link href="/guias">← Voltar aos guias</Link>
-    <article style={{ marginTop: '2rem', lineHeight: 1.8 }}>
+    <section className="zg-guide-article-hero" style={{ backgroundImage: "url('/brand/guide-how-to-choose.webp')" }}><div><p className="zg-eyebrow">GUIA DE MÉTODO</p><h1>Como escolher um jogo de navegador</h1><p>Critérios práticos para comparar proposta, categoria, origem e compatibilidade.</p></div></section>
+    <article className="zg-guide-article" style={{ lineHeight: 1.8 }}>
       <p className="zg-kicker">GUIA DE CURADORIA</p>
-      <h1>Como escolher um jogo de navegador</h1>
       <p>Escolher um jogo fica mais fácil quando o visitante sabe o que quer fazer. Em vez de olhar apenas para uma capa, comece pela intenção: passar alguns minutos, competir, resolver um problema, administrar recursos ou acompanhar uma aventura.</p>
       <h2>1. Comece pela categoria</h2>
       <p>Arcade e casual costumam ser boas portas de entrada para sessões diretas. Esporte e ação atendem quem quer disputa e ritmo. Estratégia e aventura podem oferecer mais decisões ou progressão. Puzzle é uma escolha natural para quem prefere resolver desafios.</p>
