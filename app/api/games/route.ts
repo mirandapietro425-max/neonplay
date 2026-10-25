@@ -28,6 +28,6 @@ export async function GET(request: Request) {
 
   return NextResponse.json(
     { games, total: games.length, sources: ['GamePix'] },
-    { headers: { 'Cache-Control': 'public, s-maxage=600, stale-while-revalidate=3600' } },
+    { headers: { 'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=86400' } },
   )
 }

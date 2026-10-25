@@ -18,7 +18,7 @@ type Props = { params: Promise<{ slug: string }> }
 type DetailGame = CatalogGame | GamePixCatalogGame
 
 export const dynamicParams = true
-export const revalidate = 600
+export const revalidate = 3600
 
 function gameImage(game: DetailGame) {
   return 'imagePath' in game ? game.imagePath : game.imageUrl
@@ -100,7 +100,7 @@ export default async function GamePage({ params }: Props) {
   const image = gameImage(game)
   const description = gameSummary(game)
   const canonical = `${siteOrigin}/jogos/${game.slug}`
-  const gamePixGames = await getGamePixGames()
+  const gamePixGames = game.source === 'gamepix' ? await getGamePixGames() : []
   const sourceName = game.source === 'internet-archive' ? 'Internet Archive' : game.source === 'gamepix' ? 'GamePix' : 'GitHub Pages'
   const playHint = game.source === 'internet-archive' ? 'A versão arquivada abre em uma nova aba.' : game.source === 'gamepix' ? 'A versão disponível pelo GamePix abre em uma nova aba.' : 'A versão do navegador abre em uma nova aba.'
   const hasDistinctSource = game.sourceUrl !== game.launchUrl
@@ -178,7 +178,7 @@ export default async function GamePage({ params }: Props) {
             </div>
             <p className="zg-play-reassurance"><span aria-hidden="true">↗</span>{playHint}</p>
           </div>
-          <figure className="zg-detail-cover"><img src={image} alt={`Capa de ${game.title}`} /><figcaption>Imagem de referência de {game.title}</figcaption></figure>
+          <figure className="zg-detail-cover"><img src={image} alt={`Capa de ${game.title}`} width="640" height="432" fetchPriority="high" decoding="async" /><figcaption>Imagem de referência de {game.title}</figcaption></figure>
         </section>
 
         <section className="zg-detail-information">

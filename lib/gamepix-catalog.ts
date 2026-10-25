@@ -1,3 +1,4 @@
+import { cache } from 'react'
 import { gamePixEditorial, type GamePixEditorial } from '@/lib/gamepix-editorial'
 
 const GAMEPIX_CATALOG_LIMIT = 300
@@ -116,13 +117,13 @@ function plainText(value: unknown) {
   return value.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 1000)
 }
 
-export async function getGamePixGames(): Promise<GamePixCatalogGame[]> {
+export const getGamePixGames = cache(async function getGamePixGames(): Promise<GamePixCatalogGame[]> {
   const sid = process.env.GAMEPIX_API_KEY
   if (!sid) return []
 
   try {
-    const response = await fetch(`https://games.gamepix.com/games?sid=${encodeURIComponent(sid)}&limit=1000&offset=0`, {
-      next: { revalidate: 600 },
+    const response = await fetch(`https://games.gamepix.com/games?sid=${encodeURIComponent(sid)}&limit=${GAMEPIX_CATALOG_LIMIT}&offset=0`, {
+      next: { revalidate: 3600 },
     })
     if (!response.ok) return []
     const payload = await response.json() as { data?: Record<string, unknown>[]; games?: Record<string, unknown>[] } | Record<string, unknown>[]
@@ -168,8 +169,8 @@ export async function getGamePixGames(): Promise<GamePixCatalogGame[]> {
   } catch {
     return []
   }
-}
+})
 
-export async function getGamePixGameBySlug(slug: string) {
+export const getGamePixGameBySlug = cache(async function getGamePixGameBySlug(slug: string) {
   return (await getGamePixGames()).find((game) => game.slug === slug) ?? null
-}
+})
