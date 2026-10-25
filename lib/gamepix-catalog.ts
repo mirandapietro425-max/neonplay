@@ -1,5 +1,7 @@
 import { gamePixEditorial, type GamePixEditorial } from '@/lib/gamepix-editorial'
 
+const GAMEPIX_CATALOG_LIMIT = 300
+
 export type GamePixCatalogGame = {
   id: string
   providerId: string
@@ -110,7 +112,7 @@ export async function getGamePixGames(): Promise<GamePixCatalogGame[]> {
         editorial: gamePixEditorial[providerId],
         quality: gamePixQuality(game),
       }]
-    }).sort((a, b) => b.quality - a.quality).slice(0, 120)
+    }).sort((a, b) => b.quality - a.quality).slice(0, GAMEPIX_CATALOG_LIMIT)
 
     return ranked.map((game, index) => ({
       ...game,
