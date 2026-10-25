@@ -1,5 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import { getGamePixGames } from '@/lib/gamepix-catalog'
+import { GuideRecommendationGrid } from '@/components/guide-recommendations'
 
 export const metadata: Metadata = {
   title: 'Como escolher um jogo de navegador | Zap Game',
@@ -7,13 +9,16 @@ export const metadata: Metadata = {
   alternates: { canonical: '/guias/como-escolher-jogos-de-navegador' },
 }
 
-export default function ChoosingGuide() {
+export default async function ChoosingGuide() {
+  const games = await getGamePixGames()
+  const recommendations = ['gamepix-basketball-stars-35lbe', 'gamepix-amaze-escape-am511', 'gamepix-babel-tower-45tbr'].map((slug) => { const game = games.find((item) => item.slug === slug); return { title: game?.title ?? slug, href: `/jogos/${slug}`, reason: game?.editorial?.summary ?? 'Uma opção para comparar por proposta e categoria.', imageUrl: game?.imageUrl } })
   return <main className="zg-shell"><div className="zg-wrap" style={{ maxWidth: 860, paddingBlock: '3rem' }}>
     <Link href="/guias">← Voltar aos guias</Link>
     <section className="zg-guide-article-hero" style={{ backgroundImage: "url('/brand/guide-how-to-choose.webp')" }}><div><p className="zg-eyebrow">GUIA DE MÉTODO</p><h1>Como escolher um jogo de navegador</h1><p>Critérios práticos para comparar proposta, categoria, origem e compatibilidade.</p></div></section>
     <article className="zg-guide-article" style={{ lineHeight: 1.8 }}>
       <p className="zg-kicker">GUIA DE CURADORIA</p>
       <p>Escolher um jogo fica mais fácil quando o visitante sabe o que quer fazer. Em vez de olhar apenas para uma capa, comece pela intenção: passar alguns minutos, competir, resolver um problema, administrar recursos ou acompanhar uma aventura.</p>
+      <GuideRecommendationGrid guide="como-escolher-jogos-de-navegador" items={recommendations} />
       <h2>1. Comece pela categoria</h2>
       <p>Arcade e casual costumam ser boas portas de entrada para sessões diretas. Esporte e ação atendem quem quer disputa e ritmo. Estratégia e aventura podem oferecer mais decisões ou progressão. Puzzle é uma escolha natural para quem prefere resolver desafios.</p>
       <h2>2. Leia a proposta</h2>

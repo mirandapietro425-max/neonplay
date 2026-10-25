@@ -2,6 +2,8 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { intentGuideBySlug, intentGuides } from '@/lib/intent-guides'
+import { getGamePixGames } from '@/lib/gamepix-catalog'
+import { GuideRecommendationGrid } from '@/components/guide-recommendations'
 
 type Props = { params: Promise<{ slug: string }> }
 
@@ -29,6 +31,11 @@ export default async function IntentGuidePage({ params }: Props) {
     'jogos-de-esporte-no-navegador': { label: 'GUIA DE ESPORTES', image: '/brand/guide-sports.webp' },
   }
   const art = guideArt[guide.slug]
+  const gamePixGames = await getGamePixGames()
+  const recommendations = guide.games.map((item) => {
+    const game = gamePixGames.find((candidate) => candidate.slug === item.href.split('/').pop())
+    return { ...item, imageUrl: game?.imageUrl, label: game?.editorial ? 'CURADORIA PRÓPRIA' : 'INDICAÇÃO DO CATÁLOGO' }
+  })
   const canonical = `https://www.zapgame.com.br/guias/tema/${guide.slug}`
   const schema = [
     { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
@@ -45,6 +52,7 @@ export default async function IntentGuidePage({ params }: Props) {
     <article className="zg-guide-article" style={{ lineHeight: 1.8 }}>
       <p className="zg-kicker">{guide.kicker}</p>
       <p style={{ fontSize: '1.12rem', maxWidth: 760 }}>{guide.intro}</p>
+      <GuideRecommendationGrid guide={guide.slug} items={recommendations} />
       {guide.sections.map((section) => <section key={section.heading}><h2>{section.heading}</h2>{section.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</section>)}
       <h2>Jogos relacionados no Zap Game</h2>
       <div className="zg-related-grid">{guide.games.map((game) => <Link className="zg-related-card" key={game.href} href={game.href}><span>{game.title}</span><small>{game.reason}</small></Link>)}</div>
