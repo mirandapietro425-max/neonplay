@@ -10,6 +10,7 @@ import {
   compareCatalogPopularity,
   type CatalogGame,
 } from '@/lib/game-catalog'
+import { gamePixEditorial } from '@/lib/gamepix-editorial'
 
 type GamePixGame = {
   id: string
@@ -55,6 +56,7 @@ export default function Page() {
   const categories = useMemo(() => Array.from(new Set(allGames.map((game) => game.category)))
     .filter((id) => id !== 'gamepix')
     .map((id) => ({ id, count: allGames.filter((game) => game.category === id).length })), [allGames])
+  const editorialCount = Object.keys(gamePixEditorial).length
 
   const filtered = useMemo(() => {
     const query = search.trim().toLocaleLowerCase('pt-BR')
@@ -94,12 +96,19 @@ export default function Page() {
     <section id="top" className="zg-hero">
       <div className="zg-hero-art" aria-hidden="true" />
       <div className="zg-hero-copy">
-        <div className="zg-eyebrow">Um arquivo vivo de nostalgia</div>
+        <div className="zg-eyebrow">Descoberta de jogos de navegador</div>
         <h1>Aperta o play.<br /><span>Volta no tempo.</span></h1>
-        <p>Um catálogo curado de jogos de navegador. Encontre uma experiência para sua próxima pausa e descubra novas memórias online.</p>
+        <p>Explore jogos de navegador por categoria, intenção e ritmo. Encontre uma experiência para sua próxima pausa e descubra algo novo para jogar.</p>
         <button className="zg-primary-btn" onClick={() => document.getElementById('catalogo')?.scrollIntoView({ behavior: 'smooth' })}>Explorar o acervo <ArrowDown size={16} /></button>
       </div>
       <div className="zg-hero-aside"><i /> Clássicos guardados. Diversão viva.</div>
+    </section>
+
+    <section className="zg-proof-strip" aria-label="Resumo do acervo Zap Game">
+      <div><strong>{allGames.length || '300+'}</strong><span>jogos disponíveis</span></div>
+      <div><strong>{categories.length || 6}</strong><span>categorias para explorar</span></div>
+      <div><strong>{editorialCount}</strong><span>fichas com curadoria</span></div>
+      <div className="zg-proof-note"><i /> Catálogo atualizado por parceiro GamePix</div>
     </section>
 
     <section className="zg-section" id="catalogo">

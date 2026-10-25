@@ -517,3 +517,15 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .zg-discovery-next:hover { color: #fff; }
 @media (max-width: 900px) { .zg-discovery-progress { grid-template-columns: 1fr 1fr; } .zg-discovery-toast { grid-column: 1 / 2; } .zg-discovery-next { grid-column: 2 / 3; justify-self: end; } }
 @media (max-width: 600px) { .zg-detail-badges { gap: 5px; } .zg-detail-badges span { font-size: 8px; padding: 6px 7px; } .zg-discovery-progress { grid-template-columns: 1fr; gap: 17px; padding: 18px; } .zg-discovery-toast, .zg-discovery-next { grid-column: auto; } .zg-discovery-next { justify-self: start; } .zg-discovery-progress-side { min-width: 0; } }
+
+/* Painel de confiança e descoberta da home */
+.zg-proof-strip { display: grid; grid-template-columns: repeat(3, 1fr) 1.5fr; align-items: center; gap: 0; margin: 22px 0 2px; padding: 18px 21px; border: 1px solid rgba(176,190,255,.12); border-radius: 18px; background: rgba(18,21,38,.74); box-shadow: 0 15px 35px rgba(0,0,0,.12); }
+.zg-proof-strip > div { display: grid; gap: 4px; min-height: 36px; padding: 0 20px; border-right: 1px solid rgba(176,190,255,.11); }
+.zg-proof-strip > div:first-child { padding-left: 0; }
+.zg-proof-strip > div:nth-child(3) { border-right: 0; }
+.zg-proof-strip strong { color: var(--fg); font-size: 23px; line-height: 1; letter-spacing: -.05em; }
+.zg-proof-strip span { color: #9299b0; font: 9px var(--mono); letter-spacing: .08em; text-transform: uppercase; }
+.zg-proof-note { display: flex !important; align-items: center; justify-content: flex-end; gap: 9px; color: #9aa3b9; font: 10px var(--mono); white-space: nowrap; }
+.zg-proof-note i { width: 7px; height: 7px; display: inline-block; border-radius: 50%; background: var(--green); box-shadow: 0 0 0 4px rgba(101,240,180,.12), 0 0 12px var(--green); }
+@media (max-width: 760px) { .zg-proof-strip { grid-template-columns: repeat(3, 1fr); gap: 14px 0; } .zg-proof-strip > div { padding: 0 12px; } .zg-proof-strip > div:first-child { padding-left: 0; } .zg-proof-note { grid-column: 1 / -1; justify-content: flex-start; padding: 12px 0 0 !important; border-right: 0 !important; border-top: 1px solid rgba(176,190,255,.11); } }
+@media (max-width: 440px) { .zg-proof-strip { padding: 15px 14px; } .zg-proof-strip strong { font-size: 19px; } .zg-proof-strip span { font-size: 8px; letter-spacing: .04em; } }
