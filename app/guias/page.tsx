@@ -11,6 +11,10 @@ const guides = [
   { href: '/guias/jogos-para-partidas-curtas', title: 'Jogos para partidas curtas', text: 'Como escolher experiências que você consegue começar rapidamente, sem depender de uma campanha longa.' },
   { href: '/guias/jogos-para-jogar-com-amigos', title: 'Jogos para jogar com amigos', text: 'Um guia para identificar jogos competitivos e multiplayer a partir das informações disponíveis.' },
   { href: '/guias/como-escolher-jogos-de-navegador', title: 'Como escolher um jogo de navegador', text: 'Critérios simples para comparar categoria, proposta, compatibilidade e origem antes de jogar.' },
+  { href: '/guias/tema/jogos-de-navegador-no-celular', title: 'Jogos para jogar no celular', text: 'O que observar na proposta e na compatibilidade antes de abrir um jogo no celular.' },
+  { href: '/guias/tema/jogos-leves-para-pc-fraco', title: 'Jogos para PC fraco', text: 'Critérios para testar jogos de navegador em computadores com recursos limitados.' },
+  { href: '/guias/tema/jogos-multiplayer-para-amigos', title: 'Multiplayer para amigos', text: 'Como diferenciar disputa local, conexão online e recursos informados pelo parceiro.' },
+  { href: '/guias/tema/jogos-de-esporte-no-navegador', title: 'Esportes no navegador', text: 'Basquete, campeonatos e critérios para escolher uma partida esportiva.' },
 ]
 
 export default function GuidesPage() {

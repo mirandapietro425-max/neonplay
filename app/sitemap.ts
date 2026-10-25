@@ -2,6 +2,7 @@ import type { MetadataRoute } from 'next'
 import { catalogGames, categoryLabels } from '@/lib/game-catalog'
 import { getGamePixGames } from '@/lib/gamepix-catalog'
 import { hasDistinctiveGameSummary } from '@/lib/game-seo'
+import { intentGuides } from '@/lib/intent-guides'
 
 const siteOrigin = 'https://www.zapgame.com.br'
 export const revalidate = 600
@@ -35,6 +36,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${siteOrigin}/guias/jogos-para-partidas-curtas`, changeFrequency: 'monthly', priority: 0.6 },
     { url: `${siteOrigin}/guias/jogos-para-jogar-com-amigos`, changeFrequency: 'monthly', priority: 0.6 },
     { url: `${siteOrigin}/guias/como-escolher-jogos-de-navegador`, changeFrequency: 'monthly', priority: 0.6 },
+    ...intentGuides.map((guide) => ({ url: `${siteOrigin}/guias/tema/${guide.slug}`, changeFrequency: 'monthly' as const, priority: 0.6 })),
     { url: `${siteOrigin}/termos`, changeFrequency: 'yearly', priority: 0.3 },
     { url: `${siteOrigin}/direitos-autorais`, changeFrequency: 'yearly', priority: 0.3 },
     ...categoryPages,
