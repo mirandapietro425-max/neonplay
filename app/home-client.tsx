@@ -95,8 +95,8 @@ export default function Page({ initialGames }: HomeClientProps) {
       <div className="zg-hero-art" aria-hidden="true" />
       <div className="zg-hero-copy">
         <div className="zg-eyebrow">Descoberta de jogos de navegador</div>
-        <h1>Aperta o play.<br /><span>Volta no tempo.</span></h1>
-        <p>Explore jogos de navegador por categoria, intenção e ritmo. Encontre uma experiência para sua próxima pausa e descubra algo novo para jogar.</p>
+        <h1>Jogos de navegador.<br /><span>Volta no tempo.</span></h1>
+        <p>Jogue sem baixar. Explore o catálogo por categoria, intenção e ritmo e encontre uma experiência para sua próxima pausa.</p>
         <button className="zg-primary-btn" onClick={() => document.getElementById('catalogo')?.scrollIntoView({ behavior: 'smooth' })}>Explorar o acervo <ArrowDown size={16} /></button>
       </div>
       <div className="zg-hero-aside"><i /> Clássicos guardados. Diversão viva.</div>

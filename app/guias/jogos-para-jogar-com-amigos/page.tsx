@@ -5,8 +5,8 @@ import { GuideRecommendationGrid } from '@/components/guide-recommendations'
 import { createPageMetadata } from '@/lib/seo'
 
 export const metadata: Metadata = createPageMetadata({
-  title: 'Jogos para jogar com amigos | Zap Game',
-  description: 'Como encontrar jogos de navegador com competição, cooperação ou recursos multiplayer indicados na fonte.',
+  title: 'Jogos para jogar com amigos online | Zap Game',
+  description: 'Encontre jogos de navegador para jogar com amigos online. Compare competição, cooperação e recursos multiplayer informados pelo parceiro.',
   path: '/guias/jogos-para-jogar-com-amigos',
   image: '/brand/guide-friends.webp',
   imageAlt: 'Guia de jogos de navegador para jogar com amigos',
@@ -18,10 +18,10 @@ export default async function FriendsGuide() {
   const recommendations = ['gamepix-basketball-stars-35lbe', 'gamepix-among-at-easter-ng7tt', 'gamepix-bomber-friends-40344'].map((slug) => { const game = games.find((item) => item.slug === slug); return { title: game?.title ?? slug, href: `/jogos/${slug}`, reason: game?.editorial?.description ?? 'Uma opção para investigar com amigos.', imageUrl: game?.imageUrl } })
   return <main className="zg-shell"><div className="zg-wrap" style={{ maxWidth: 860, paddingBlock: '3rem' }}>
     <Link href="/guias">← Voltar aos guias</Link>
-    <section className="zg-guide-article-hero" style={{ backgroundImage: "url('/brand/guide-friends.webp')" }}><div><p className="zg-eyebrow">GUIA SOCIAL</p><h1>Jogos para jogar com amigos</h1><p>Como encontrar experiências de competição ou cooperação para compartilhar uma partida.</p></div></section>
+    <section className="zg-guide-article-hero" style={{ backgroundImage: "url('/brand/guide-friends.webp')" }}><div><p className="zg-eyebrow">GUIA SOCIAL</p><h1>Jogos para jogar com amigos online</h1><p>Compare jogos de navegador para jogar com amigos e verifique se cada opção é competitiva, cooperativa, local ou online.</p></div></section>
     <article className="zg-guide-article" style={{ lineHeight: 1.8 }}>
       <p className="zg-kicker">GUIA DE CURADORIA</p>
-      <p>Jogos para amigos podem funcionar de formas diferentes: alguns têm disputa direta, outros dependem de cooperação e alguns oferecem multiplayer apenas quando o próprio parceiro informa esse recurso. A primeira regra é conferir a descrição e a tela inicial antes de combinar uma partida.</p>
+      <p>Ao procurar jogos para jogar com amigos online, confira o modo disponível: alguns títulos têm disputa direta, outros pedem cooperação e alguns só informam multiplayer na descrição do parceiro. Confirme os detalhes na ficha e na tela inicial antes de combinar a partida.</p>
       <GuideRecommendationGrid guide="jogos-para-jogar-com-amigos" items={recommendations} />
       <h2>O que procurar</h2>
       <p>Termos como “dois jogadores”, “multiplayer”, “local” ou “Wi-Fi” são sinais úteis, mas devem ser tratados como informações da fonte, não como garantia permanente. Também vale considerar se todos os participantes usarão o mesmo dispositivo ou se cada pessoa precisará abrir o jogo separadamente.</p>

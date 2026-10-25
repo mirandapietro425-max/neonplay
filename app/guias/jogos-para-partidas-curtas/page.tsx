@@ -5,8 +5,8 @@ import { GuideRecommendationGrid } from '@/components/guide-recommendations'
 import { createPageMetadata } from '@/lib/seo'
 
 export const metadata: Metadata = createPageMetadata({
-  title: 'Jogos para partidas curtas | Zap Game',
-  description: 'Como escolher jogos de navegador para pausas rápidas e partidas sem compromisso longo.',
+  title: 'Jogos de navegador para partidas curtas | Zap Game',
+  description: 'Encontre jogos de navegador para pausas rápidas. Compare arcade, esporte, ação e puzzle por proposta e informações do parceiro.',
   path: '/guias/jogos-para-partidas-curtas',
   image: '/brand/guide-quick-sessions.webp',
   imageAlt: 'Guia de jogos de navegador para partidas curtas',
@@ -18,10 +18,10 @@ export default async function ShortSessionsGuide() {
   const recommendations = ['gamepix-basketball-stars-35lbe', 'gamepix-bomber-friends-40344', 'gamepix-alpha-guns-40450'].map((slug) => { const game = games.find((item) => item.slug === slug); return { title: game?.title ?? slug, href: `/jogos/${slug}`, reason: game?.editorial?.description ?? 'Uma opção editorial para uma sessão direta.', imageUrl: game?.imageUrl } })
   return <main className="zg-shell"><div className="zg-wrap" style={{ maxWidth: 860, paddingBlock: '3rem' }}>
     <Link href="/guias">← Voltar aos guias</Link>
-    <section className="zg-guide-article-hero" style={{ backgroundImage: "url('/brand/guide-quick-sessions.webp')" }}><div><p className="zg-eyebrow">GUIA DE RITMO</p><h1>Jogos para partidas curtas</h1><p>Escolhas para pausas rápidas, rodadas diretas e momentos em que você quer jogar sem compromisso longo.</p></div></section>
+    <section className="zg-guide-article-hero" style={{ backgroundImage: "url('/brand/guide-quick-sessions.webp')" }}><div><p className="zg-eyebrow">GUIA DE RITMO</p><h1>Jogos de navegador para partidas curtas</h1><p>Encontre jogos online para pausas rápidas, com rodadas diretas e sem compromisso de uma campanha longa.</p></div></section>
     <article className="zg-guide-article" style={{ lineHeight: 1.8 }}>
       <p className="zg-kicker">GUIA DE CURADORIA</p>
-      <p>Nem todo momento de jogo precisa de uma campanha longa. Para uma pausa rápida, a melhor escolha costuma ser uma experiência com objetivo fácil de entender, início rápido e progresso que não dependa de muitas horas seguidas.</p>
+      <p>Nem todo momento de jogo precisa de uma campanha longa. Para uma pausa rápida, prefira jogos de navegador com objetivo fácil de entender, início rápido e progresso que não dependa de muitas horas seguidas.</p>
       <GuideRecommendationGrid guide="jogos-para-partidas-curtas" items={recommendations} />
       <h2>O que observar</h2>
       <p>Procure categorias como arcade, esporte, ação e puzzle. Elas normalmente apresentam uma proposta mais direta, mas a categoria sozinha não garante a duração da partida. Por isso, o Zap Game também observa se a descrição indica rodadas, arenas, desafios individuais ou fases curtas.</p>

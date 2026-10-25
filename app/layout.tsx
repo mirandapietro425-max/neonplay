@@ -4,7 +4,7 @@ import { GoogleAnalytics } from '@/components/google-analytics'
 import './globals.css'
 
 const siteOrigin = 'https://www.zapgame.com.br'
-const siteDescription = 'Encontre jogos de navegador no Zap Game. Explore arcade, ação, aventura, esporte e puzzles em um catálogo amplo, com curadoria editorial e fontes identificadas.'
+const siteDescription = 'Encontre jogos de navegador para jogar online sem baixar no Zap Game. Explore arcade, ação, aventura, esporte e puzzles em um catálogo com curadoria editorial.'
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteOrigin),
