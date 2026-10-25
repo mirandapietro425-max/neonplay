@@ -28,7 +28,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }))
 
   return [
-    { url: `${siteOrigin}/`, changeFrequency: 'weekly', priority: 1 },
+    { url: siteOrigin, changeFrequency: 'weekly', priority: 1 },
     { url: `${siteOrigin}/sobre`, changeFrequency: 'yearly', priority: 0.5 },
     { url: `${siteOrigin}/privacidade`, changeFrequency: 'yearly', priority: 0.3 },
     { url: `${siteOrigin}/contato`, changeFrequency: 'yearly', priority: 0.4 },

@@ -2,12 +2,16 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { getGamePixGames } from '@/lib/gamepix-catalog'
 import { GuideRecommendationGrid } from '@/components/guide-recommendations'
+import { createPageMetadata } from '@/lib/seo'
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createPageMetadata({
   title: 'Jogos para jogar com amigos | Zap Game',
   description: 'Como encontrar jogos de navegador com competição, cooperação ou recursos multiplayer indicados na fonte.',
-  alternates: { canonical: '/guias/jogos-para-jogar-com-amigos' },
-}
+  path: '/guias/jogos-para-jogar-com-amigos',
+  image: '/brand/guide-friends.webp',
+  imageAlt: 'Guia de jogos de navegador para jogar com amigos',
+  type: 'article',
+})
 
 export default async function FriendsGuide() {
   const games = await getGamePixGames()

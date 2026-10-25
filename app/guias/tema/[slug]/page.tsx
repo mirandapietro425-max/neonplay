@@ -4,8 +4,15 @@ import { notFound } from 'next/navigation'
 import { intentGuideBySlug, intentGuides } from '@/lib/intent-guides'
 import { getGamePixGames } from '@/lib/gamepix-catalog'
 import { GuideRecommendationGrid } from '@/components/guide-recommendations'
+import { createPageMetadata } from '@/lib/seo'
 
 type Props = { params: Promise<{ slug: string }> }
+const guideArt: Record<string, { label: string; image: string }> = {
+  'jogos-de-navegador-no-celular': { label: 'GUIA PARA CELULAR', image: '/brand/guide-mobile.webp' },
+  'jogos-leves-para-pc-fraco': { label: 'GUIA DE DESEMPENHO', image: '/brand/guide-low-pc.webp' },
+  'jogos-multiplayer-para-amigos': { label: 'GUIA MULTIPLAYER', image: '/brand/guide-multiplayer.webp' },
+  'jogos-de-esporte-no-navegador': { label: 'GUIA DE ESPORTES', image: '/brand/guide-sports.webp' },
+}
 
 export const dynamicParams = false
 
@@ -17,19 +24,20 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
   const guide = intentGuideBySlug.get(slug)
   if (!guide) return { title: 'Guia não encontrado | Zap Game', robots: { index: false, follow: true } }
-  return { title: `${guide.title} | Zap Game`, description: guide.description, alternates: { canonical: `/guias/tema/${guide.slug}` } }
+  return createPageMetadata({
+    title: `${guide.title} | Zap Game`,
+    description: guide.description,
+    path: `/guias/tema/${guide.slug}`,
+    image: guideArt[guide.slug]?.image,
+    imageAlt: `Imagem do guia ${guide.title} — Zap Game`,
+    type: 'article',
+  })
 }
 
 export default async function IntentGuidePage({ params }: Props) {
   const { slug } = await params
   const guide = intentGuideBySlug.get(slug)
   if (!guide) notFound()
-  const guideArt: Record<string, { label: string; image: string }> = {
-    'jogos-de-navegador-no-celular': { label: 'GUIA PARA CELULAR', image: '/brand/guide-mobile.webp' },
-    'jogos-leves-para-pc-fraco': { label: 'GUIA DE DESEMPENHO', image: '/brand/guide-low-pc.webp' },
-    'jogos-multiplayer-para-amigos': { label: 'GUIA MULTIPLAYER', image: '/brand/guide-multiplayer.webp' },
-    'jogos-de-esporte-no-navegador': { label: 'GUIA DE ESPORTES', image: '/brand/guide-sports.webp' },
-  }
   const art = guideArt[guide.slug]
   const gamePixGames = await getGamePixGames()
   const recommendations = guide.games.map((item) => {

@@ -54,7 +54,14 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
   const game = await getGame(slug)
-  if (!game) return { title: 'Jogo não encontrado | Zap Game', robots: { index: false, follow: true } }
+  if (!game) return {
+    title: 'Jogo não encontrado | Zap Game',
+    description: 'Esta ficha não existe ou não está publicada no Zap Game. Volte ao catálogo para explorar outros jogos.',
+    robots: { index: false, follow: true },
+    alternates: null,
+    openGraph: null,
+    twitter: null,
+  }
 
   const baseTitle = `${game.title} | Zap Game`
   const descriptiveTitle = `${game.title}: jogo de ${gameCategory(game)} | Zap Game`

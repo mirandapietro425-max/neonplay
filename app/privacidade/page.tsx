@@ -1,10 +1,12 @@
 import type { Metadata } from 'next'
+import { createPageMetadata } from '@/lib/seo'
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createPageMetadata({
   title: 'Política de privacidade — Zap Game',
   description: 'Como o Zap Game trata dados técnicos, analytics, armazenamento local e publicidade.',
-  alternates: { canonical: '/privacidade' },
-}
+  path: '/privacidade',
+  imageAlt: 'Política de privacidade do Zap Game',
+})
 
 export default function PrivacyPage() {
   return (

@@ -2,12 +2,16 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { getGamePixGames } from '@/lib/gamepix-catalog'
 import { GuideRecommendationGrid } from '@/components/guide-recommendations'
+import { createPageMetadata } from '@/lib/seo'
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createPageMetadata({
   title: 'Como escolher um jogo de navegador | Zap Game',
   description: 'Critérios práticos para escolher jogos de navegador por categoria, proposta, origem e compatibilidade.',
-  alternates: { canonical: '/guias/como-escolher-jogos-de-navegador' },
-}
+  path: '/guias/como-escolher-jogos-de-navegador',
+  image: '/brand/guide-how-to-choose.webp',
+  imageAlt: 'Guia para escolher jogos de navegador no Zap Game',
+  type: 'article',
+})
 
 export default async function ChoosingGuide() {
   const games = await getGamePixGames()

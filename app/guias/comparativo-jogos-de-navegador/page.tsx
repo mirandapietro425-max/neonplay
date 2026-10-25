@@ -1,15 +1,19 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { comparisonGames } from '@/lib/comparison-games'
+import { createPageMetadata } from '@/lib/seo'
 
 const canonical = 'https://www.zapgame.com.br/guias/comparativo-jogos-de-navegador'
 const lastReviewed = '24 de outubro de 2026'
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createPageMetadata({
   title: 'Comparativo de jogos de navegador | Zap Game',
   description: 'Compare 12 jogos de navegador por categoria, proposta, sessão, multiplayer e origem, com curadoria editorial do Zap Game.',
-  alternates: { canonical: '/guias/comparativo-jogos-de-navegador' },
-}
+  path: '/guias/comparativo-jogos-de-navegador',
+  image: '/brand/guide-comparison.webp',
+  imageAlt: 'Comparativo editorial de jogos de navegador no Zap Game',
+  type: 'article',
+})
 
 export default function ComparisonPage() {
   const schema = [

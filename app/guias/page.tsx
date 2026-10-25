@@ -1,11 +1,13 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import { createPageMetadata } from '@/lib/seo'
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createPageMetadata({
   title: 'Guias de jogos de navegador | Zap Game',
   description: 'Guias e critérios editoriais do Zap Game para escolher jogos de navegador com mais facilidade.',
-  alternates: { canonical: '/guias' },
-}
+  path: '/guias',
+  imageAlt: 'Guias de jogos de navegador do Zap Game',
+})
 
 const guides = [
   { href: '/guias/qual-jogo-escolher', title: 'Qual jogo combina com você?', type: 'INTERATIVO', text: 'Responda três perguntas e receba recomendações editoriais para o seu momento.', image: '/brand/guide-quiz.webp', featured: true },

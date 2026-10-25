@@ -1,10 +1,12 @@
 import type { Metadata } from 'next'
+import { createPageMetadata } from '@/lib/seo'
 
-export const metadata: Metadata = {
-  title: 'Termos de uso — Zap Game',
+export const metadata: Metadata = createPageMetadata({
+  title: 'Termos de uso dos jogos de navegador | Zap Game',
   description: 'Termos de uso do catálogo e dos links externos do Zap Game.',
-  alternates: { canonical: '/termos' },
-}
+  path: '/termos',
+  imageAlt: 'Termos de uso do Zap Game',
+})
 
 export default function TermsPage() {
   return (

@@ -5,7 +5,9 @@ export const metadata: Metadata = {
   title: 'Página não encontrada | Zap Game',
   description: 'A página que você procurou não existe no Zap Game.',
   robots: { index: false, follow: true },
-  alternates: { canonical: '/' },
+  alternates: null,
+  openGraph: null,
+  twitter: null,
 }
 
 export default function NotFound() {

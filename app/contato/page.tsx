@@ -1,10 +1,12 @@
 import type { Metadata } from 'next'
+import { createPageMetadata } from '@/lib/seo'
 
-export const metadata: Metadata = {
-  title: 'Contato — Zap Game',
+export const metadata: Metadata = createPageMetadata({
+  title: 'Fale com o Zap Game — contato e suporte',
   description: 'Canal de contato do Zap Game para dúvidas, correções, privacidade e direitos autorais.',
-  alternates: { canonical: '/contato' },
-}
+  path: '/contato',
+  imageAlt: 'Fale com o Zap Game',
+})
 
 export default function ContactPage() {
   return (

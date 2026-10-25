@@ -2,12 +2,16 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { getGamePixGames } from '@/lib/gamepix-catalog'
 import { GuideRecommendationGrid } from '@/components/guide-recommendations'
+import { createPageMetadata } from '@/lib/seo'
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createPageMetadata({
   title: 'Jogos para partidas curtas | Zap Game',
   description: 'Como escolher jogos de navegador para pausas rápidas e partidas sem compromisso longo.',
-  alternates: { canonical: '/guias/jogos-para-partidas-curtas' },
-}
+  path: '/guias/jogos-para-partidas-curtas',
+  image: '/brand/guide-quick-sessions.webp',
+  imageAlt: 'Guia de jogos de navegador para partidas curtas',
+  type: 'article',
+})
 
 export default async function ShortSessionsGuide() {
   const games = await getGamePixGames()

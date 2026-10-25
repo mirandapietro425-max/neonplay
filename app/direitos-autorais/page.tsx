@@ -1,10 +1,12 @@
 import type { Metadata } from 'next'
+import { createPageMetadata } from '@/lib/seo'
 
-export const metadata: Metadata = {
-  title: 'Direitos autorais — Zap Game',
+export const metadata: Metadata = createPageMetadata({
+  title: 'Direitos autorais e remoção de conteúdo | Zap Game',
   description: 'Política de créditos, direitos autorais e remoção de conteúdo do Zap Game.',
-  alternates: { canonical: '/direitos-autorais' },
-}
+  path: '/direitos-autorais',
+  imageAlt: 'Política de direitos autorais do Zap Game',
+})
 
 export default function CopyrightPage() {
   return (
