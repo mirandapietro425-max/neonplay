@@ -16,8 +16,6 @@ type GamePixGame = {
   id: string
   title: string
   category: string
-  kind: 'game'
-  launchUrl: string
   imageUrl: string
   slug: string
   source: 'gamepix'

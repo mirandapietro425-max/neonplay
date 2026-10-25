@@ -25,9 +25,18 @@ export async function GET(request: Request) {
   const games = sourceGames
     .filter((game) => category === 'todos' || game.category === category)
     .filter((game) => !query || game.title.toLocaleLowerCase('pt-BR').includes(query))
+  const compactGames = games.map((game) => ({
+    id: game.id,
+    title: game.title,
+    category: game.category,
+    imageUrl: 'imageUrl' in game ? game.imageUrl : game.imagePath,
+    slug: game.slug,
+    source: game.source,
+    providerRank: 'providerRank' in game ? game.providerRank : undefined,
+  }))
 
   return NextResponse.json(
-    { games, total: games.length, sources: ['GamePix'] },
-    { headers: { 'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=86400' } },
+    { games: compactGames, total: compactGames.length, sources: ['GamePix'] },
+    { headers: { 'Cache-Control': 'public, max-age=300, s-maxage=3600, stale-while-revalidate=86400' } },
   )
 }
