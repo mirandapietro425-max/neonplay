@@ -25,6 +25,7 @@ export default function CopyrightPage() {
           <h2>Pedido de remoção</h2>
           <p>O titular ou representante autorizado que identificar uma possível violação deve informar o título ou URL da ficha, explicar qual material está sendo contestado, comprovar a titularidade ou representação e indicar uma forma de retorno. O pedido será analisado e o acesso poderá ser suspenso enquanto os dados são verificados.</p>
           <p>Pedidos incompletos, sem identificação do material ou sem informação suficiente para localizar a ficha podem exigir esclarecimentos antes da análise.</p>
+          <p>Envie a solicitação para <a href="mailto:siteparanegocios02@gmail.com">siteparanegocios02@gmail.com</a> ou use a <a href="/contato">página de Contato</a>.</p>
 
           <h2>Atualizações</h2>
           <p>Esta política pode ser atualizada quando forem definidos novos canais de atendimento, fontes, licenças ou procedimentos de revisão.</p>

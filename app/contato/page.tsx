@@ -17,7 +17,7 @@ export default function ContactPage() {
           <p>Use este canal para enviar dúvidas sobre o site, correções de informações, solicitações relacionadas à privacidade e pedidos de remoção de conteúdo.</p>
 
           <h2>Canal de atendimento</h2>
-          <p><strong>E-mail:</strong> <a href="mailto:contato@zapgame.com.br">contato@zapgame.com.br</a></p>
+          <p><strong>E-mail:</strong> <a href="mailto:siteparanegocios02@gmail.com">siteparanegocios02@gmail.com</a></p>
           <p>Ao escrever, informe o assunto com clareza e inclua a URL da página quando a mensagem se referir a um jogo ou conteúdo específico. As mensagens são analisadas pelo administrador do site.</p>
 
           <h2>Pedidos de direitos autorais</h2>
