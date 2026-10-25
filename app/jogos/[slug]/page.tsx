@@ -28,6 +28,7 @@ function gameCategory(game: DetailGame) {
 }
 
 function gameSummary(game: DetailGame) {
+  if ('editorial' in game && game.editorial?.description) return game.editorial.description
   const summary = game.summary?.trim()
   return summary || `${game.title} é um jogo de ${gameCategory(game).toLocaleLowerCase('pt-BR')}. Consulte a ficha, explore jogos relacionados e abra a versão disponível no acervo do Zap Game.`
 }
@@ -60,7 +61,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const description = metaDescription(game)
   const canonical = `/jogos/${game.slug}`
   const image = gameImage(game)
-  const indexable = hasDistinctiveGameSummary(game.summary)
+  const indexable = 'editorial' in game ? Boolean(game.editorial) : hasDistinctiveGameSummary(game.summary)
 
   return {
     title,
@@ -93,7 +94,9 @@ export default async function GamePage({ params }: Props) {
   const canonical = `${siteOrigin}/jogos/${game.slug}`
   const sourceName = game.source === 'internet-archive' ? 'Internet Archive' : game.source === 'gamepix' ? 'GamePix' : 'GitHub Pages'
   const playLabel = game.source === 'internet-archive' ? 'Abrir versão arquivada' : game.source === 'gamepix' ? 'Jogar no GamePix' : 'Abrir jogo no navegador'
-  const summaryAttribution = game.source === 'internet-archive'
+  const summaryAttribution = 'editorial' in game && game.editorial
+    ? 'Curadoria original do Zap Game'
+    : game.source === 'internet-archive'
     ? game.summaryOrigin === 'internet-archive-translation'
       ? 'Descrição traduzida do registro do Internet Archive'
       : game.summaryOrigin === 'archive-placeholder'
@@ -174,6 +177,19 @@ export default async function GamePage({ params }: Props) {
             {'archiveSubjects' in game && game.archiveSubjects.length > 0 && <div><dt>Assuntos do registro</dt><dd>{game.archiveSubjects.join(' · ')}</dd></div>}
           </dl>
         </section>
+
+        {'editorial' in game && game.editorial && <section className="zg-detail-information">
+          <div>
+            <p className="zg-kicker">Curadoria Zap Game</p>
+            <h2>Por que conhecer {game.title}?</h2>
+            <p>{game.editorial.whyPlay}</p>
+            <p>{game.editorial.editorialNote}</p>
+          </div>
+          <dl className="zg-game-facts">
+            <div><dt>Indicado para</dt><dd>{game.editorial.audience}</dd></div>
+            <div><dt>Tipo de conteúdo</dt><dd>Análise editorial independente da descrição do parceiro</dd></div>
+          </dl>
+        </section>}
 
         {relatedGames.length > 0 && <section className="zg-related-section">
           <div className="zg-section-head"><div><p className="zg-kicker">Continue explorando</p><h2>Jogos relacionados</h2></div><Link className="zg-related-all" href={`/jogos/categoria/${game.category}`}>Ver {category.toLocaleLowerCase('pt-BR')} <span aria-hidden="true">↗</span></Link></div>

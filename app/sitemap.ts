@@ -19,7 +19,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.65,
     images: [`${siteOrigin}${game.imagePath}`],
   }))
-  const gamePixPages: MetadataRoute.Sitemap = gamePixGames.filter((game) => hasDistinctiveGameSummary(game.summary)).map((game) => ({
+  const gamePixPages: MetadataRoute.Sitemap = gamePixGames.filter((game) => Boolean(game.editorial)).map((game) => ({
     url: `${siteOrigin}/jogos/${game.slug}`,
     changeFrequency: 'weekly',
     priority: 0.6,

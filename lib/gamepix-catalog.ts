@@ -1,3 +1,5 @@
+import { gamePixEditorial, type GamePixEditorial } from '@/lib/gamepix-editorial'
+
 export type GamePixCatalogGame = {
   id: string
   providerId: string
@@ -12,6 +14,7 @@ export type GamePixCatalogGame = {
   source: 'gamepix'
   status: 'online'
   providerRank: number
+  editorial?: GamePixEditorial
 }
 
 function slugify(value: string) {
@@ -104,6 +107,7 @@ export async function getGamePixGames(): Promise<GamePixCatalogGame[]> {
         summary,
         source: 'gamepix' as const,
         status: 'online' as const,
+        editorial: gamePixEditorial[providerId],
         quality: gamePixQuality(game),
       }]
     }).sort((a, b) => b.quality - a.quality).slice(0, 120)
