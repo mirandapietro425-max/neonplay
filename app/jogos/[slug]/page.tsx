@@ -92,6 +92,7 @@ export default async function GamePage({ params }: Props) {
   const image = gameImage(game)
   const description = gameSummary(game)
   const canonical = `${siteOrigin}/jogos/${game.slug}`
+  const gamePixGames = await getGamePixGames()
   const sourceName = game.source === 'internet-archive' ? 'Internet Archive' : game.source === 'gamepix' ? 'GamePix' : 'GitHub Pages'
   const playLabel = game.source === 'internet-archive' ? 'Abrir versão arquivada' : game.source === 'gamepix' ? 'Jogar no GamePix' : 'Abrir jogo no navegador'
   const summaryAttribution = 'editorial' in game && game.editorial
@@ -103,9 +104,16 @@ export default async function GamePage({ params }: Props) {
         ? 'Descrição específica ainda não disponível no registro consultado'
         : 'Descrição do registro do Internet Archive'
     : game.source === 'gamepix' ? 'Descrição fornecida pelo GamePix' : 'Descrição editorial do Zap Game'
-  const relatedGames = catalogGames
-    .filter((item) => item.category === game.category && item.slug !== game.slug)
-    .sort(compareCatalogPopularity)
+  const relatedGames = [...catalogGames.filter((item) => item.category === game.category && item.slug !== game.slug), ...gamePixGames.filter((item) => item.category === game.category && item.slug !== game.slug)]
+    .sort((a, b) => {
+      const aEditorial = 'editorial' in a && a.editorial ? 1 : 0
+      const bEditorial = 'editorial' in b && b.editorial ? 1 : 0
+      if (aEditorial !== bEditorial) return bEditorial - aEditorial
+      if ('providerRank' in a && 'providerRank' in b) return a.providerRank - b.providerRank
+      if ('providerRank' in a) return -1
+      if ('providerRank' in b) return 1
+      return compareCatalogPopularity(a, b)
+    })
     .slice(0, 6)
   const breadcrumbSchema = {
     '@context': 'https://schema.org',
@@ -193,8 +201,13 @@ export default async function GamePage({ params }: Props) {
 
         {relatedGames.length > 0 && <section className="zg-related-section">
           <div className="zg-section-head"><div><p className="zg-kicker">Continue explorando</p><h2>Jogos relacionados</h2></div><Link className="zg-related-all" href={`/jogos/categoria/${game.category}`}>Ver {category.toLocaleLowerCase('pt-BR')} <span aria-hidden="true">↗</span></Link></div>
-          <div className="zg-related-grid">{relatedGames.map((related) => <Link className="zg-related-card" key={related.id} href={`/jogos/${related.slug}`}><img src={related.imagePath} alt={`Capa de ${related.title}`} loading="lazy" /><span>{related.title}</span><small>{categoryLabels[related.category] ?? related.category}</small></Link>)}</div>
+          <div className="zg-related-grid">{relatedGames.map((related) => <Link className="zg-related-card" key={related.id} href={`/jogos/${related.slug}`}><img src={gameImage(related)} alt={`Capa de ${related.title}`} loading="lazy" /><span>{related.title}</span><small>{categoryLabels[related.category] ?? related.category}</small></Link>)}</div>
         </section>}
+
+        <section className="zg-detail-information">
+          <div><p className="zg-kicker">Continue a descoberta</p><h2>Escolha o próximo jogo</h2><p>Use o <Link href="/guias/qual-jogo-escolher">quiz de recomendação</Link> ou consulte o <Link href="/guias/comparativo-jogos-de-navegador">comparativo editorial</Link> para encontrar outra experiência.</p></div>
+          <dl className="zg-game-facts"><div><dt>Mais guias</dt><dd><Link href="/guias">Ver a central de guias</Link></dd></div><div><dt>Correções</dt><dd><Link href="/contato">Falar com o Zap Game</Link></dd></div></dl>
+        </section>
 
         <div className="zg-detail-back"><Link href="/">← Voltar para todos os jogos</Link>{categoryHref && <Link href={categoryHref}>Explorar categoria {category} →</Link>}</div>
       </article>
