@@ -33,6 +33,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${siteOrigin}/privacidade`, changeFrequency: 'yearly', priority: 0.3 },
     { url: `${siteOrigin}/contato`, changeFrequency: 'yearly', priority: 0.4 },
     { url: `${siteOrigin}/guias`, changeFrequency: 'monthly', priority: 0.7 },
+    { url: `${siteOrigin}/guias/comparativo-jogos-de-navegador`, changeFrequency: 'monthly', priority: 0.8 },
     { url: `${siteOrigin}/guias/jogos-para-partidas-curtas`, changeFrequency: 'monthly', priority: 0.6 },
     { url: `${siteOrigin}/guias/jogos-para-jogar-com-amigos`, changeFrequency: 'monthly', priority: 0.6 },
     { url: `${siteOrigin}/guias/como-escolher-jogos-de-navegador`, changeFrequency: 'monthly', priority: 0.6 },

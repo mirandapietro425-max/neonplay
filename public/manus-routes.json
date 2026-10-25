@@ -5,6 +5,7 @@
     { "path": "/privacidade", "title": "Política de privacidade" },
     { "path": "/contato", "title": "Contato" },
     { "path": "/guias", "title": "Guias de jogos de navegador" },
+    { "path": "/guias/comparativo-jogos-de-navegador", "title": "Comparativo de jogos de navegador" },
     { "path": "/guias/jogos-para-partidas-curtas", "title": "Jogos para partidas curtas" },
     { "path": "/guias/jogos-para-jogar-com-amigos", "title": "Jogos para jogar com amigos" },
     { "path": "/guias/como-escolher-jogos-de-navegador", "title": "Como escolher um jogo de navegador" },
