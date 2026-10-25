@@ -128,7 +128,7 @@ export default function Page() {
 
       {!search && category === 'todos' && source === 'todos' && <div className="zg-discovery zg-discovery-secondary">
         <div className="zg-discovery-head"><div><p className="zg-kicker">Escolha melhor</p><h3>Guias para encontrar seu próximo jogo</h3></div><a href="/guias">Ver todos os guias ↗</a></div>
-        <div className="zg-mini-grid"><a className="zg-mini-card" href="/guias/jogos-para-partidas-curtas"><span>Jogos para partidas curtas</span><small>Para pausas rápidas</small></a><a className="zg-mini-card" href="/guias/jogos-para-jogar-com-amigos"><span>Jogos para jogar com amigos</span><small>Competição e cooperação</small></a><a className="zg-mini-card" href="/guias/como-escolher-jogos-de-navegador"><span>Como escolher um jogo</span><small>Critérios da curadoria</small></a></div>
+        <div className="zg-mini-grid"><a className="zg-mini-card" href="/guias/qual-jogo-escolher"><span>Qual jogo combina com você?</span><small>Quiz em 3 perguntas</small></a><a className="zg-mini-card" href="/guias/jogos-para-partidas-curtas"><span>Jogos para partidas curtas</span><small>Para pausas rápidas</small></a><a className="zg-mini-card" href="/guias/jogos-para-jogar-com-amigos"><span>Jogos para jogar com amigos</span><small>Competição e cooperação</small></a><a className="zg-mini-card" href="/guias/como-escolher-jogos-de-navegador"><span>Como escolher um jogo</span><small>Critérios da curadoria</small></a></div>
       </div>}
 
       <div className="zg-catalog-toolbar">

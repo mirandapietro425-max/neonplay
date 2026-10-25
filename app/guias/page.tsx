@@ -8,6 +8,7 @@ export const metadata: Metadata = {
 }
 
 const guides = [
+  { href: '/guias/qual-jogo-escolher', title: 'Qual jogo escolher?', text: 'Responda três perguntas e receba recomendações editoriais.' },
   { href: '/guias/comparativo-jogos-de-navegador', title: 'Comparativo de jogos de navegador', text: 'Tabela editorial com 12 títulos, proposta, sessão, multiplayer e origem.' },
   { href: '/guias/jogos-para-partidas-curtas', title: 'Jogos para partidas curtas', text: 'Como escolher experiências que você consegue começar rapidamente, sem depender de uma campanha longa.' },
   { href: '/guias/jogos-para-jogar-com-amigos', title: 'Jogos para jogar com amigos', text: 'Um guia para identificar jogos competitivos e multiplayer a partir das informações disponíveis.' },
