@@ -119,14 +119,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!label) return { title: 'Categoria não encontrada | Zap Game', robots: { index: false, follow: true } }
   const games = await gamesForCategory(category)
   const title = `Jogos de ${label} online | Zap Game`
-  const description = `${categoryIntros[category]} Explore ${games.length} ${games.length === 1 ? 'jogo' : 'jogos'} de ${label.toLocaleLowerCase('pt-BR')} no Zap Game.`
+  const description = games.length > 0
+    ? `${categoryIntros[category]} Explore ${games.length} ${games.length === 1 ? 'jogo' : 'jogos'} de ${label.toLocaleLowerCase('pt-BR')} no Zap Game.`
+    : 'Esta categoria ainda não tem jogos publicados no Zap Game. Explore as opções disponíveis no catálogo de jogos de navegador.'
   const canonical = `/jogos/categoria/${category}`
   const image = `/brand/category-${category}.webp`
   return {
     title,
     description: description.length > 158 ? `${description.slice(0, 155).trimEnd()}…` : description,
     alternates: { canonical },
-    robots: { index: true, follow: true },
+    robots: { index: games.length > 0, follow: true },
     openGraph: { type: 'website', locale: 'pt_BR', siteName: 'Zap Game', url: canonical, title, description, images: [{ url: image, alt: `Jogos de ${label} no Zap Game` }] },
     twitter: { card: 'summary_large_image', title, description, images: [image] },
   }

@@ -9,11 +9,14 @@ export const revalidate = 600
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const gamePixGames = await getGamePixGames()
-  const categoryPages: MetadataRoute.Sitemap = Object.keys(categoryLabels).map((category) => ({
-    url: `${siteOrigin}/jogos/categoria/${category}`,
-    changeFrequency: 'weekly',
-    priority: 0.7,
-  }))
+  const categoriesWithGames = new Set([...catalogGames, ...gamePixGames].map((game) => game.category))
+  const categoryPages: MetadataRoute.Sitemap = Object.keys(categoryLabels)
+    .filter((category) => categoriesWithGames.has(category))
+    .map((category) => ({
+      url: `${siteOrigin}/jogos/categoria/${category}`,
+      changeFrequency: 'weekly',
+      priority: 0.7,
+    }))
   const staticGamePages: MetadataRoute.Sitemap = catalogGames.filter((game) => hasDistinctiveGameSummary(game.summary)).map((game) => ({
     url: `${siteOrigin}/jogos/${game.slug}`,
     changeFrequency: 'monthly',
