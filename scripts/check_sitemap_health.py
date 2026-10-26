@@ -132,6 +132,7 @@ class PageParser(HTMLParser):
         self.h1_parts: list[str] = []
         self.main_parts: list[str] = []
         self.category_count_parts: list[str] = []
+        self.description: str | None = None
         self.robots: list[str] = []
         self.canonical: str | None = None
         self._title_depth = 0
@@ -153,8 +154,12 @@ class PageParser(HTMLParser):
             self._category_count_tag = tag
             self._category_count_depth = 1
 
-        if tag == "meta" and values.get("name", "").lower() in {"robots", "googlebot"}:
-            self.robots.append(values.get("content", ""))
+        if tag == "meta":
+            meta_name = values.get("name", "").lower()
+            if meta_name in {"robots", "googlebot"}:
+                self.robots.append(values.get("content", ""))
+            elif meta_name == "description" and self.description is None:
+                self.description = values.get("content", "").strip()
         if tag == "link" and "canonical" in values.get("rel", "").lower().split():
             self.canonical = values.get("href") or None
 
@@ -233,6 +238,7 @@ def audit_page(url: str) -> dict[str, object]:
         "final_url": final_url,
         "content_type": content_type,
         "title": "",
+        "description": "",
         "h1": "",
         "main_length": 0,
         "canonical": None,
@@ -240,8 +246,10 @@ def audit_page(url: str) -> dict[str, object]:
         "category_count_text": "",
         "category_count": None,
         "errors": [],
+        "warnings": [],
     }
     errors: list[str] = result["errors"]  # type: ignore[assignment]
+    warnings: list[str] = result["warnings"]  # type: ignore[assignment]
 
     if error:
         errors.append(f"Falha de rede: {error}")
@@ -264,6 +272,7 @@ def audit_page(url: str) -> dict[str, object]:
     result.update(
         {
             "title": parser.title,
+            "description": parser.description or "",
             "h1": parser.h1,
             "main_length": len(parser.main_text),
             "canonical": urljoin(final_url, parser.canonical) if parser.canonical else None,
@@ -274,6 +283,12 @@ def audit_page(url: str) -> dict[str, object]:
 
     if not parser.title:
         errors.append("<title> ausente ou vazio")
+    elif not 30 <= len(parser.title) <= 60:
+        warnings.append(f"Título fora da faixa recomendada ({len(parser.title)} caracteres; referência: 30–60)")
+    if not parser.description:
+        errors.append("Meta description ausente ou vazia")
+    elif not 50 <= len(parser.description) <= 160:
+        warnings.append(f"Meta description fora da faixa recomendada ({len(parser.description)} caracteres; referência: 50–160)")
     if not parser.h1:
         errors.append("H1 ausente ou vazio")
     if len(parser.main_text) < 60:
@@ -310,6 +325,7 @@ def write_github_summary(lines: list[str]) -> None:
 
 def main() -> int:
     issues: list[str] = []
+    warnings: list[str] = []
     try:
         urls = sitemap_locations(SITEMAP_URL)
         categories = category_slugs()
@@ -347,6 +363,25 @@ def main() -> int:
             continue
         for message in result["errors"]:  # type: ignore[union-attr]
             add_issue(issues, url, str(message))
+        for message in result["warnings"]:  # type: ignore[union-attr]
+            warnings.append(f"{url}: {message}")
+
+    metadata_values: dict[str, dict[str, list[str]]] = {"title": {}, "description": {}}
+    for url in dict.fromkeys(urls):
+        if not is_allowed_site_url(url):
+            continue
+        result = results.get(normalize_url(url))
+        if not result or int(result["status"]) != 200:
+            continue
+        for field in ("title", "description"):
+            value = re.sub(r"\s+", " ", str(result.get(field, ""))).strip().casefold()
+            if value:
+                metadata_values[field].setdefault(value, []).append(url)
+
+    for field, label in (("title", "títulos"), ("description", "meta descriptions")):
+        for group in metadata_values[field].values():
+            if len(group) > 1:
+                issues.append(f"Metadado duplicado ({label}) em {len(group)} URLs: {', '.join(group)}")
 
     category_status_lines: list[str] = []
     for url in category_urls:
@@ -388,6 +423,11 @@ def main() -> int:
         f"- Categorias verificadas: **{len(categories)}**",
         *category_status_lines,
     ]
+    if warnings:
+        print(f"\n{len(warnings)} aviso(s) de tamanho de metadados:")
+        for warning in warnings:
+            print(f"::warning::{warning}")
+        summary.extend(["", f"### Avisos ({len(warnings)})", *[f"- {warning}" for warning in warnings]])
     if issues:
         print(f"\n{len(issues)} problema(s) encontrado(s):")
         for issue in issues:
@@ -397,8 +437,8 @@ def main() -> int:
         write_github_summary(summary)
         return 1
 
-    print("Nenhum erro de sitemap, status, conteúdo vazio, canonical ou robots encontrado.")
-    summary.extend(["", "**Resultado:** nenhum erro encontrado."])
+    print("Nenhum erro de sitemap, status, conteúdo vazio, canonical, robots ou metadados duplicados encontrado.")
+    summary.extend(["", "**Resultado:** nenhum erro crítico encontrado."])
     write_github_summary(summary)
     return 0
 
