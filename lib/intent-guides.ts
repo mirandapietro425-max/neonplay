@@ -7,6 +7,7 @@ export type IntentGuide = {
   sections: Array<{ heading: string; paragraphs: string[] }>
   faqs: Array<{ question: string; answer: string }>
   games: Array<{ title: string; href: string; reason: string }>
+  categories?: string[]
 }
 
 export const intentGuides: IntentGuide[] = [
@@ -30,6 +31,7 @@ export const intentGuides: IntentGuide[] = [
       { title: 'Baby Hazel Bed Time', href: '/jogos/gamepix-baby-hazel-bed-time-6b1i8', reason: 'Experiência casual de tarefas.' },
       { title: 'Body Drop 3D', href: '/jogos/gamepix-body-drop-3d-36do1', reason: 'Física e simulação casual.' },
     ],
+    categories: ['esporte', 'casual', 'puzzle', 'arcade'],
   },
   {
     slug: 'jogos-leves-para-pc-fraco',
@@ -51,6 +53,7 @@ export const intentGuides: IntentGuide[] = [
       { title: 'Basket Champs', href: '/jogos/gamepix-basket-champs-40307', reason: 'Esporte em formato de campeonato.' },
       { title: 'Amaze Escape', href: '/jogos/gamepix-amaze-escape-am511', reason: 'Puzzle e lógica.' },
     ],
+    categories: ['arcade', 'puzzle', 'esporte', 'estrategia'],
   },
   {
     slug: 'jogos-multiplayer-para-amigos',
@@ -72,6 +75,7 @@ export const intentGuides: IntentGuide[] = [
       { title: 'Among at Easter', href: '/jogos/gamepix-among-at-easter-ng7tt', reason: 'Tarefas e dedução social.' },
       { title: 'Bomber Friends', href: '/jogos/gamepix-bomber-friends-40344', reason: 'Arena e decisões rápidas.' },
     ],
+    categories: ['esporte'],
   },
   {
     slug: 'jogos-de-esporte-no-navegador',
@@ -92,6 +96,7 @@ export const intentGuides: IntentGuide[] = [
       { title: 'Basketball Stars', href: '/jogos/gamepix-basketball-stars-35lbe', reason: 'Confronto de basquete.' },
       { title: 'Basket Champs', href: '/jogos/gamepix-basket-champs-40307', reason: 'Competição em formato de campeonato.' },
     ],
+    categories: ['esporte'],
   },
 ]
 

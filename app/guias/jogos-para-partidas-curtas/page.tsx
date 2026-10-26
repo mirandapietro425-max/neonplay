@@ -24,7 +24,7 @@ export default async function ShortSessionsGuide() {
       <p>Nem todo momento de jogo precisa de uma campanha longa. Para uma pausa rápida, prefira jogos de navegador com objetivo fácil de entender, início rápido e progresso que não dependa de muitas horas seguidas.</p>
       <GuideRecommendationGrid guide="jogos-para-partidas-curtas" items={recommendations} />
       <h2>O que observar</h2>
-      <p>Procure categorias como arcade, esporte, ação e puzzle. Elas normalmente apresentam uma proposta mais direta, mas a categoria sozinha não garante a duração da partida. Por isso, o Zap Game também observa se a descrição indica rodadas, arenas, desafios individuais ou fases curtas.</p>
+      <p>Procure categorias como <Link href="/jogos/categoria/arcade">arcade</Link>, <Link href="/jogos/categoria/esporte">esporte</Link>, <Link href="/jogos/categoria/acao">ação</Link> e <Link href="/jogos/categoria/puzzle">puzzle</Link>. Elas normalmente apresentam uma proposta mais direta, mas a categoria sozinha não garante a duração da partida. Por isso, o Zap Game também observa se a descrição indica rodadas, arenas, desafios individuais ou fases curtas.</p>
       <h2>Algumas opções do catálogo</h2>
       <p><Link href="/jogos/gamepix-basketball-stars-35lbe">Basketball Stars</Link> é uma opção esportiva de confronto direto. <Link href="/jogos/gamepix-bomber-friends-40344">Bomber Friends</Link> aposta em uma arena e em decisões rápidas. <Link href="/jogos/gamepix-alpha-guns-40450">Alpha Guns</Link> segue uma estrutura de ação lateral dividida em fases.</p>
       <h2>Antes de começar</h2>

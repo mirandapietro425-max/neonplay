@@ -24,7 +24,7 @@ export default async function ChoosingGuide() {
       <p>Escolher um jogo fica mais fácil quando o visitante sabe o que quer fazer. Em vez de olhar apenas para uma capa, comece pela intenção: passar alguns minutos, competir, resolver um problema, administrar recursos ou acompanhar uma aventura.</p>
       <GuideRecommendationGrid guide="como-escolher-jogos-de-navegador" items={recommendations} />
       <h2>1. Comece pela categoria</h2>
-      <p>Arcade e casual costumam ser boas portas de entrada para sessões diretas. Esporte e ação atendem quem quer disputa e ritmo. Estratégia e aventura podem oferecer mais decisões ou progressão. Puzzle é uma escolha natural para quem prefere resolver desafios.</p>
+      <p><Link href="/jogos/categoria/arcade">Arcade</Link> e <Link href="/jogos/categoria/casual">casual</Link> costumam ser boas portas de entrada para sessões diretas. <Link href="/jogos/categoria/esporte">Esporte</Link> e <Link href="/jogos/categoria/acao">ação</Link> atendem quem quer disputa e ritmo. <Link href="/jogos/categoria/estrategia">Estratégia</Link> e <Link href="/jogos/categoria/aventura">aventura</Link> podem oferecer mais decisões ou progressão. <Link href="/jogos/categoria/puzzle">Puzzle</Link> é uma escolha natural para quem prefere resolver desafios.</p>
       <h2>2. Leia a proposta</h2>
       <p>Uma descrição útil deve explicar o objetivo, não apenas repetir palavras promocionais. No Zap Game, as fichas com curadoria própria acrescentam contexto e informam quando uma característica vem da descrição do parceiro.</p>
       <h2>3. Confira a origem</h2>
