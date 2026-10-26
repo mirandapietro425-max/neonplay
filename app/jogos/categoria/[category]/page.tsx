@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation'
 import { catalogGames, categoryLabels, compareCatalogPopularity } from '@/lib/game-catalog'
 import { getGamePixGames, type GamePixCatalogGame } from '@/lib/gamepix-catalog'
 import { hasDistinctiveGameSummary } from '@/lib/game-seo'
+import { TrackedGameLink } from '@/components/tracked-game-link'
 
 const siteOrigin = 'https://www.zapgame.com.br'
 const categoryIds = Object.keys(categoryLabels)
@@ -199,15 +200,23 @@ export default async function CategoryPage({ params }: Props) {
 
       {editorialGames.length > 0 && <section className="zg-category-editorial" aria-labelledby="category-editorial-title">
         <div className="zg-category-editorial-head"><div><p className="zg-kicker">Seleção do Zap Game</p><h2 id="category-editorial-title">Comece por estas fichas</h2></div><span>Curadoria original</span></div>
-        <div className="zg-category-editorial-grid">{editorialGames.map((game) => <Link key={`editorial-${game.id}`} href={`/jogos/${game.slug}`} className="zg-category-editorial-card"><div><b>{game.title}</b><p>{game.editorial.description}</p></div><span aria-hidden="true">↗</span></Link>)}</div>
+        <div className="zg-category-editorial-grid">{editorialGames.map((game) => (
+          <TrackedGameLink key={`editorial-${game.id}`} href={`/jogos/${game.slug}`} className="zg-category-editorial-card" gameSlug={game.slug} gameTitle={game.title} gameSource={game.source} gameCategory={game.category} sourceCategory={category} placement="category_featured">
+            <div><b>{game.title}</b><p>{game.editorial.description}</p></div><span aria-hidden="true">↗</span>
+          </TrackedGameLink>
+        ))}</div>
       </section>}
 
-      {games.length > 0 ? <div className="zg-game-grid zg-category-grid">{games.map((game) => <Link className="zg-game-card" key={game.id} href={`/jogos/${game.slug}`}>
-        {game.source === 'browser-games' && <b className="zg-browser-tag">Jogue agora</b>}
-        {game.source === 'gamepix' && <b className="zg-gamepix-tag">GamePix</b>}
-        <div className="zg-game-thumb"><img src={imageFor(game)} alt={`Capa de ${game.title}`} loading="lazy" /><span className="zg-play-mark"><span aria-hidden="true">↗</span></span></div>
-        <div className="zg-game-info"><strong>{game.title}</strong><small>{label}</small></div>
-      </Link>)}</div> : <div className="zg-empty"><h2>Esta categoria ainda não tem jogos publicados.</h2><p>Volte ao catálogo para descobrir outros clássicos.</p></div>}
+      {games.length > 0 ? (
+        <div className="zg-game-grid zg-category-grid">{games.map((game) => (
+          <TrackedGameLink key={game.id} className="zg-game-card" href={`/jogos/${game.slug}`} ariaLabel={`Ver ficha de ${game.title} e jogar agora`} gameSlug={game.slug} gameTitle={game.title} gameSource={game.source} gameCategory={game.category} sourceCategory={category} placement="category_grid">
+            {game.source === 'browser-games' && <b className="zg-browser-tag">Jogue agora</b>}
+            {game.source === 'gamepix' && <b className="zg-gamepix-tag">GamePix</b>}
+            <div className="zg-game-thumb"><img src={imageFor(game)} alt={`Capa de ${game.title}`} loading="lazy" /><span className="zg-play-mark"><span aria-hidden="true">↗</span></span></div>
+            <div className="zg-game-info"><strong>{game.title}</strong><small>{label}</small></div>
+          </TrackedGameLink>
+        ))}</div>
+      ) : <div className="zg-empty"><h2>Esta categoria ainda não tem jogos publicados.</h2><p>Volte ao catálogo para descobrir outros clássicos.</p></div>}
 
       {(contextualGuides.length > 0 || relatedCategoryLinks.length > 0) && <section className="zg-category-discovery" aria-labelledby="category-discovery-title">
         <div className="zg-category-discovery-head"><div><p className="zg-kicker">PRÓXIMOS PASSOS</p><h2 id="category-discovery-title">Continue explorando</h2></div><span>Guias e categorias relacionadas</span></div>
