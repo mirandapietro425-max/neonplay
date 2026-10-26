@@ -1,0 +1,30 @@
+name: SEO sitemap monitor
+
+on:
+  schedule:
+    - cron: "17 10 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: seo-sitemap-monitor
+  cancel-in-progress: true
+
+jobs:
+  audit:
+    name: Check sitemap and category indexability
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Audit sitemap, page status, content and indexability
+        run: python scripts/check_sitemap_health.py
